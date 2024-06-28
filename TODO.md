@@ -1,6 +1,6 @@
 [V] Tailwind
 [V] Tailwind design system
-[] Shadcn
-[] React Router
+[V] Shadcn
+[V] React Router
 [V] Folder Structure
 
