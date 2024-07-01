@@ -37,7 +37,6 @@ const Input = forwardRef<
     <div className={className}>
       <div className="flex justify-between">
         <label className="">{label}</label>
-        {errorMessage && <p className="text-red-400">{errorMessage}</p>}
       </div>
       {!isLoading ? (
         <input
@@ -56,7 +55,13 @@ const Input = forwardRef<
       ) : (
         <Skeleton height={"2.75rem"} className="mt-2" />
       )}
-      <p className="text-slate-500 mt-3 leading-[200%]">{hint}</p>
+      {errorMessage && (
+        <div className="flex gap-2 items-center mt-2">
+          <i className="text-red-400 bx bxs-error-circle leading-[150%]"></i>
+          <p className="text-red-400 leading-[150%]">{errorMessage}</p>
+        </div>
+      )}
+      {hint && <p className="text-slate-500 mt-3 leading-[200%]">{hint}</p>}
     </div>
   );
 });

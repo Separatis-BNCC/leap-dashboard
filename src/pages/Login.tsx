@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import useLoginMutation from "@/hooks/auth/useLoginMutation";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type RegisterValues = {
@@ -12,23 +14,14 @@ export default function Login() {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors },
   } = useForm<RegisterValues>();
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const displayError = (errorMessage: string) => {
-    setError("email", {
-      message: errorMessage,
-    });
-    setError("password", {
-      message: errorMessage,
-    });
-  };
   const { loginMutation } = useLoginMutation({
-    onError(message) {
-      displayError(message);
-    },
+    onError: setErrorMessage,
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit: SubmitHandler<RegisterValues> = (value) => {
     loginMutation.mutate({
@@ -44,7 +37,7 @@ export default function Login() {
           onSubmit={handleSubmit(onSubmit)}
           className="max-w-[40rem] w-full mx-auto"
         >
-          <p className="font-semibold text-lg mb-4 text-dark">Leap.</p>
+          <p className="font-semibold text-lg text-dark">Leap.</p>
           <h1 className="text-[2.25rem] mb-4 text-dark">Login</h1>
 
           <div className="grid gap-6">
@@ -53,29 +46,51 @@ export default function Login() {
               placeholder="example@mail.com"
               {...register("email", { required: "This field is required" })}
               errorMessage={errors.email?.message}
+              className={cn(errorMessage && "[&_input]:border-red-400")}
             />
-
-            <Input
-              label="Password"
-              placeholder="*****"
-              type="password"
-              {...register("password", { required: "This field is required" })}
-              errorMessage={errors.password?.message}
-            />
+            <div className="relative">
+              <Input
+                label="Password"
+                placeholder="*****"
+                type={showPassword ? "text" : "password"}
+                {...register("password", {
+                  required: "This field is required",
+                })}
+                errorMessage={errors.password?.message}
+                className={cn(
+                  "[&_input]:pr-12",
+                  errorMessage && "[&_input]:border-red-400"
+                )}
+              />
+              <i
+                className={cn(
+                  "absolute bx text-lg top-[2.5rem] right-4 cursor-pointer duration-100 transition-all hover:opacity-50",
+                  showPassword ? "bx-show" : "bx-hide"
+                )}
+                onClick={() => setShowPassword((cur) => !cur)}
+              ></i>
+            </div>
           </div>
+          {errorMessage && !errors.password && (
+            <div className="flex gap-2 mt-6">
+              <i className="text-red-400 bx bxs-error-circle leading-[150%]"></i>
+              <p className="text-red-400 text-start mt-0">{errorMessage}</p>
+            </div>
+          )}
           <Button
             className="w-full py-4 mt-6"
             variant="accent"
             isLoading={loginMutation.isPending}
+            disabled={loginMutation.isPending}
           >
             Login
           </Button>
         </form>
-        <div className="flex items-center justify-center mt-12">
+        <div className="flex items-center justify-center mt-6">
           <p className="text-light">
-            Forgot credentials?{" "}
+            Forgot Your Password?{" "}
             <span className="text-highlight underline hover:opacity-60 transition-all duration-100 cursor-pointer">
-              Recover Account
+              Recover
             </span>
           </p>
         </div>
