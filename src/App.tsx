@@ -28,8 +28,12 @@ const router = createBrowserRouter([
           },
           // TEMP
           {
-            element: <div>Overview</div>,
-            path: "overview",
+            element: <div>All Courses</div>,
+            path: "courses",
+          },
+          {
+            element: <div>Specific Course</div>,
+            path: "courses/:name",
           },
         ],
       },
