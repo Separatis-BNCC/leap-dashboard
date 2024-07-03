@@ -3,9 +3,9 @@ import { SwiperSlide, Swiper } from "swiper/react";
 import { Button } from "../ui/Button";
 import { useState } from "react";
 
-type Props = { materials: { title: string; outlineCount: number }[] };
+type Props = { sessions: { title: string; outlineCount: number }[] };
 
-export default function MaterialList({ materials }: Props) {
+export default function SessionList({ sessions }: Props) {
   const [selected, setSelected] = useState(1);
 
   return (
@@ -14,11 +14,11 @@ export default function MaterialList({ materials }: Props) {
       spaceBetween={16}
       className="cursor-pointer h-[21rem]"
     >
-      {materials.map((material, i) => {
+      {sessions.map((session, i) => {
         const isSelected = i + 1 === selected;
 
         return (
-          <SwiperSlide key={`${material.title}-${i}`}>
+          <SwiperSlide key={`${session.title}-${i}`}>
             <div
               className={cn(
                 "bg-white p-6 rounded-md flex flex-col h-full",
@@ -34,8 +34,8 @@ export default function MaterialList({ materials }: Props) {
                   isSelected && "text-white"
                 )}
               >
-                {material.title}
-                {/* {truncateText(material.title, COURSE_TITLE_TRUNCATE_LENGTH)} */}
+                {session.title}
+                {/* {truncateText(session.title, COURSE_TITLE_TRUNCATE_LENGTH)} */}
               </h2>
               <p
                 className={cn(
@@ -43,7 +43,7 @@ export default function MaterialList({ materials }: Props) {
                   isSelected && "text-white/80"
                 )}
               >
-                {material.outlineCount} Outlines
+                {session.outlineCount} Outlines
               </p>
               <Button variant={"secondary"} className="w-full [&&]:py-5">
                 View Outlines

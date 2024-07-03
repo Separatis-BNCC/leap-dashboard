@@ -1,6 +1,6 @@
 import ClassCard from "@/components/course/ClassCard";
-import MaterialList from "@/components/course/MaterialList";
-import MaterialTable from "@/components/course/MaterialTable";
+import SessionList from "@/components/course/SessionList";
+import SessionTable from "@/components/course/SessionTable";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 const courses = {
   frontend: {
     display: "Frontend",
-    materials: [
+    sessions: [
       {
         title: "Object Oriented Apporach in Javascript",
         outlineCount: 6,
@@ -96,9 +96,9 @@ export default function Course() {
       </div>
       <div>
         {viewAsTable ? (
-          <MaterialTable materials={data.materials} />
+          <SessionTable sessions={data.sessions} />
         ) : (
-          <MaterialList materials={data.materials} />
+          <SessionList sessions={data.sessions} />
         )}
       </div>
       <div className="mt-8">
