@@ -41,8 +41,8 @@ const menus = [
     ],
   },
   {
-    display: "Modules",
-    route: "/modules",
+    display: "Classes",
+    route: "/classes",
     icon: <i className="bx bxs-grid-alt"></i>,
   },
   {
@@ -71,7 +71,7 @@ export default function Navbar({ hidden }: Props) {
       <div></div>
       <ul
         className={cn(
-          "w-[15rem] py-4 flex flex-col gap-2 overflow-hidden fixed min-h-screen transition-all duration-500",
+          "w-[15rem] py-4 flex flex-col gap-2 overflow-hidden fixed min-h-screen transition-[width] duration-500 z-10 bg-white",
           hidden && "w-0"
         )}
       >

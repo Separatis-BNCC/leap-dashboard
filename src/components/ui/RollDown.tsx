@@ -72,7 +72,7 @@ function Content({ children }: { children: ReactNode }) {
   return (
     <div
       className={cn(
-        "grid grid-rows-[0fr] transition-all duration-200",
+        "grid grid-rows-[0fr] transition-all duration-500",
         isOpen && "grid-rows-[1fr]"
       )}
     >

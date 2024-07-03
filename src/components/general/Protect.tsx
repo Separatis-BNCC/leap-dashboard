@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
@@ -10,8 +10,11 @@ export default function Protect({ children }: Props) {
   const navigate = useNavigate();
   const isAuthenticated = cookies.get("token");
 
+  useEffect(() => {
+    if (!isAuthenticated) navigate("/login");
+  }, [navigate, isAuthenticated]);
+
   if (!isAuthenticated) {
-    navigate("/login");
     return <></>;
   }
 
