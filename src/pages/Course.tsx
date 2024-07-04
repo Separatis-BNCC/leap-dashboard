@@ -13,38 +13,48 @@ const courses = {
       {
         title: "Object Oriented Apporach in Javascript",
         outlineCount: 6,
+        id: "12312312",
       },
       {
         title: "Object Oriented Apporach in Javascript",
         outlineCount: 6,
+        id: "12312313443",
       },
       {
         title: "Object Oriented Apporach in Javascript",
         outlineCount: 6,
+        id: "234342",
       },
       {
         title: "Object Oriented Apporach in Javascript",
         outlineCount: 6,
+        id: "23444444",
       },
       {
         title: "Object Oriented Apporach in Javascript This is Long",
         outlineCount: 6,
+        id: "99353",
       },
       {
         title: "Object Oriented Apporach in Javascript This is Long",
         outlineCount: 6,
+        id: "344234",
+      },
+      {
+        title:
+          "Object Oriented Apporach in Javascript This is Long Object Oriented Apporach in Javascript This is Long ",
+        outlineCount: 6,
+        id: "34434343566",
       },
       {
         title: "Object Oriented Apporach in Javascript This is Long",
         outlineCount: 6,
+        id: "344343435000",
       },
       {
         title: "Object Oriented Apporach in Javascript This is Long",
         outlineCount: 6,
-      },
-      {
-        title: "Object Oriented Apporach in Javascript This is Long",
-        outlineCount: 6,
+        id: "344343435003424",
       },
     ],
     class: [
@@ -103,7 +113,7 @@ export default function Course() {
       </div>
       <div className="mt-8">
         <h2 className="text-light mb-2">Class</h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 max-lg:grid-cols-1">
           <ClassCard />
           <ClassCard />
         </div>

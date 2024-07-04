@@ -2,19 +2,21 @@ import { cn } from "@/lib/utils";
 import { ScrollArea } from "../general/ScrollArea";
 import { Checkbox } from "../general/Checkbox";
 import { useDialog } from "../general/Dialog";
+import { MouseEvent } from "react";
+import { Session } from "@/lib/types";
 
 type Props = {
-  sessions: { title: string; outlineCount: number }[];
+  sessions: Session[];
   isExpanded: boolean;
-  selectedIndexes: number[];
-  handleSelect: (itemIndex: number) => () => void;
+  selectedData: Session[];
+  handleSelect: (session: Session) => (e: MouseEvent) => void;
 };
 const ROW_HEIGHT_PX = 55;
 
 export default function SessionTableContent({
   sessions,
   isExpanded,
-  selectedIndexes,
+  selectedData,
   handleSelect,
 }: Props) {
   const { showDialog } = useDialog();
@@ -31,10 +33,12 @@ export default function SessionTableContent({
     >
       <div className="">
         {sessions.map((session, i) => {
-          const isSelected = selectedIndexes.includes(i);
+          const isSelected = selectedData.some(
+            (item) => item.id === session.id
+          );
           return (
             <li
-              onClick={handleSelect(i)}
+              onClick={handleSelect(session)}
               className={cn(
                 "grid grid-cols-[1fr_5fr_20fr_5fr_auto] gap-x-3 pl-8 pr-16 py-5 transition-all duration-100 cursor-pointer items-center",
                 isSelected

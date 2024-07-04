@@ -1,4 +1,8 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 import ContextPool from "./components/util/ContextPool";
 import Login from "./pages/Login";
 import AppLayout from "./pages/AppLayout";
@@ -6,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Protect from "./components/general/Protect";
 import Course from "./pages/Course";
+import MasterData from "./pages/MasterData";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +34,7 @@ const router = createBrowserRouter([
           },
           // TEMP
           {
-            element: <div>All Courses</div>,
+            element: <Navigate to="/courses/frontend" />,
             path: "courses",
           },
           {
@@ -37,7 +42,14 @@ const router = createBrowserRouter([
             path: "courses/:name",
           },
           {
-            element: <div>Classes</div>,
+            element: (
+              <div>
+                Classes
+                <li>Membernya</li>
+                <li>Prateo</li>
+                <li>Session</li>
+              </div>
+            ),
             path: "classes",
           },
           {
@@ -45,7 +57,7 @@ const router = createBrowserRouter([
             path: "schedule",
           },
           {
-            element: <div>Master Data</div>,
+            element: <MasterData />,
             path: "master-data",
           },
         ],

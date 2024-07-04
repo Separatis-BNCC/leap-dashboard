@@ -11,6 +11,7 @@ const menus = [
   },
   {
     display: "Courses",
+    disabled: true,
     route: "/courses",
     icon: <i className="bx bxs-grid-alt"></i>,
     children: [
@@ -79,41 +80,48 @@ export default function Navbar({ hidden }: Props) {
           <Logo className="mb-4 ml-4" />
           {menus.map((menu) => {
             const selected = pathname === menu.route;
+            const shouldRollDown = "children" in menu;
 
             return (
               <RollDown.Container>
-                <li
-                  key={menu.route}
-                  className={cn(
-                    "flex [&_i]:text-xl relative rounded-sm gap-2 pl-4 py-1 items-center justify-start [&>*]:text-light overflow-hidden transition-all duration-100 cursor-pointer hover:opacity-50 whitespace-nowrap",
-                    selected && "[&>*]:text-highlight bg-bg "
-                  )}
-                  onClick={() => navigate(menu.route)}
-                >
-                  <div
-                    className={cn(
-                      "absolute h-full bg-highlight w-1 left-0 opacity-0 transition-all duration-100",
-                      selected && "opacity-100"
-                    )}
-                  ></div>
+                <RollDown.Trigger
+                  disabled={!shouldRollDown}
+                  render={(isOpen) => {
+                    return (
+                      <li
+                        key={menu.route}
+                        className={cn(
+                          "flex [&_i]:text-xl relative rounded-sm gap-2 pl-4 py-1 items-center justify-start [&>*]:text-light overflow-hidden transition-all duration-100 cursor-pointer hover:opacity-50 whitespace-nowrap",
+                          selected && "[&>*]:text-highlight bg-bg "
+                        )}
+                        onClick={() => {
+                          if ("disabled" in menu) return;
+                          navigate(menu.route);
+                        }}
+                      >
+                        <div
+                          className={cn(
+                            "absolute h-full bg-highlight w-1 left-0 opacity-0 transition-all duration-100",
+                            selected && "opacity-100"
+                          )}
+                        ></div>
 
-                  {menu.icon}
-                  <p className="flex-1">{menu.display}</p>
-                  {"children" in menu && (
-                    <RollDown.Trigger
-                      render={(isOpen) => (
-                        <div className="px-2 group">
-                          <i
-                            className={cn(
-                              "bx bx-chevron-down transition-all duration-200 group-hover:text-highlight",
-                              isOpen && "rotate-180"
-                            )}
-                          ></i>
-                        </div>
-                      )}
-                    />
-                  )}
-                </li>
+                        {menu.icon}
+                        <p className="flex-1">{menu.display}</p>
+                        {shouldRollDown && (
+                          <div className="px-2 group">
+                            <i
+                              className={cn(
+                                "bx bx-chevron-down transition-all duration-200 group-hover:text-highlight",
+                                isOpen && "rotate-180"
+                              )}
+                            ></i>
+                          </div>
+                        )}
+                      </li>
+                    );
+                  }}
+                ></RollDown.Trigger>
                 <RollDown.Content>
                   {"children" in menu &&
                     menu.children.map((child) => {

@@ -1,28 +1,35 @@
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 import { Checkbox } from "../general/Checkbox";
 import { ScrollArea, ScrollBar } from "../general/ScrollArea";
 import { cn } from "@/lib/utils";
-import SessionTableContent from "./SessionTableContent";
-import useTableSelect from "@/hooks/table/useTableSelect";
-import { Session } from "@/lib/types";
 
-type Props = {
-  sessions: Session[];
-};
+type Props<T> = { data: T[] };
 
-export default function SessionTable({ sessions }: Props) {
-  const {
-    handleSelect,
-    handleSelectAll,
-    showPopup,
-    allSelected,
-    selectedData,
-    handleReset,
-  } = useTableSelect({
-    data: sessions,
-  });
-
+export default function Table<T>({ data }: Props<T>) {
+  const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
+  const [showPopup, setShowPopup] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const allSelected = selectedIndexes.length === data.length;
+
+  const handleSelectAll = () => {
+    setShowPopup(!allSelected);
+    setSelectedIndexes(
+      allSelected ? [] : new Array(data.length).fill("").map((_, i) => i)
+    );
+  };
+
+  const handleSelect = (itemIndex: number) => (e: MouseEvent) => {
+    if ((e.target as HTMLElement).closest(".edit-session-button")) return;
+
+    const isSelected = selectedIndexes.includes(itemIndex);
+    const newSelected = isSelected
+      ? selectedIndexes.filter((item) => item !== itemIndex)
+      : [...selectedIndexes, itemIndex];
+
+    if (!isSelected) setShowPopup(true);
+
+    setSelectedIndexes(newSelected);
+  };
 
   return (
     <div className="relative">
@@ -35,12 +42,12 @@ export default function SessionTable({ sessions }: Props) {
             <h2>Outlines</h2>
             <i className="bx bx-edit-alt invisible"></i>
           </li>
-          <SessionTableContent
+          {/* <SessionTableContent
             handleSelect={handleSelect}
             isExpanded={isExpanded}
-            selectedData={selectedData}
+            selectedIndexes={selectedIndexes}
             sessions={sessions}
-          />
+          /> */}
         </ul>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>{" "}
@@ -48,14 +55,14 @@ export default function SessionTable({ sessions }: Props) {
         className={cn(
           "bx bx-chevron-down absolute text-2xl text-highlight left-[50%] translate-x-[-50%] bottom-[0.875rem] cursor-pointer hover:opacity-70 transition-all duration-100",
           isExpanded && "rotate-180",
-          selectedData.length > 0 && "translate-y-[-0.125rem]"
+          selectedIndexes.length > 0 && "translate-y-[-0.125rem]"
         )}
         onClick={() => setIsExpanded((cur) => !cur)}
       ></i>
       <div
         className={cn(
           "bg-highlight text-white w-fit items-center justify-center px-4 py-3 flex rounded-md left-[50%] translate-x-[-50%] absolute bottom-[-2.5rem] translate-y-[0.5rem] opacity-0 transition-all duration-200",
-          selectedData.length > 0 &&
+          selectedIndexes.length > 0 &&
             showPopup &&
             "opacity-100 translate-y-[0rem]"
         )}
@@ -63,10 +70,13 @@ export default function SessionTable({ sessions }: Props) {
         <div className="flex items-center justify-center gap-2 border-r-[2px] border-white pr-4">
           <i
             className="bx bx-x text-xl text-white cursor-pointer hover:opacity-50 transition-all duration-100"
-            onClick={handleReset}
+            onClick={() => {
+              setShowPopup(false);
+              setSelectedIndexes([]);
+            }}
           ></i>
           <p className="text-white whitespace-nowrap">
-            {selectedData.length} Session Selected
+            {selectedIndexes.length} Session Selected
           </p>
         </div>
         <div className="ml-4 flex items-center gap-2 justify-center">

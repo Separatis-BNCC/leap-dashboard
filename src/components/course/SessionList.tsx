@@ -52,14 +52,14 @@ export default function SessionList({ sessions }: Props) {
           </SwiperSlide>
         );
       })}
-      <SwiperSlide className="">
+      {/* <SwiperSlide className="">
         <div className="flex flex-col gap-4 items-center text-3xl justify-center h-full new-course bg-white p-8 rounded-lg">
           <div className="border-[2px] border-highlight border-dashed  p-4 flex flex-col items-center justify-center w-full h-full rounded-lg">
             <i className="bx bx-add-to-queue text-[2.5rem] mb-4 text-highlight"></i>
             <p className="text-lg text-highlight">+ Add Course</p>
           </div>
         </div>
-      </SwiperSlide>
+      </SwiperSlide> */}
     </Swiper>
   );
 }
