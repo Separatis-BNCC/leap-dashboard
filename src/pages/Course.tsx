@@ -1,12 +1,15 @@
 import ClassCard from "@/components/course/ClassCard";
 import SessionList from "@/components/course/SessionList";
 import SessionTable from "@/components/course/SessionTable";
+import { useDialog } from "@/components/general/Dialog";
 import { Button } from "@/components/ui/Button";
+import useTableSelect from "@/hooks/table/useTableSelect";
+import { CourseList } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
-const courses = {
+const courses: CourseList = {
   frontend: {
     display: "Frontend",
     sessions: [
@@ -80,6 +83,7 @@ const courses = {
 
 export default function Course() {
   const [viewAsTable, setViewAsTable] = useState(false);
+  const { showDialog } = useDialog();
   const { name } = useParams();
 
   const data = courses[name as keyof typeof courses];
@@ -87,11 +91,16 @@ export default function Course() {
 
   return (
     <div className="p-8 w-full ">
-      <p className="text-light mb-1">Course</p>
-      <div className="flex items-center">
-        <h1 className="flex-1 text-3xl text-dark font-semibold mb-6">
-          {data.display}
-        </h1>
+      <div>
+        <p className="text-light mb-1">Course</p>
+      </div>
+      <div className="flex items-center mb-4">
+        <div className="flex-1 flex items-center gap-4">
+          <h1 className="text-3xl text-dark font-semibold ">{data.display}</h1>
+          <div className="bg-white px-3 py-[0.125rem] text-highlight rounded-full">
+            Kemanggisan
+          </div>
+        </div>
         <i
           className={cn(
             "bx mr-4 hover:opacity-60 transition-all duration-200 cursor-pointer text-xl text-dark",
@@ -117,6 +126,18 @@ export default function Course() {
           <ClassCard />
           <ClassCard />
         </div>
+      </div>
+
+      {/* Ini sementara doank */}
+      <div className="flex gap-2 items-center ">
+        <Button
+          variant={"destructive"}
+          className="mt-4"
+          onClick={() => showDialog("delete-course", data)}
+        >
+          Delete Course
+        </Button>
+        <p>(Tar ini dipindahin)</p>
       </div>
     </div>
   );

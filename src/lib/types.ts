@@ -26,3 +26,20 @@ export type UserData = {
     region: number;
   };
 };
+
+export type Course = {
+  display: string;
+  sessions: {
+    title: string;
+    outlineCount: number;
+    id: number;
+  }[];
+  class: {
+    name: string;
+    praetorian: string;
+    memberCount: number;
+    rescheduledCount?: number;
+  }[];
+};
+
+export type CourseList = Record<string, Course>;
