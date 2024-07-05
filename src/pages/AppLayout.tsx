@@ -19,7 +19,7 @@ export default function AppLayout() {
       )}
     >
       <Navbar hidden={!showSidebar} />
-      <main className="bg-bg min-h-screen w-full relative min-w-0">
+      <main className="bg-bg min-h-screen w-full relative min-w-0 flex flex-col">
         <TopBar setShowSidebar={setShowSidebar} />
         <Outlet />
       </main>

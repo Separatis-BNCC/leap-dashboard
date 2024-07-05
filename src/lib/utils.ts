@@ -19,7 +19,7 @@ export function formatDate(date: Date): string {
   return formatter.format(date);
 }
 
-const role = ["admin", "prateo", "aktivis", "member"];
+const role = ["admin", "praeto", "aktivis", "member"] as const;
 export function getRole(input: number) {
   return role[input - 1];
 }

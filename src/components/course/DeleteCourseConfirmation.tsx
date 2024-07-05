@@ -48,7 +48,7 @@ export default function DeleteCourseConfirmation() {
           errorMessage={errorMessage}
         />
         <Button variant={"destructive"} className="mt-6 w-full py-5">
-          I understand, delete this course
+          I understand, request deletion proposal
         </Button>
       </div>
     </form>
