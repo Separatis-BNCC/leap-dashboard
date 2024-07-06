@@ -1,15 +1,22 @@
+import { Classes } from "@/lib/types";
 import { Progress } from "../ui/Progress";
 
-export default function ClassCard() {
+export default function ClassCard({ name, day_of_week }: Classes) {
+  // TEMP
+  const memberCount = 0;
+  const rescheduleCount = 0;
+
   const progress = 50;
 
   return (
     <div className="bg-white px-8 py-7 rounded-md">
       <div className="flex justify-between">
-        <h2 className="text-3xl text-dark font-semibold mb-4">FE-A</h2>
+        <h2 className="text-3xl text-dark font-semibold mb-4">{name}</h2>
         <div className="flex gap-4 border-[1px] border-border items-center justify-center h-fit px-4 py-2 rounded-md">
           <i className="bx bx-calendar text-dark text-lg"></i>
-          <p className="text-dark">Monday, Thursday</p>
+          <p className="text-dark">
+            {(day_of_week as string) || "Schedule not set yet"}
+          </p>
         </div>
       </div>
       <div className="flex gap-4 items-center mb-2">
@@ -23,13 +30,13 @@ export default function ClassCard() {
       <ul className="flex mb-8 mt-6 gap-8">
         <li className="flex items-center justify-center gap-3">
           <p className="bg-bg text-highlight w-12 aspect-square rounded-md flex font-semibold items-center justify-center text-xl">
-            10
+            {memberCount}
           </p>
           <p className="text-light ">Member</p>
         </li>
         <li className="flex items-center justify-center gap-3">
           <p className="bg-bg text-highlight w-12 aspect-square rounded-md flex font-semibold items-center justify-center text-xl">
-            0
+            {rescheduleCount}
           </p>
           <p className="text-light ">Rescheduled</p>
         </li>

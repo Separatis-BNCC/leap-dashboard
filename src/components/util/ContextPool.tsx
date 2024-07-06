@@ -3,6 +3,9 @@ import { DialogComponents, DialogProvider } from "../general/Dialog";
 import EditSession from "../course/EditSession";
 import NewCourse from "../course/NewCourse";
 import DeleteCourseConfirmation from "../course/DeleteCourseConfirmation";
+import { Toaster } from "sonner";
+import ToastProvider from "../ui/Toaster";
+import AddSession from "../course/AddSession";
 
 const dialog: DialogComponents = [
   {
@@ -26,12 +29,21 @@ const dialog: DialogComponents = [
       collapseWhenClickOutside: true,
     },
   },
+  {
+    component: <AddSession />,
+    name: "add-session",
+    options: {
+      collapseWhenClickOutside: true,
+    },
+  },
 ];
 
 export default function ContextPool() {
   return (
-    <DialogProvider components={dialog}>
-      <Outlet />
-    </DialogProvider>
+    <ToastProvider suspendDuration={4000}>
+      <DialogProvider components={dialog}>
+        <Outlet />
+      </DialogProvider>
+    </ToastProvider>
   );
 }

@@ -1,16 +1,20 @@
-import { MouseEvent, useState } from "react";
+import { Course } from "@/lib/types";
+import { checkIfAExistsInB } from "@/lib/utils";
+import { useQueryClient } from "@tanstack/react-query";
+import { MouseEvent, useEffect, useState } from "react";
 
-type Props<T extends { id: string }> = {
+type Props<T extends { id: string | number }> = {
   data?: T[];
   onSelect?: (value: T[]) => void;
 };
 
-export default function useTableSelect<T extends { id: string }>({
+export default function useTableSelect<T extends { id: string | number }>({
   data,
   onSelect,
 }: Props<T>) {
   const [selectedData, setSelectedData] = useState<T[]>([]);
   const [showPopup, setShowPopup] = useState(false);
+  const queryClient = useQueryClient();
   const allSelected = selectedData.length === data?.length;
 
   const handleSelectAll = () => {
@@ -40,6 +44,18 @@ export default function useTableSelect<T extends { id: string }>({
     setShowPopup(false);
     setSelectedData([]);
   };
+
+  // useEffect(() => {
+  //   const setStorage = new Set(data?.map((item) => item.id));
+  //   const missingItemsId = selectedData.reduce((res: number[], cur) => {
+  //     if (!setStorage.has(cur.id)) res.push(cur.id as number);
+  //     return res;
+  //   }, []);
+  //   console.log(missingItemsId);
+  //   setSelectedData((current) => {
+  //     return current.filter((current) => !(current.id in missingItemsId));
+  //   });
+  // }, [data, queryClient]);
 
   return {
     handleSelect,

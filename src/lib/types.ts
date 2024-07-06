@@ -9,10 +9,18 @@ export type ServerSuccessResponse<Data> = {
   data: Data;
 };
 
-export type Session = { id: string; title: string; outlineCount: number };
+export type Session = {
+  id: number;
+  week: number;
+  description: string;
+  status: number;
+
+  // DEPRECATED
+  outlineCount: number;
+};
 
 export type UserData = {
-  id: string;
+  id: number;
   email: string;
   role: number;
   profile?: {
@@ -28,18 +36,30 @@ export type UserData = {
 };
 
 export type Course = {
+  id: number;
+  name: string;
+  region: number;
+  status: number;
+
+  // DEPRECATED
   display: string;
-  sessions: {
-    title: string;
-    outlineCount: number;
-    id: number;
-  }[];
-  class: {
-    name: string;
-    praetorian: string;
-    memberCount: number;
-    rescheduledCount?: number;
-  }[];
+  sessions: Session[];
+  classes: Classes[];
+};
+
+export type Classes = {
+  id: number;
+  name: string;
+  status: number;
+  // Ini typenya apa ya??
+  day_of_week: unknown;
+  hour: number;
+  minute: number;
+
+  // TBA
+  praetorian: string;
+  memberCount: number;
+  rescheduledCount?: number;
 };
 
 export type CourseList = Record<string, Course>;

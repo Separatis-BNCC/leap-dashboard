@@ -58,9 +58,9 @@ function Container({
     <TableContext.Provider value={{ gridTemplateColumns }}>
       <ScrollArea
         {...props}
-        className={cn("rounded-md flex-1 h-full [&>div>div]:h-full", className)}
+        className={cn("rounded-md flex-1 [&>div>div]:h-full", className)}
       >
-        <ul className="grid pt-8 pb-6 min-w-[40rem]">{children}</ul>
+        <ul className="flex flex-col pt-8 pb-6 min-w-[40rem]">{children}</ul>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
     </TableContext.Provider>
@@ -73,7 +73,7 @@ function Row({
   ...props
 }: Omit<HTMLAttributes<HTMLLIElement>, "onSelect"> & {
   highlighted?: boolean;
-  onSelect: (e: MouseEvent) => void;
+  onSelect?: (e: MouseEvent) => void;
   children: ReactNode;
 }) {
   const { gridTemplateColumns } = useTable();
@@ -116,7 +116,11 @@ function Content({
 }: { children: ReactNode } & React.ComponentProps<
   typeof ScrollAreaPrimitive.Root
 >) {
-  return <ScrollArea {...props}>{children}</ScrollArea>;
+  return (
+    <ScrollArea {...props} className="flex-1">
+      {children}
+    </ScrollArea>
+  );
 }
 
 export default { Row, Container, Head, Content };

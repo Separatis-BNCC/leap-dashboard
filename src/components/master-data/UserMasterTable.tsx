@@ -1,6 +1,5 @@
 import RoleBadge from "@/components/course/RoleBadge";
 import { Checkbox } from "@/components/general/Checkbox";
-import { ScrollArea, ScrollBar } from "@/components/general/ScrollArea";
 import useTableSelect from "@/hooks/table/useTableSelect";
 import useUserQuery from "@/hooks/user/useUserQuery";
 import { cn, formatDate } from "@/lib/utils";

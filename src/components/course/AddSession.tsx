@@ -2,33 +2,28 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useDialog } from "../general/Dialog";
 import { Button } from "../ui/Button";
 import Input from "../ui/Input";
-import { Session } from "@/lib/types";
 import UseSessionMutation from "@/hooks/session/useSessionMutation";
-import { LoadingSpinner } from "../ui/LoadingSpinner";
 
 type SessionFields = {
   description: string;
-  notes: string;
+  week: number;
 };
 
-export default function EditSession() {
-  const { updateMutation, deleteMutation } = UseSessionMutation();
+export default function AddSession() {
+  const { createMutation } = UseSessionMutation();
   const { contextData, closeDialog } = useDialog();
-  const sessionData = contextData as Session;
+  const courseId = contextData as number;
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SessionFields>({
-    defaultValues: {
-      description: sessionData.description,
-    },
-  });
+  } = useForm<SessionFields>({});
 
   const onSubmit: SubmitHandler<SessionFields> = (value) => {
-    updateMutation.mutate({
-      id: sessionData.id,
+    createMutation.mutate({
       description: value.description,
+      week: value.week,
+      course_id: courseId,
     });
   };
 
@@ -37,19 +32,7 @@ export default function EditSession() {
       onSubmit={handleSubmit(onSubmit)}
       className="bg-white w-full max-w-[40rem] py-8 px-10 rounded-md"
     >
-      <div className="flex gap-3 items-center mb-3">
-        <h2 className="text-2xl text-dark font-semibold leading-[100%]">
-          Edit Session
-        </h2>
-        {deleteMutation.isPending ? (
-          <LoadingSpinner />
-        ) : (
-          <i
-            className="bx bx-trash text-xl leading-[100%] text-red-400 hover:text-red-500 cursor-pointer transition-all duration-100 translate-y-[-1px]"
-            onClick={() => deleteMutation.mutate(sessionData.id)}
-          ></i>
-        )}
-      </div>
+      <h2 className="text-2xl text-dark font-semibold mb-2">Create Session</h2>
       <p className="text-light border-b-[1px] border-lighter pb-4 mb-8">
         Create a new session which will be available globally
       </p>
@@ -58,6 +41,17 @@ export default function EditSession() {
         label="Title"
         className="mb-6"
         {...register("description", { required: "This field can't be empty" })}
+        errorMessage={errors.description?.message}
+      />
+
+      <Input
+        placeholder="4"
+        label="Week"
+        className="mb-6"
+        {...register("week", {
+          required: "This field can't be empty",
+          valueAsNumber: true,
+        })}
         errorMessage={errors.description?.message}
       />
 
@@ -74,8 +68,8 @@ export default function EditSession() {
           </Button>
           <Button
             variant={"accent"}
-            isLoading={updateMutation.isPending}
-            disabled={updateMutation.isPending || deleteMutation.isPending}
+            isLoading={createMutation.isPending}
+            disabled={createMutation.isPending}
           >
             Save
           </Button>

@@ -9,8 +9,7 @@ type Props = {
 export default function Navbar({ hidden }: Props) {
   return (
     <>
-      {/* Ini buat ngisi grid columnya doang */}
-      <div></div>
+      <div>{/* Ini buat ngisi grid columnya doang */}</div>
       <ul
         className={cn(
           "w-[15rem] py-4 flex flex-col gap-2 overflow-hidden fixed min-h-screen transition-[width] duration-500 z-10 bg-white",
