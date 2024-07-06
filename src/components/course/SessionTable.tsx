@@ -5,10 +5,14 @@ import { cn } from "@/lib/utils";
 import SessionTableContent from "./SessionTableContent";
 import useTableSelect from "@/hooks/table/useTableSelect";
 import { Session } from "@/lib/types";
+import Table from "../general/Table";
+import { useDialog } from "../general/Dialog";
 
 type Props = {
   sessions: Session[];
 };
+
+const ROW_HEIGHT_PX = 55;
 
 export default function SessionTable({ sessions }: Props) {
   const {
@@ -21,36 +25,69 @@ export default function SessionTable({ sessions }: Props) {
   } = useTableSelect({
     data: sessions,
   });
-
+  const { showDialog } = useDialog();
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <div className="relative">
-      <ScrollArea className="rounded-md">
-        <ul className="grid bg-white pt-8 pb-14 min-w-[40rem]">
-          <li className="grid grid-cols-[1fr_5fr_20fr_5fr_auto] gap-x-3 mb-4 pl-8 pr-16">
-            <Checkbox onClick={handleSelectAll} checked={allSelected} />
-            <h2>Session</h2>
-            <h2>Title</h2>
-            <h2>Outlines</h2>
-            <i className="bx bx-edit-alt invisible"></i>
-          </li>
-          <SessionTableContent
-            handleSelect={handleSelect}
-            isExpanded={isExpanded}
-            selectedData={selectedData}
-            sessions={sessions}
-          />
-        </ul>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>{" "}
+      <Table.Container
+        // >>>> Ada prop isLoading but display skeleton <<<<<
+        isLoading={false}
+        className="bg-white pb-6"
+        gridTemplateColumns="1fr 5fr 20fr 5fr auto"
+      >
+        <Table.Head>
+          <Checkbox onClick={handleSelectAll} checked={allSelected} />
+          <h2>Session</h2>
+          <h2>Title</h2>
+          <h2>Outlines</h2>
+          <i className="bx bx-edit-alt invisible"></i>
+        </Table.Head>
+
+        <Table.Content
+          className="transition-all duration-500"
+          style={{
+            maxHeight: isExpanded
+              ? `${sessions.length * ROW_HEIGHT_PX}px`
+              : "17.25rem",
+          }}
+        >
+          {sessions.map((session, i) => {
+            const isSelected = selectedData.some(
+              (item) => item.id === session.id
+            );
+            return (
+              <Table.Row
+                onSelect={handleSelect(session)}
+                className={cn(
+                  isSelected
+                    ? "bg-bg/50 [&>p]:text-highlight [&>i]:text-highlight"
+                    : "hover:bg-bg/20"
+                )}
+              >
+                <Checkbox checked={isSelected} />
+                <p>{i + 1 > 9 ? i : `0${i + 1}`}</p>
+                <p className="truncate">{session.title}</p>
+                <p className="truncate">{session.outlineCount}</p>
+                <i
+                  className="bx bx-edit-alt text-lg edit-session-button hover:text-highlight transition-all duration-200 cursor-pointer"
+                  onClick={() => showDialog("edit-session", session)}
+                ></i>
+              </Table.Row>
+            );
+          })}
+        </Table.Content>
+      </Table.Container>
+
       <i
         className={cn(
-          "bx bx-chevron-down absolute text-2xl text-highlight left-[50%] translate-x-[-50%] bottom-[0.875rem] cursor-pointer hover:opacity-70 transition-all duration-100",
+          "absolute left-[50%] translate-x-[-50%] bottom-[0.375rem] bx bx-chevron-down text-2xl text-highlight  cursor-pointer group-hover:opacity-70 transition-all duration-100 flex items-center justify-center ",
           isExpanded && "rotate-180",
           selectedData.length > 0 && "translate-y-[-0.125rem]"
         )}
-        onClick={() => setIsExpanded((cur) => !cur)}
+        onClick={() => {
+          setIsExpanded((cur) => !cur);
+        }}
       ></i>
       <div
         className={cn(

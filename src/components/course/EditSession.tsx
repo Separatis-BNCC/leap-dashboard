@@ -1,6 +1,5 @@
 import { useDialog } from "../general/Dialog";
 import { Button } from "../ui/Button";
-import DatePicker from "../ui/DatePicker";
 import Input from "../ui/Input";
 
 type Session = {
