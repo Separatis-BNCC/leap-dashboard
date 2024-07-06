@@ -3,7 +3,7 @@ import Skeleton from "react-loading-skeleton";
 import { cn } from "@/lib/utils";
 
 type Props = {
-  label: string;
+  label?: string;
   placeholder: string;
   className?: string;
   hint?: string;

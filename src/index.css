@@ -10,6 +10,10 @@
   color: rgb(37, 37, 37);
 }
 
+html {
+  scrollbar-width: thin;
+}
+
 @layer base {
   :root {
     /* DESIGN COLOR */
