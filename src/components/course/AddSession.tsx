@@ -52,7 +52,7 @@ export default function AddSession() {
           required: "This field can't be empty",
           valueAsNumber: true,
         })}
-        errorMessage={errors.description?.message}
+        errorMessage={errors.week?.message}
       />
 
       {/* <DatePicker label="Schedule Date" className="mb-6" /> */}

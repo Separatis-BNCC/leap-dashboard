@@ -100,16 +100,18 @@ export default function SessionTable({ sessions, courseId }: Props) {
         </div>
       </Table.Container>
 
-      <i
-        className={cn(
-          "absolute left-[50%] translate-x-[-50%] bottom-[0.375rem] bx bx-chevron-down text-2xl text-highlight  cursor-pointer group-hover:opacity-70 transition-all duration-100 flex items-center justify-center ",
-          isExpanded && "rotate-180",
-          selectedData.length > 0 && "translate-y-[-0.125rem]"
-        )}
-        onClick={() => {
-          setIsExpanded((cur) => !cur);
-        }}
-      ></i>
+      {sessions.length >= 6 && (
+        <i
+          className={cn(
+            "absolute left-[50%] translate-x-[-50%] bottom-[0.375rem] bx bx-chevron-down text-2xl text-highlight  cursor-pointer group-hover:opacity-70 transition-all duration-100 flex items-center justify-center ",
+            isExpanded && "rotate-180",
+            selectedData.length > 0 && "translate-y-[-0.125rem]"
+          )}
+          onClick={() => {
+            setIsExpanded((cur) => !cur);
+          }}
+        ></i>
+      )}
       <div
         className={cn(
           "bg-highlight text-white w-fit items-center justify-center px-4 py-3 flex rounded-md left-[50%] translate-x-[-50%] absolute bottom-[-2.5rem] translate-y-[0.5rem] opacity-0 transition-all duration-200",

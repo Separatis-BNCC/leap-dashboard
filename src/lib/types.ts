@@ -63,3 +63,8 @@ export type Classes = {
 };
 
 export type CourseList = Record<string, Course>;
+
+export type Region = {
+  id: number;
+  label: string;
+};

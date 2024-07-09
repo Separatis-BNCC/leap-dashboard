@@ -9,6 +9,7 @@ import Skeleton from "react-loading-skeleton";
 export default function NavbarCourse() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+
   const { coursesData, coursesQuery } = useCourseQuery();
 
   if (!coursesData || coursesQuery.isLoading) {
@@ -50,7 +51,7 @@ export default function NavbarCourse() {
               isSelected={selected}
               onClick={() => navigate("/courses/" + courseRoute)}
             >
-              <p>{course.name}</p>
+              <p className="truncate">{course.name}</p>
             </NavbarItem>
           );
         })}

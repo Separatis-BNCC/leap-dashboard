@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
 import { DialogComponents, DialogProvider } from "../general/Dialog";
 import EditSession from "../course/EditSession";
-import NewCourse from "../course/NewCourse";
+import AddCourse from "../course/AddCourse";
 import DeleteCourseConfirmation from "../course/DeleteCourseConfirmation";
-import { Toaster } from "sonner";
 import ToastProvider from "../ui/Toaster";
 import AddSession from "../course/AddSession";
+import AddClass from "../classes/AddClass";
 
 const dialog: DialogComponents = [
   {
@@ -16,7 +16,7 @@ const dialog: DialogComponents = [
     },
   },
   {
-    component: <NewCourse />,
+    component: <AddCourse />,
     name: "new-course",
     options: {
       collapseWhenClickOutside: true,
@@ -32,6 +32,13 @@ const dialog: DialogComponents = [
   {
     component: <AddSession />,
     name: "add-session",
+    options: {
+      collapseWhenClickOutside: true,
+    },
+  },
+  {
+    component: <AddClass />,
+    name: "add-class",
     options: {
       collapseWhenClickOutside: true,
     },

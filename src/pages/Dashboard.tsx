@@ -1,5 +1,6 @@
 import CourseList from "@/components/dashboard/CourseList";
 import StatsCardList from "@/components/dashboard/StatsCardList";
+import RegionPopover from "@/components/general/RegionPopover";
 
 export default function Dashboard() {
   return (

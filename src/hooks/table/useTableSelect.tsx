@@ -1,6 +1,3 @@
-import { Course } from "@/lib/types";
-import { checkIfAExistsInB } from "@/lib/utils";
-import { useQueryClient } from "@tanstack/react-query";
 import { MouseEvent, useEffect, useState } from "react";
 
 type Props<T extends { id: string | number }> = {
@@ -14,7 +11,6 @@ export default function useTableSelect<T extends { id: string | number }>({
 }: Props<T>) {
   const [selectedData, setSelectedData] = useState<T[]>([]);
   const [showPopup, setShowPopup] = useState(false);
-  const queryClient = useQueryClient();
   const allSelected = selectedData.length === data?.length;
 
   const handleSelectAll = () => {
@@ -45,17 +41,18 @@ export default function useTableSelect<T extends { id: string | number }>({
     setSelectedData([]);
   };
 
-  // useEffect(() => {
-  //   const setStorage = new Set(data?.map((item) => item.id));
-  //   const missingItemsId = selectedData.reduce((res: number[], cur) => {
-  //     if (!setStorage.has(cur.id)) res.push(cur.id as number);
-  //     return res;
-  //   }, []);
-  //   console.log(missingItemsId);
-  //   setSelectedData((current) => {
-  //     return current.filter((current) => !(current.id in missingItemsId));
-  //   });
-  // }, [data, queryClient]);
+  /**
+   * Revalidate data everytime a change happens (deletion / creation)
+   * Creates an array of id from the actual data list (dataIdList)
+   * then makes sure every item ids on the selected array exist on the * dataIdList
+   */
+  useEffect(() => {
+    if (!data) return;
+    const dataIdList = data.map((item) => item.id);
+    setSelectedData((current) =>
+      current.filter((item) => dataIdList.includes(item.id))
+    );
+  }, [data]);
 
   return {
     handleSelect,

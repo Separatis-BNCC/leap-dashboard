@@ -1,15 +1,20 @@
 import { Classes } from "@/lib/types";
 import { Progress } from "../ui/Progress";
+import { useNavigate } from "react-router-dom";
 
-export default function ClassCard({ name, day_of_week }: Classes) {
+export default function ClassCard({ name, day_of_week, id }: Classes) {
+  const navigate = useNavigate();
+
   // TEMP
   const memberCount = 0;
   const rescheduleCount = 0;
-
   const progress = 50;
 
   return (
-    <div className="bg-white px-8 py-7 rounded-md">
+    <div
+      className="bg-white px-8 py-7 rounded-md hover:shadow-lg transition-all duration-200 cursor-pointer hover:shadow-light/10 hover:translate-y-[-0.25rem]"
+      onClick={() => navigate(`/classes/${id}`)}
+    >
       <div className="flex justify-between">
         <h2 className="text-3xl text-dark font-semibold mb-4">{name}</h2>
         <div className="flex gap-4 border-[1px] border-border items-center justify-center h-fit px-4 py-2 rounded-md">

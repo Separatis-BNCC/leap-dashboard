@@ -1,8 +1,17 @@
-import { HTMLAttributes, ReactNode } from "react";
+import useClickOutside from "@/hooks/useClickOutside";
+import { cn } from "@/lib/utils";
+import {
+  HTMLAttributes,
+  ReactNode,
+  createContext,
+  useContext,
+  useState,
+} from "react";
 
-import { ReactNode, createContext, useContext } from "react";
-
-type PopoverContextValues = {};
+type PopoverContextValues = {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 const PopoverContext = createContext<PopoverContextValues | null>(null);
 
@@ -19,9 +28,19 @@ function Container({
 }: {
   children: ReactNode;
 } & HTMLAttributes<HTMLDivElement>) {
+  const [isOpen, setIsOpen] = useState(false);
+  useClickOutside(() => {
+    setIsOpen(false);
+  }, [".popover-container"]);
+
   return (
-    <PopoverContext.Provider value={{}}>
-      <div {...props}>{children}</div>
+    <PopoverContext.Provider value={{ isOpen, setIsOpen }}>
+      <div
+        {...props}
+        className={cn("relative popover-container", props.className)}
+      >
+        {children}
+      </div>
     </PopoverContext.Provider>
   );
 }
@@ -32,7 +51,17 @@ function Trigger({
 }: {
   children: ReactNode;
 } & HTMLAttributes<HTMLDivElement>) {
-  return <div {...props}>{children}</div>;
+  const { setIsOpen } = usePopover();
+
+  return (
+    <div
+      {...props}
+      className={cn("cursor-pointer", props.className)}
+      onClick={() => setIsOpen((current) => !current)}
+    >
+      {children}
+    </div>
+  );
 }
 
 function Content({
@@ -41,7 +70,20 @@ function Content({
 }: {
   children: ReactNode;
 } & HTMLAttributes<HTMLDivElement>) {
-  return <div {...props}>{children}</div>;
+  const { isOpen } = usePopover();
+
+  return (
+    <div
+      {...props}
+      className={cn(
+        "popover-container absolute scale-95 left-0 top-0 invisible z-[100] transition-all duration-200 opacity-0 translate-y-[-0.25rem]",
+        isOpen && "scale-100 visible opacity-100 translate-y-0",
+        props.className
+      )}
+    >
+      {children}
+    </div>
+  );
 }
 
 export default { Container, Trigger, Content };

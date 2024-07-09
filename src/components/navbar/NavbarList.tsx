@@ -8,11 +8,11 @@ const menus = [
     route: "/dashboard",
     icon: <i className="bx bxs-grid-alt"></i>,
   },
-  {
-    display: "Classes",
-    route: "/classes",
-    icon: <i className="bx bxs-grid-alt"></i>,
-  },
+  // {
+  //   display: "Classes",
+  //   route: "/classes",
+  //   icon: <i className="bx bxs-grid-alt"></i>,
+  // },
   {
     display: "Schedule",
     route: "/schedule",

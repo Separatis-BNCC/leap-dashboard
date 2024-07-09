@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, toSorted } from "@/lib/utils";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Button } from "../ui/Button";
 import { useState } from "react";
@@ -36,7 +36,7 @@ export default function SessionList({ sessions, courseId }: Props) {
       spaceBetween={16}
       className="cursor-pointer h-[21rem]"
     >
-      {sessions.map((session, i) => {
+      {toSorted(sessions, (a, b) => a.week - b.week).map((session, i) => {
         const isSelected = i + 1 === selected;
 
         return (

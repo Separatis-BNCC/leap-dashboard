@@ -114,15 +114,9 @@ export function DialogProvider({
     const wrapper = wrapperRef.current?.children[0];
 
     if (!wrapper) return;
-    // Gets the element's bounding rectange
-    const rect = wrapper.getBoundingClientRect();
 
     // Checks if the user click outside the bounding rectagnle
-    const clickedOutside =
-      e.clientX < rect.left ||
-      e.clientX > rect.right ||
-      e.clientY < rect.top ||
-      e.clientY > rect.bottom;
+    const clickedOutside = !wrapper.contains(e.target as HTMLElement);
 
     // If the user clicks outside, then close the dialog
     if (clickedOutside) closeDialog();

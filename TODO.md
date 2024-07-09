@@ -1,6 +1,3 @@
-[V] Tailwind
-[V] Tailwind design system
-[V] Shadcn
-[V] React Router
-[V] Folder Structure
-
+Note : 
+1. week harusnya unique
+2. klo kelas libur handlenya gmn??

@@ -69,7 +69,7 @@ export default function ToastProvider({
   return (
     <ToastContext.Provider value={{ toast }}>
       <div
-        className="fixed bottom-0 right-8 z-[100] translate-y-[-2rem] text-body bg-white text-start flex justify-between items-center pl-5 pr-4 py-2 rounded-md font-body shadow-lg shadow-main/30 transition-all duration-500 max-md:w-fit max-md:x-4 max-md:text-center w-full max-w-[17.5rem] border-slate-200 border-[1px] max-md:right-0 max-md:left-[50%] max-md:translate-x-[-50%]"
+        className="fixed bottom-0 right-8 z-[100] translate-y-[-2rem] text-body bg-white text-start flex justify-between items-center pl-5 pr-4 py-2 rounded-md font-body shadow-lg shadow-main/30 transition-all duration-500 max-md:w-fit max-md:x-4 max-md:text-center w-fit border-slate-200 border-[1px] max-md:right-0 max-md:left-[50%] max-md:translate-x-[-50%] whitespace-nowrap gap-4"
         style={{
           translate: show ? "0 0" : "0 300%",
         }}

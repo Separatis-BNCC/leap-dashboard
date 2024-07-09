@@ -18,7 +18,7 @@ export default function NavbarItem({
     <li
       {...props}
       className={cn(
-        "flex [&_i]:text-xl relative rounded-sm gap-2 px-4 py-2 items-center justify-start [&>*]:text-light overflow-hidden transition-all duration-100 cursor-pointer hover:opacity-50 whitespace-nowrap",
+        "flex [&_i]:text-xl relative rounded-sm gap-2 px-4 py-2 items-center justify-start [&>*]:text-light overflow-hidden transition-all duration-100 cursor-pointer hover:opacity-50 whitespace-nowrap ",
         isSelected && "[&>*]:text-highlight bg-bg ",
         asChild ? "ml-5 pl-6" : "",
         props.className
@@ -30,7 +30,6 @@ export default function NavbarItem({
           isSelected && "opacity-100"
         )}
       ></div>
-
       {children}
     </li>
   );
