@@ -42,14 +42,14 @@ export default function NavbarCourse() {
       ></RollDown.Trigger>
       <RollDown.Content>
         {coursesData.map((course) => {
-          const courseRoute = sluggify(course.name);
-          const selected = pathname.includes(courseRoute);
+          const courseRoute = `/courses/${sluggify(course.name)}-${course.id}`;
+          const selected = pathname === courseRoute;
           return (
             <NavbarItem
               key={course.name + course.id}
               asChild
               isSelected={selected}
-              onClick={() => navigate("/courses/" + courseRoute)}
+              onClick={() => navigate(courseRoute)}
             >
               <p className="truncate">{course.name}</p>
             </NavbarItem>

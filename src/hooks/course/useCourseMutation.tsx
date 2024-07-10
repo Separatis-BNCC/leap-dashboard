@@ -15,7 +15,7 @@ export default function useCourseMutation() {
       queryClient.invalidateQueries({ queryKey: ["courses"] });
     },
     onError() {
-      toast.error("Oops! Something went wrong while creating a new course");
+      toast.error("Oops! Something went wrong");
     },
   });
 

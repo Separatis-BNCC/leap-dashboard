@@ -94,7 +94,10 @@ export default function Course() {
   }, [coursesQuery.isLoading, navigate]);
 
   const course = useMemo(
-    () => coursesData?.find((course) => sluggify(course.name) === name),
+    () =>
+      coursesData?.find(
+        (course) => `${sluggify(course.name)}-${course.id}` === name
+      ),
     [name, coursesData]
   );
 

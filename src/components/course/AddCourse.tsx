@@ -69,7 +69,11 @@ export default function AddCourse() {
 
       <div className="flex items-center justify-end gap-2 mt-16">
         <div className="grid grid-cols-2 gap-4 [&>button]:px-6">
-          <Button variant={"secondary"} onClick={() => closeDialog()}>
+          <Button
+            variant={"secondary"}
+            onClick={() => closeDialog()}
+            disabled={createMutation.isPending}
+          >
             Cancel
           </Button>
           <Button

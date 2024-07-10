@@ -16,6 +16,9 @@ export default function UseSessionMutation() {
       queryClient.invalidateQueries({ queryKey: ["courses"] });
       closeDialog();
     },
+    onError() {
+      toast.error("Oops! Something went wrong");
+    },
   });
 
   const updateMutation = useMutation({
@@ -24,6 +27,10 @@ export default function UseSessionMutation() {
     onSuccess() {
       toast.success("Successfuly Edited Session");
       queryClient.invalidateQueries({ queryKey: ["courses"] });
+      closeDialog();
+    },
+    onError() {
+      toast.error("Oops! Something went wrong");
     },
   });
 
@@ -37,6 +44,9 @@ export default function UseSessionMutation() {
       toast.success("Successfuly Created Session");
       closeDialog();
       queryClient.invalidateQueries({ queryKey: ["courses"] });
+    },
+    onError() {
+      toast.error("Oops! Something went wrong");
     },
   });
 
