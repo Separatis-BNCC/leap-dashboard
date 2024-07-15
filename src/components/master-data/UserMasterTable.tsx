@@ -2,7 +2,7 @@ import RoleBadge from "@/components/course/RoleBadge";
 import { Checkbox } from "@/components/general/Checkbox";
 import useTableSelect from "@/hooks/table/useTableSelect";
 import useUserQuery from "@/hooks/user/useUserQuery";
-import { cn, formatDate } from "@/lib/utils";
+import { cn, formatDate, getRegion } from "@/lib/utils";
 import Table from "../general/Table";
 
 /**
@@ -63,7 +63,9 @@ export default function UserMasterTable() {
                 <p className="truncate">{data.profile?.nim || "-"}</p>
                 <p>{data.profile?.line_id || "-"}</p>
                 <p>{data.profile?.major || "-"}</p>
-                <p>{data.profile?.region || "-"}</p>
+                <p>
+                  {data.profile?.region ? getRegion(data.profile?.region) : "-"}
+                </p>
                 <p>{data.profile?.faculty || "-"}</p>
 
                 {/* === TEMP === */}

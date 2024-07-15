@@ -5,6 +5,7 @@ import SessionList from "./SessionList";
 import SessionTable from "./SessionTable";
 import { cn } from "@/lib/utils";
 import { Course } from "@/lib/types";
+import useSessionQuery from "@/hooks/session/useSessionQuery";
 
 type Props = {
   course: Course;
@@ -12,6 +13,8 @@ type Props = {
 
 export default function CourseSession({ course }: Props) {
   const { showDialog } = useDialog();
+  // const {} = useSessionQuery({id: }npm run dev);
+
   const [viewAsTable, setViewAsTable] = useState(false);
   return (
     <div>

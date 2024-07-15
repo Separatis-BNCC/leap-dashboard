@@ -120,7 +120,7 @@ export default function Course() {
       <CourseClass course={course} />
 
       {/* Ini sementara doank */}
-      <div className="flex gap-2 mt-12 items-center ">
+      <div className="flex gap-2 mt-24 items-center justify-center">
         <Button
           variant={"destructive"}
           className="mt-4"
@@ -128,7 +128,7 @@ export default function Course() {
         >
           Delete Course
         </Button>
-        <p>(Tar ini dipindahin)</p>
+        {/* <p>(Tar ini dipindahin)</p> */}
       </div>
     </div>
   );
