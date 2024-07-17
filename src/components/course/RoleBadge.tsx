@@ -1,8 +1,11 @@
 import { capitalize, cn, getRole } from "@/lib/utils";
 import { cva } from "class-variance-authority";
+import { ReactNode } from "react";
 
 type Props = {
   roleId?: number;
+  children?: ReactNode;
+  className?: string;
 };
 
 const variants = cva(
@@ -19,9 +22,13 @@ const variants = cva(
   }
 );
 
-export default function RoleBadge({ roleId }: Props) {
+export default function RoleBadge({ roleId, children, className }: Props) {
   if (!roleId) return <div>Unknown</div>;
   const role = getRole(roleId || 1);
 
-  return <div className={cn(variants({ role }))}>{capitalize(role)}</div>;
+  return (
+    <div className={cn(variants({ role }), className)}>
+      {children || capitalize(role)}
+    </div>
+  );
 }

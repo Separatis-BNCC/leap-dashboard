@@ -21,8 +21,6 @@ export default function UserMasterTable() {
     showPopup,
   } = useTableSelect({ data: userData });
 
-  // if (userQuery.isLoading || !userData) return;
-
   return (
     <div className="relative overflow-hidden flex-1 flex flex-col">
       <Table.Container

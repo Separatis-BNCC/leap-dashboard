@@ -6,6 +6,8 @@ import DeleteCourseConfirmation from "../course/DeleteCourseConfirmation";
 import ToastProvider from "../ui/Toaster";
 import AddSession from "../course/AddSession";
 import AddClass from "../classes/AddClass";
+import AssignPraeto from "../classes/AssignPraeto";
+import AssignMember from "../classes/AssignMember";
 
 const dialog: DialogComponents = [
   {
@@ -39,6 +41,20 @@ const dialog: DialogComponents = [
   {
     component: <AddClass />,
     name: "add-class",
+    options: {
+      collapseWhenClickOutside: true,
+    },
+  },
+  {
+    component: <AssignPraeto />,
+    name: "assign-praeto",
+    options: {
+      collapseWhenClickOutside: true,
+    },
+  },
+  {
+    component: <AssignMember />,
+    name: "assign-member",
     options: {
       collapseWhenClickOutside: true,
     },

@@ -1,6 +1,7 @@
 import { Classes } from "@/lib/types";
 import { Progress } from "../ui/Progress";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../ui/Button";
 
 export default function ClassCard({ name, day_of_week, id }: Classes) {
   const navigate = useNavigate();
@@ -11,39 +12,23 @@ export default function ClassCard({ name, day_of_week, id }: Classes) {
   const progress = 50;
 
   return (
-    <div
-      className="bg-white px-8 py-7 rounded-md hover:shadow-lg transition-all duration-200 cursor-pointer hover:shadow-light/10 hover:translate-y-[-0.25rem]"
-      onClick={() => navigate(`/classes/${id}`)}
-    >
-      <div className="flex justify-between">
-        <h2 className="text-3xl text-dark font-semibold mb-4">{name}</h2>
-        <div className="flex gap-4 border-[1px] border-border items-center justify-center h-fit px-4 py-2 rounded-md">
-          <i className="bx bx-calendar text-dark text-lg"></i>
-          <p className="text-dark">
-            {(day_of_week as string) || "Schedule not set yet"}
-          </p>
-        </div>
+    <div className="bg-white px-8 py-7 rounded-md transition-all">
+      <div className="flex justify-between mb-2">
+        <h2 className="text-3xl text-dark font-semibold ">{name}</h2>
+        <i className="bx bx-dots-vertical-rounded text-2xl text-light"></i>
       </div>
-      <div className="flex gap-4 items-center mb-2">
-        <img
-          className="h-7 object-cover aspect-square rounded-full overflow-hidden"
-          src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?fm=jpg&w=3000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt=""
-        />
-        <p>Prateo Name</p>
-      </div>
-      <ul className="flex mb-8 mt-6 gap-8">
-        <li className="flex items-center justify-center gap-3">
-          <p className="bg-bg text-highlight w-12 aspect-square rounded-md flex font-semibold items-center justify-center text-xl">
-            {memberCount}
-          </p>
-          <p className="text-light ">Member</p>
+      <ul className="flex items-center [&_*]:text-light gap-4 mb-12">
+        <li className="flex items-center justify-center gap-2 ">
+          <i className="bx bx-calendar text-lg "></i>
+          <p>Monday</p>
         </li>
-        <li className="flex items-center justify-center gap-3">
-          <p className="bg-bg text-highlight w-12 aspect-square rounded-md flex font-semibold items-center justify-center text-xl">
-            {rescheduleCount}
-          </p>
-          <p className="text-light ">Rescheduled</p>
+        <li className="flex items-center justify-center gap-2">
+          <i className="bx bx-time-five text-lg"></i>
+          <p>17.20 - 19.00</p>
+        </li>
+        <li className="flex items-center justify-center gap-2">
+          <i className="bx bx-user text-lg"></i>
+          <p>24</p>
         </li>
       </ul>
       <div>
@@ -54,8 +39,14 @@ export default function ClassCard({ name, day_of_week, id }: Classes) {
           </p>
         </div>
         <Progress value={progress} />
-        <p className="text-light mt-4">Start date: 02 July, 2024</p>
       </div>
+      <Button
+        className="w-full py-6 mt-5"
+        variant={"secondary"}
+        onClick={() => navigate(`/classes/${id}`)}
+      >
+        View Details
+      </Button>
     </div>
   );
 }

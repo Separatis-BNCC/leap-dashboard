@@ -38,7 +38,7 @@ export default function CourseClass({ course }: Props) {
           </Button>
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-4 max-lg:grid-cols-1">
+        <div className="grid grid-cols-3 max-xl:grid-cols-2 gap-4 max-lg:grid-cols-1">
           {course.classes.map((classData) => (
             <ClassCard {...classData} />
           ))}
