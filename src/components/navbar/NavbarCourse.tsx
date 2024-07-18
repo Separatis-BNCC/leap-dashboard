@@ -1,24 +1,25 @@
-import useCourseQuery from "@/hooks/course/useCourseQuery";
 import RollDown from "../ui/RollDown";
 import { cn, sluggify } from "@/lib/utils";
 import { useLocation, useNavigate } from "react-router-dom";
 import NavbarItem from "./NavbarItem";
 import AddCourseNavbar from "../course/AddCourseNavbar";
 import Skeleton from "react-loading-skeleton";
+import useAllCourseQuery from "@/hooks/course/useAllCourseQuery";
 
 export default function NavbarCourse() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { allCourseQuery, allCourseData } = useAllCourseQuery();
 
-  const { coursesData, coursesQuery } = useCourseQuery();
-
-  if (!coursesData || coursesQuery.isLoading) {
+  if (!allCourseData || allCourseQuery.isLoading) {
     return (
       <div className="px-4">
         <Skeleton height={"20px"} />
       </div>
     );
   }
+
+  console.log(allCourseData);
 
   return (
     <RollDown.Container>
@@ -41,7 +42,7 @@ export default function NavbarCourse() {
         }}
       ></RollDown.Trigger>
       <RollDown.Content>
-        {coursesData.map((course) => {
+        {allCourseData.map((course) => {
           const courseRoute = `/courses/${sluggify(course.name)}-${course.id}`;
           const selected = pathname === courseRoute;
           return (

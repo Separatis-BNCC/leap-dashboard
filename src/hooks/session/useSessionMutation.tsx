@@ -13,7 +13,7 @@ export default function UseSessionMutation() {
     mutationFn: (id: number) => API.delete(`/sessions/${id}`),
     onSuccess() {
       toast.success("Successfuly Deleted Session");
-      queryClient.invalidateQueries({ queryKey: ["courses"] });
+      queryClient.invalidateQueries({ queryKey: ["course"] });
       closeDialog();
     },
     onError() {
@@ -26,7 +26,7 @@ export default function UseSessionMutation() {
       API.put(`/sessions/${data.id}`, data),
     onSuccess() {
       toast.success("Successfuly Edited Session");
-      queryClient.invalidateQueries({ queryKey: ["courses"] });
+      queryClient.invalidateQueries({ queryKey: ["course"] });
       closeDialog();
     },
     onError() {
@@ -43,7 +43,7 @@ export default function UseSessionMutation() {
     onSuccess() {
       toast.success("Successfuly Created Session");
       closeDialog();
-      queryClient.invalidateQueries({ queryKey: ["courses"] });
+      queryClient.invalidateQueries({ queryKey: ["course"] });
     },
     onError() {
       toast.error("Oops! Something went wrong");

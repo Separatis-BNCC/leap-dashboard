@@ -2,7 +2,7 @@ import RoleBadge from "@/components/course/RoleBadge";
 import { Checkbox } from "@/components/general/Checkbox";
 import useTableSelect from "@/hooks/table/useTableSelect";
 import useUserQuery from "@/hooks/user/useUserQuery";
-import { cn, formatDate, getRegion } from "@/lib/utils";
+import { cn, formatDate, getFaculty, getRegion } from "@/lib/utils";
 import Table from "../general/Table";
 
 /**
@@ -25,7 +25,7 @@ export default function UserMasterTable() {
     <div className="relative overflow-hidden flex-1 flex flex-col">
       <Table.Container
         isLoading={userQuery.isLoading}
-        gridTemplateColumns={`2rem minmax(16rem,1fr) repeat(7,8rem) auto`}
+        gridTemplateColumns={`2rem minmax(16rem,1fr) repeat(7,minmax(8rem,0.5fr)) auto`}
         className="bg-white"
       >
         <Table.Head>
@@ -61,10 +61,14 @@ export default function UserMasterTable() {
                 <p className="truncate">{data.profile?.nim || "-"}</p>
                 <p>{data.profile?.line_id || "-"}</p>
                 <p>{data.profile?.major || "-"}</p>
-                <p>
-                  {data.profile?.region ? getRegion(data.profile?.region) : "-"}
+                <p className="truncate">
+                  {data.profile?.region ? getRegion(data.profile.region) : "-"}
                 </p>
-                <p>{data.profile?.faculty || "-"}</p>
+                <p className="truncate">
+                  {data.profile?.faculty
+                    ? getFaculty(data.profile.faculty)
+                    : "-"}
+                </p>
 
                 {/* === TEMP === */}
                 <p className="truncate">

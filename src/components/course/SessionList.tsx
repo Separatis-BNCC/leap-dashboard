@@ -4,14 +4,16 @@ import { Button } from "../ui/Button";
 import { useState } from "react";
 import { Session } from "@/lib/types";
 import { useDialog } from "../general/Dialog";
+import Skeleton from "react-loading-skeleton";
 
-type Props = { sessions: Session[]; courseId: number };
+type Props = { sessions?: Session[]; courseId?: number };
 
 export default function SessionList({ sessions, courseId }: Props) {
   const { showDialog } = useDialog();
   const [selected, setSelected] = useState(1);
 
-  if (sessions.length === 0)
+  // If session is LOADED but empty.
+  if (sessions && sessions.length === 0)
     return (
       <div className="h-[21rem] flex items-center justify-center flex-col border-[3px] border-lighter border-dotted rounded-md">
         <h2 className="text-2xl text-dark font-semibold mb-1">
@@ -27,6 +29,15 @@ export default function SessionList({ sessions, courseId }: Props) {
         >
           Add Session +
         </Button>
+      </div>
+    );
+
+  if (!sessions)
+    return (
+      <div className="h-[21rem] grid grid-cols-3 gap-4">
+        {new Array(3).fill("x").map(() => (
+          <Skeleton height={"100%"} />
+        ))}
       </div>
     );
 

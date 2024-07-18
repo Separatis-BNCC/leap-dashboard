@@ -12,7 +12,7 @@ export default function useCourseMutation() {
     },
     onSuccess() {
       toast.success("Successfuly created a new course");
-      queryClient.invalidateQueries({ queryKey: ["courses"] });
+      queryClient.invalidateQueries({ queryKey: ["allCourses"] });
     },
     onError() {
       toast.error("Oops! Something went wrong");

@@ -5,15 +5,13 @@ import SessionList from "./SessionList";
 import SessionTable from "./SessionTable";
 import { cn } from "@/lib/utils";
 import { Course } from "@/lib/types";
-import useSessionQuery from "@/hooks/session/useSessionQuery";
 
 type Props = {
-  course: Course;
+  course?: Course;
 };
 
 export default function CourseSession({ course }: Props) {
   const { showDialog } = useDialog();
-  // const {} = useSessionQuery({id: }npm run dev);
 
   const [viewAsTable, setViewAsTable] = useState(false);
   return (
@@ -27,18 +25,19 @@ export default function CourseSession({ course }: Props) {
           onClick={() => setViewAsTable((cur) => !cur)}
         ></i>
         <Button
+          disabled={!course}
           variant={"tertiary"}
           className="mr-4"
-          onClick={() => showDialog("add-session", course.id)}
+          onClick={() => showDialog("add-session", course?.id)}
         >
           + Session
         </Button>
         <Button variant={"default"}>Modules</Button>
       </div>
       {viewAsTable ? (
-        <SessionTable courseId={course.id} sessions={course.sessions} />
+        <SessionTable courseId={course?.id} sessions={course?.sessions} />
       ) : (
-        <SessionList courseId={course.id} sessions={course.sessions} />
+        <SessionList courseId={course?.id} sessions={course?.sessions} />
       )}
     </div>
   );

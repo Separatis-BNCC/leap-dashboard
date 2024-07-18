@@ -11,7 +11,7 @@ export default function useClassMutation() {
     },
     onSuccess() {
       toast.success("Successfuly created a new class");
-      queryClient.invalidateQueries({ queryKey: ["courses"] });
+      queryClient.invalidateQueries({ queryKey: ["course"] });
     },
     onError() {
       toast.error("Oops, something went wrong!");
