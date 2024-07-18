@@ -5,12 +5,14 @@ import {
   ReactNode,
   createContext,
   useContext,
+  useMemo,
   useState,
 } from "react";
 
 type PopoverContextValues = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isolate?: boolean;
 };
 
 const PopoverContext = createContext<PopoverContextValues | null>(null);
@@ -24,20 +26,27 @@ export function usePopover() {
 
 function Container({
   children,
+  isolate = false,
   ...props
 }: {
   children: ReactNode;
+  isolate?: boolean;
 } & HTMLAttributes<HTMLDivElement>) {
   const [isOpen, setIsOpen] = useState(false);
+  const id = useMemo(() => Math.random().toString().replace(".", "-"), []);
+
   useClickOutside(() => {
     setIsOpen(false);
-  }, [".popover-container"]);
+  }, [`.popover-container-${id}`]);
 
   return (
-    <PopoverContext.Provider value={{ isOpen, setIsOpen }}>
+    <PopoverContext.Provider value={{ isOpen, setIsOpen, isolate }}>
       <div
         {...props}
-        className={cn("relative popover-container", props.className)}
+        className={cn(
+          `relative popover-container popover-container-${id}`,
+          props.className
+        )}
       >
         {children}
       </div>
@@ -47,9 +56,13 @@ function Container({
 
 function Trigger({
   children,
+  ref,
+  disabled,
   ...props
 }: {
   children: ReactNode;
+  disabled?: boolean;
+  ref?: React.LegacyRef<HTMLDivElement>;
 } & HTMLAttributes<HTMLDivElement>) {
   const { setIsOpen } = usePopover();
 
@@ -57,7 +70,11 @@ function Trigger({
     <div
       {...props}
       className={cn("cursor-pointer", props.className)}
-      onClick={() => setIsOpen((current) => !current)}
+      ref={ref}
+      onClick={() => {
+        if (disabled) return;
+        setIsOpen((current) => !current);
+      }}
     >
       {children}
     </div>
@@ -70,19 +87,27 @@ function Content({
 }: {
   children: ReactNode;
 } & HTMLAttributes<HTMLDivElement>) {
-  const { isOpen } = usePopover();
+  const { isOpen, isolate, setIsOpen } = usePopover();
 
   return (
-    <div
-      {...props}
-      className={cn(
-        "popover-container absolute scale-95 left-0 top-0 invisible z-[100] transition-all duration-200 opacity-0 translate-y-[-0.25rem]",
-        isOpen && "scale-100 visible opacity-100 translate-y-0",
-        props.className
+    <>
+      <div
+        {...props}
+        className={cn(
+          "popover-container absolute scale-95 left-0 top-0 invisible z-[100] transition-[opacity,transform] duration-200 opacity-0 translate-y-[-0.25rem]",
+          isOpen && "scale-100 visible opacity-100 translate-y-0",
+          props.className
+        )}
+      >
+        {children}
+      </div>
+      {isolate && isOpen && (
+        <div
+          className="fixed inset-0 z-[50] bg-transparent"
+          onClick={() => setIsOpen(false)}
+        ></div>
       )}
-    >
-      {children}
-    </div>
+    </>
   );
 }
 

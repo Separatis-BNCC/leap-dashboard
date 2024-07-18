@@ -3,95 +3,16 @@ import CourseSession from "@/components/course/CourseSession";
 import { useDialog } from "@/components/general/Dialog";
 import { Button } from "@/components/ui/Button";
 import useCourseQuery from "@/hooks/course/useCourseQuery";
-import { Course as TCourse } from "@/lib/types";
-import { getRegion } from "@/lib/utils";
-import { useEffect } from "react";
+import { getRegion } from "@/assets/lookup-data";
 import Skeleton from "react-loading-skeleton";
-import { useNavigate, useParams } from "react-router-dom";
-
-// const courses: CourseList = {
-//   frontend: {
-//     display: "Frontend",
-//     sessions: [
-//       {
-//         title: "Object Oriented Apporach in Javascript",
-//         outlineCount: 6,
-//         id: "12312312",
-//       },
-//       {
-//         title: "Object Oriented Apporach in Javascript",
-//         outlineCount: 6,
-//         id: "12312313443",
-//       },
-//       {
-//         title: "Object Oriented Apporach in Javascript",
-//         outlineCount: 6,
-//         id: "234342",
-//       },
-//       {
-//         title: "Object Oriented Apporach in Javascript",
-//         outlineCount: 6,
-//         id: "23444444",
-//       },
-//       {
-//         title: "Object Oriented Apporach in Javascript This is Long",
-//         outlineCount: 6,
-//         id: "99353",
-//       },
-//       {
-//         title: "Object Oriented Apporach in Javascript This is Long",
-//         outlineCount: 6,
-//         id: "344234",
-//       },
-//       {
-//         title:
-//           "Object Oriented Apporach in Javascript This is Long Object Oriented Apporach in Javascript This is Long ",
-//         outlineCount: 6,
-//         id: "34434343566",
-//       },
-//       {
-//         title: "Object Oriented Apporach in Javascript This is Long",
-//         outlineCount: 6,
-//         id: "344343435000",
-//       },
-//       {
-//         title: "Object Oriented Apporach in Javascript This is Long",
-//         outlineCount: 6,
-//         id: "344343435003424",
-//       },
-//     ],
-//     class: [
-//       {
-//         name: "FE-A",
-//         praetorian: "Jacqueline Audrey",
-//         memberCount: 10,
-//       },
-//       {
-//         name: "FE-B",
-//         praetorian: "Gagaz Manqunazara",
-//         memberCount: 9,
-//       },
-//       {
-//         name: "FE-C",
-//         praetorian: "Joseph Yusmita",
-//         memberCount: 10,
-//         rescheduledCount: 2,
-//       },
-//     ],
-//   },
-// };
+import { useParams } from "react-router-dom";
 
 export default function Course() {
   const { showDialog } = useDialog();
-  const navigate = useNavigate();
   const { name } = useParams();
   const courseId = Number(name?.split("-").at(-1));
 
-  const { courseData, courseQuery } = useCourseQuery({ id: courseId });
-
-  // useEffect(() => {
-  //   if (courseQuery.isLoading) navigate("/dashboard");
-  // }, [courseQuery.isLoading, navigate]);
+  const { courseData } = useCourseQuery({ id: courseId });
 
   return (
     <div className="p-8 w-full flex-1 flex flex-col">

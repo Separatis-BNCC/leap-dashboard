@@ -19,8 +19,6 @@ export default function NavbarCourse() {
     );
   }
 
-  console.log(allCourseData);
-
   return (
     <RollDown.Container>
       <RollDown.Trigger

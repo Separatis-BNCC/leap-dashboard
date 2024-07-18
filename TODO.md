@@ -3,7 +3,7 @@
 [] Gabisa add session
 [] Admin ngisi konten session doank jadi week udah di provide.
 [] Schedule list nanti dapet dari endpoint GET class
-[] Admin bisa ngubah role user sama active status
+[V] Admin bisa ngubah role user sama active status
 [V] Region, 
 [] Major (Waiting for backend)
 [V] Faculty 

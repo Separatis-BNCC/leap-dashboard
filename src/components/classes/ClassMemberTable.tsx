@@ -2,7 +2,8 @@ import RoleBadge from "@/components/course/RoleBadge";
 import { Checkbox } from "@/components/general/Checkbox";
 import useTableSelect from "@/hooks/table/useTableSelect";
 import useUserQuery from "@/hooks/user/useUserQuery";
-import { cn, formatDate, getRegion } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
+import { getRegion } from "@/assets/lookup-data";
 import Table from "../general/Table";
 
 export default function ClassMemberTable() {
