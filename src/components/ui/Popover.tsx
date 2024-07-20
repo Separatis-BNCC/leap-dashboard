@@ -11,8 +11,11 @@ import {
 
 type PopoverContextValues = {
   isOpen: boolean;
+  shouldOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isolate?: boolean;
+  open?: boolean;
+  onOpenChange: (isOpen: boolean) => void;
 };
 
 const PopoverContext = createContext<PopoverContextValues | null>(null);
@@ -27,20 +30,30 @@ export function usePopover() {
 function Container({
   children,
   isolate = false,
+  open,
+  onOpenChange = () => {},
   ...props
 }: {
   children: ReactNode;
   isolate?: boolean;
+  open?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
 } & HTMLAttributes<HTMLDivElement>) {
   const [isOpen, setIsOpen] = useState(false);
   const id = useMemo(() => Math.random().toString().replace(".", "-"), []);
 
   useClickOutside(() => {
     setIsOpen(false);
+    onOpenChange(false);
   }, [`.popover-container-${id}`]);
 
+  // If the user passes in the open prop then turn the popover into a controlled component by having it follow the `open` value.
+  const shouldOpen = typeof open === "boolean" ? open : isOpen;
+
   return (
-    <PopoverContext.Provider value={{ isOpen, setIsOpen, isolate }}>
+    <PopoverContext.Provider
+      value={{ shouldOpen, isOpen, setIsOpen, isolate, open, onOpenChange }}
+    >
       <div
         {...props}
         className={cn(
@@ -64,7 +77,7 @@ function Trigger({
   disabled?: boolean;
   ref?: React.LegacyRef<HTMLDivElement>;
 } & HTMLAttributes<HTMLDivElement>) {
-  const { setIsOpen } = usePopover();
+  const { setIsOpen, onOpenChange } = usePopover();
 
   return (
     <div
@@ -74,6 +87,7 @@ function Trigger({
       onClick={() => {
         if (disabled) return;
         setIsOpen((current) => !current);
+        onOpenChange((current) => !current);
       }}
     >
       {children}
@@ -87,24 +101,27 @@ function Content({
 }: {
   children: ReactNode;
 } & HTMLAttributes<HTMLDivElement>) {
-  const { isOpen, isolate, setIsOpen } = usePopover();
+  const { shouldOpen, isolate, setIsOpen, onOpenChange } = usePopover();
 
   return (
     <>
       <div
         {...props}
         className={cn(
-          "popover-container absolute scale-95 left-0 top-0 invisible z-[100] transition-[opacity,transform] duration-200 opacity-0 translate-y-[-0.25rem]",
-          isOpen && "scale-100 visible opacity-100 translate-y-0",
+          "popover-container absolute scale-95 left-0 top-0 invisible z-[100] transition-all duration-200 opacity-0 translate-y-[-0.25rem]",
+          shouldOpen && "scale-100 visible opacity-100 translate-y-0",
           props.className
         )}
       >
         {children}
       </div>
-      {isolate && isOpen && (
+      {isolate && shouldOpen && (
         <div
           className="fixed inset-0 z-[50] bg-transparent"
-          onClick={() => setIsOpen(false)}
+          onClick={() => {
+            setIsOpen(false);
+            onOpenChange(false);
+          }}
         ></div>
       )}
     </>

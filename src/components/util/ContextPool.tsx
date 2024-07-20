@@ -8,65 +8,58 @@ import AddSession from "../course/AddSession";
 import AddClass from "../classes/AddClass";
 import AssignPraeto from "../classes/AssignPraeto";
 import AssignMember from "../classes/AssignMember";
+import { SkeletonTheme } from "react-loading-skeleton";
+import { UserTableProvider } from "@/context/UserTableContext";
+import DeleteConfirmation from "../general/DeleteConfirmation";
 
 const dialog: DialogComponents = [
   {
     component: <EditSession />,
     name: "edit-session",
-    options: {
-      collapseWhenClickOutside: true,
-    },
   },
   {
     component: <AddCourse />,
     name: "new-course",
-    options: {
-      collapseWhenClickOutside: true,
-    },
   },
   {
     component: <DeleteCourseConfirmation />,
     name: "delete-course",
-    options: {
-      collapseWhenClickOutside: true,
-    },
+  },
+  {
+    component: <DeleteConfirmation />,
+    name: "delete-confirmation",
   },
   {
     component: <AddSession />,
     name: "add-session",
-    options: {
-      collapseWhenClickOutside: true,
-    },
   },
   {
     component: <AddClass />,
     name: "add-class",
-    options: {
-      collapseWhenClickOutside: true,
-    },
   },
   {
     component: <AssignPraeto />,
     name: "assign-praeto",
-    options: {
-      collapseWhenClickOutside: true,
-    },
   },
   {
     component: <AssignMember />,
     name: "assign-member",
-    options: {
-      collapseWhenClickOutside: true,
-    },
   },
 ];
 
 export default function ContextPool() {
   return (
     <ToastProvider suspendDuration={4000}>
-      <DialogProvider components={dialog}>
-        <Outlet />
-      </DialogProvider>
+      <UserTableProvider>
+        <DialogProvider components={dialog}>
+          <SkeletonTheme
+            baseColor="rgb(228, 234, 247)"
+            highlightColor="rgb(245, 248, 255)"
+          >
+            <Outlet />
+          </SkeletonTheme>
+        </DialogProvider>
+      </UserTableProvider>
     </ToastProvider>
   );
 }

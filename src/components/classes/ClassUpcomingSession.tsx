@@ -6,7 +6,7 @@ export default function ClassUpcomingSession() {
 
   if (isEmpty)
     return (
-      <div className="bg-white w-full rounded-md p-8 flex flex-col  justify-center h-0 min-h-full">
+      <div className="bg-white w-full rounded-md p-8 flex flex-col  justify-center h-0 min-h-full border-[1px] border-slate-200">
         <p className="text-dark">Upcoming Session</p>
         <div className="flex-1 flex items-center justify-center flex-col">
           <i className="bx bx-time text-[3rem]"></i>
@@ -21,7 +21,7 @@ export default function ClassUpcomingSession() {
     );
 
   return (
-    <div className="bg-white w-full rounded-md p-8 flex flex-col h-0 min-h-full">
+    <div className="bg-white w-full rounded-md p-8 flex flex-col h-0 min-h-full border-[1px] border-slate-200">
       <p className="text-dark">Upcoming Session</p>
       <div className="flex-1 mt-3 mb-10">
         <h2 className="text-2xl font-semibold">

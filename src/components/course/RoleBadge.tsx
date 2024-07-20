@@ -43,7 +43,6 @@ const RoleBadge = forwardRef<HTMLDivElement, Props>(function (
         variants({ role }),
         // Loading variant
         isLoading && variants({ role: "loading" }),
-        "hover:opacity-50 transition-opacity duration-100 cursor-pointer",
         // External class
         className
       )}

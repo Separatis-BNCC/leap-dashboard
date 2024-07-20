@@ -6,7 +6,7 @@ type Props = {
 
 export default function CourseCard({ name, memberCount, status }: Props) {
   return (
-    <li className="grid grid-cols-[auto_1fr_auto] gap-x-4 gap-y-2 items-center transition-all duration-100 hover:bg-bg cursor-pointer px-6 py-4">
+    <li className="grid grid-cols-[auto_1fr_auto] gap-x-4 gap-y-2 items-center transition-all duration-100 hover:bg-bg cursor-pointer px-6 py-4 ">
       <div className="bg-highlight flex items-center justify-center rounded-sm aspect-square w-12">
         <i className="bx bxl-html5 text-white text-3xl"></i>
       </div>

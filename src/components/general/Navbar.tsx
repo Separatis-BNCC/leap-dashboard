@@ -12,7 +12,7 @@ export default function Navbar({ hidden }: Props) {
       <div>{/* Ini buat ngisi grid columnya doang */}</div>
       <ul
         className={cn(
-          "w-[15rem] py-4 flex flex-col gap-2 overflow-hidden fixed min-h-screen transition-[width] duration-500 z-10 bg-white",
+          "w-[15rem] py-4 flex flex-col gap-2 overflow-hidden fixed min-h-screen transition-[width] duration-500 z-10 bg-white border-r-[1px] border-slate-200",
           hidden && "w-0"
         )}
       >

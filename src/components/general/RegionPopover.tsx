@@ -17,6 +17,7 @@ export default function RegionPopover({
   ...props
 }: Props & Omit<HTMLAttributes<HTMLDivElement>, "onSelect">) {
   const { regionData } = UseRegionQuery();
+  const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<string | undefined>(() =>
     defaultValue ? regionMap[defaultValue] : undefined
   );
@@ -24,6 +25,8 @@ export default function RegionPopover({
 
   return (
     <Popover.Container
+      onOpenChange={(value) => setIsOpen(value)}
+      open={isOpen}
       {...props}
       className={cn(" border-[1px] border-border rounded-md ", props.className)}
     >
@@ -35,7 +38,7 @@ export default function RegionPopover({
         )}
         <i className="bx bx-chevron-down text-2xl "></i>
       </Popover.Trigger>
-      <Popover.Content className="bg-white w-full max-w-[14rem] top-[3rem] rounded-md grid p-2 shadow-lg">
+      <Popover.Content className="bg-white w-full max-w-[14rem] top-[3rem] rounded-md grid p-2 shadow-lg gap-1">
         <div className="flex px-2 py-2 mb-2 gap-2 items-center border-b-[1px] border-border">
           <i className="bx bxs-map text-lg"></i>
           <p className="font-semibold">Regions</p>
@@ -52,6 +55,7 @@ export default function RegionPopover({
                   newValue,
                   newValue ? regionMap.indexOf(data.label) + 1 : undefined
                 );
+                setIsOpen(false);
               }}
               className={cn(
                 " px-4 py-2 rounded-md cursor-pointer transition-all duration-100 trunacte relative pl-6",

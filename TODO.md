@@ -21,3 +21,9 @@ API yang belom Jadi:
 - Get all course session sama class di deprecate
 - 
 
+> ini tar aja klo ada waktu, ga urgent bgt
+YANG BISA DI REFACTOR :
+- Class Popover
+- Table
+
+

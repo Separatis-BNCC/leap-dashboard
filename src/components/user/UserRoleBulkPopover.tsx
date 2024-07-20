@@ -6,6 +6,7 @@ import useUserRoleMutation from "@/hooks/user/useUserRoleMutation";
 import { LoadingSpinner } from "../ui/LoadingSpinner";
 import { UserData } from "@/lib/types";
 import { useQueryClient } from "@tanstack/react-query";
+import { useUserTable } from "@/context/UserTableContext";
 
 type Props = {
   userIds: number[];
@@ -23,9 +24,11 @@ function findSelectedRole(userDataList: UserData[]) {
 }
 
 export default function UserRoleBulkPopover({ userIds, userDataList }: Props) {
-  const [loading, setLoading] = useState<undefined | number>();
   const queryClient = useQueryClient();
   const { updateMutation } = useUserRoleMutation();
+
+  const { setUsersUpdatingRoles } = useUserTable();
+  const [loadingRole, setLoadingRole] = useState<undefined | number>();
 
   const selectedRole = findSelectedRole(userDataList);
   const usersQueryState = queryClient.getQueryState(["users"]);
@@ -33,8 +36,10 @@ export default function UserRoleBulkPopover({ userIds, userDataList }: Props) {
   const isUpdating = usersQueryState?.isInvalidated || updateMutation.isPending;
 
   useEffect(() => {
-    if (!isUpdating) setLoading(undefined);
-  }, [isUpdating]);
+    if (isUpdating) return;
+    setUsersUpdatingRoles([]);
+    setLoadingRole(undefined);
+  }, [isUpdating, setUsersUpdatingRoles]);
 
   return (
     <Popover.Container isolate>
@@ -45,11 +50,13 @@ export default function UserRoleBulkPopover({ userIds, userDataList }: Props) {
             isUpdating && "opacity-50"
           )}
         >
-          {isUpdating ? (
-            <LoadingSpinner className="stroke-white" />
-          ) : (
-            <i className="bx bx-user text-lg text-white cursor-pointer hover:opacity-50 transition-all duration-100"></i>
-          )}
+          <div className="">
+            {isUpdating ? (
+              <LoadingSpinner className="stroke-white w-5 h-5" />
+            ) : (
+              <i className="bx bx-user text-lg text-white cursor-pointer hover:opacity-50 transition-all duration-100"></i>
+            )}
+          </div>
           <p className="text-white whitespace-nowrap flex-1">Edit Role</p>
         </div>
       </Popover.Trigger>
@@ -59,7 +66,7 @@ export default function UserRoleBulkPopover({ userIds, userDataList }: Props) {
           <h3 className=" whitespace-nowrap">Assign Role</h3>
         </div>
         {role.map((item, i) => {
-          const updating = loading === i;
+          const updatingCurrentRole = loadingRole === i;
           const selected = selectedRole === i + 1;
 
           if (item === "admin") return;
@@ -73,7 +80,8 @@ export default function UserRoleBulkPopover({ userIds, userDataList }: Props) {
               onClick={() => {
                 if (isUpdating) return;
                 updateMutation.mutate({ ids: userIds, role: i + 1 });
-                setLoading(i);
+                setUsersUpdatingRoles(userIds);
+                setLoadingRole(i);
               }}
             >
               <div
@@ -82,7 +90,7 @@ export default function UserRoleBulkPopover({ userIds, userDataList }: Props) {
               <p className="text-light whitespace-nowrap flex-1">
                 {capitalize(item)}
               </p>
-              {updating && <LoadingSpinner />}
+              {updatingCurrentRole && <LoadingSpinner />}
             </div>
           );
         })}

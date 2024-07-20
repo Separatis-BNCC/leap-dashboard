@@ -108,7 +108,13 @@ export function DialogProvider({
     e.stopPropagation();
 
     // Disable the click outside functionality (if requested). This means that the user now needs to use the <DialogCollapse/> component to close the dialog.
-    if (options && !options.collapseWhenClickOutside) return;
+    if (
+      options &&
+      // This makes it so that only if the user explicity state true or false will this guard clause work. Basically making this option true by default
+      typeof options.collapseWhenClickOutside === "boolean" &&
+      !options.collapseWhenClickOutside
+    )
+      return;
 
     // Retrieve the dialog component. Since the dialog component is always the child of `wrapper` then we can use .children[0]. However, do know that because of this, we cannot use <Fragments/> when creating a dialog component.
     const wrapper = wrapperRef.current?.children[0];

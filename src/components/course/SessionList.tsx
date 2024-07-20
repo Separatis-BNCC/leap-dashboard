@@ -54,8 +54,8 @@ export default function SessionList({ sessions, courseId }: Props) {
           <SwiperSlide key={`${session.description}-${i}`}>
             <div
               className={cn(
-                "bg-white p-6 rounded-md flex flex-col h-full",
-                isSelected && "bg-highlight"
+                "bg-white p-6 rounded-md flex flex-col h-full border-[1px] border-slate-200",
+                isSelected && "bg-highlight "
               )}
             >
               <div className="bg-bg text-highlight w-10 aspect-square flex items-center justify-center font-semibold text-lg rounded-md mb-4">

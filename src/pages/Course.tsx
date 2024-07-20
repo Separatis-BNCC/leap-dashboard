@@ -39,8 +39,6 @@ export default function Course() {
           )}
         </div>
       </div>
-      <div></div>
-      <div></div>
       <CourseSession course={courseData} />
       <CourseClass course={courseData} />
 

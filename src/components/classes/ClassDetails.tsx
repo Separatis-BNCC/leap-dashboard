@@ -1,3 +1,4 @@
+import ClassCardPopover from "../course/ClassCardPopover";
 import { useDialog } from "../general/Dialog";
 import ProfilePicture from "../general/ProfilePicture";
 import DonutChart from "../ui/DonutChart";
@@ -6,9 +7,12 @@ export default function ClassDetails() {
   const { showDialog } = useDialog();
 
   return (
-    <div className="bg-white px-8 pb-8 pt-6 rounded-md grid grid-cols-[auto_1fr] whitespace-nowrap gap-x-14">
-      <p className="col-span-2 mb-6">Class Details</p>
-      <div className="flex flex-col  items-center justify-center">
+    <div className="bg-white  pb-8 pt-3 rounded-md grid grid-cols-[auto_1fr] whitespace-nowrap gap-x-14 border-[1px] border-slate-200">
+      <div className="col-span-2 mb-4 pb-3 flex justify-between border-b-[1px] items-center px-8 ">
+        <p className="col-span-2 ">Class Details</p>
+        <ClassCardPopover />
+      </div>
+      <div className="pl-8 flex flex-col  items-center justify-center ">
         <DonutChart percent={50}>
           <div className="flex items-center justify-center text-4xl h-full text-highlight font-semibold">
             50%
@@ -21,14 +25,18 @@ export default function ClassDetails() {
           Session(s) Done
         </p>
       </div>
-      <div>
-        <p>Course</p>
-        <h2 className="text-dark font-semibold text-2xl mb-1">Front-End</h2>
-        <div className="flex items-center gap-2 [&>*]:text-light mb-6">
-          <i className="bx bx-calendar text-lg"></i>
-          <p className="mr-2">Monday</p>
-          <i className="bx bx-time-five text-lg"></i>
-          <p>17.20 - 19.00</p>
+      <div className="pr-8">
+        <p className="text-light mb-1">Course</p>
+        <h2 className="text-dark font-semibold text-2xl mb-5">Front-End</h2>
+        <div className="flex items-center gap-4 [&>*]:text-light mb-8">
+          <div className="flex gap-2 items-center border-slate-200 border-[1px] rounded-full bg-slate-50 px-3">
+            <i className="bx bx-calendar text-lg"></i>
+            <p className="mr-2">Monday</p>
+          </div>
+          <div className="flex gap-2 items-center border-slate-200 border-[1px] rounded-full bg-slate-50 px-3">
+            <i className="bx bx-time-five text-lg"></i>
+            <p>17.20 - 19.00</p>
+          </div>
         </div>
         <div className="grid grid-cols-[auto_1fr_auto] gap-x-2 items-center ">
           <ProfilePicture className="row-span-2 h-[2.5rem] aspect-square" />
@@ -57,7 +65,7 @@ export default function ClassDetails() {
             <h2 className="text-3xl font-semibold mt-2">0/5</h2>
           </div>
         </div>
-      </div>
+      </div>{" "}
     </div>
   );
 }

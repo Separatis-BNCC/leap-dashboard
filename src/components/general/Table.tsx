@@ -35,7 +35,7 @@ function Container({
   gridTemplateColumns: string;
   isLoading?: boolean;
   className?: string;
-} & React.ComponentProps<typeof ScrollAreaPrimitive.Root>) {
+} & React.HTMLAttributes<HTMLUListElement>) {
   if (isLoading)
     return (
       <div
@@ -56,13 +56,12 @@ function Container({
 
   return (
     <TableContext.Provider value={{ gridTemplateColumns }}>
-      <ScrollArea
+      <ul
+        className={cn("flex flex-col h-full pt-6 pb-2", className)}
         {...props}
-        className={cn("rounded-md flex-1 [&>div>div]:h-full", className)}
       >
-        <ul className="flex flex-col pt-8 pb-6 min-w-[40rem]">{children}</ul>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
+        {children}
+      </ul>
     </TableContext.Provider>
   );
 }
@@ -117,9 +116,12 @@ function Content({
   typeof ScrollAreaPrimitive.Root
 >) {
   return (
-    <ScrollArea {...props} className="flex-1">
-      {children}
-    </ScrollArea>
+    <div className="flex-1 min-h-[20rem]">
+      <ScrollArea {...props} className={cn("h-0 min-h-full", props.className)}>
+        <div className="">{children}</div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
+    </div>
   );
 }
 

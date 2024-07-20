@@ -4,8 +4,8 @@ import useUserQuery from "@/hooks/user/useUserQuery";
 import { cn, formatDate, toSorted } from "@/lib/utils";
 import { getFaculty, getRegion } from "@/assets/lookup-data";
 import Table from "../general/Table";
-import UserRolePopover from "../user/UserRolePopover";
 import UserRoleBulkPopover from "../user/UserRoleBulkPopover";
+import RoleBadge from "../course/RoleBadge";
 
 /**
  * Bulk Role , status
@@ -22,15 +22,14 @@ export default function UserMasterTable() {
     selectedData,
     showPopup,
   } = useTableSelect({ data: userData });
-
   return (
-    <div className="relative overflow-hidden flex-1 flex flex-col">
+    <div className="relative overflow-hidden flex-1 flex flex-col ">
       <Table.Container
         isLoading={userQuery.isLoading}
         gridTemplateColumns={`2rem minmax(16rem,1fr) repeat(7,minmax(8rem,0.5fr)) auto`}
-        className="bg-white"
+        className="bg-white border-[1px] border-slate-200 "
       >
-        <Table.Head>
+        <Table.Head className="border-b-[1px] border-slate-200 pb-2 mb-0">
           <Checkbox onClick={handleSelectAll} checked={allSelected} />
           <h2>Name</h2>
           <h2>Role</h2>
@@ -62,7 +61,7 @@ export default function UserMasterTable() {
                     </p>
                     <p className="text-light truncate">{data.email}</p>
                   </div>
-                  <UserRolePopover roleId={data.role} userIds={[data.id]} />
+                  <RoleBadge roleId={data.role} />
 
                   <p className="truncate">{data.profile?.nim || "-"}</p>
                   <p>{data.profile?.line_id || "-"}</p>
@@ -78,7 +77,6 @@ export default function UserMasterTable() {
                       : "-"}
                   </p>
 
-                  {/* === TEMP === */}
                   <p className="truncate">
                     {data.profile?.birth_date
                       ? formatDate(new Date(data.profile.birth_date))
@@ -88,7 +86,7 @@ export default function UserMasterTable() {
                 </Table.Row>
               );
             })}
-        </Table.Content>
+        </Table.Content>{" "}
       </Table.Container>
       <div
         className={cn(
