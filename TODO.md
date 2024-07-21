@@ -7,6 +7,8 @@
 [V] Region, 
 [] Major (Waiting for backend)
 [V] Faculty 
+<!-- Ini nanti dl -->
+[X] Skeleton table master data juga harusnya
 
 NOTE :
 - Admin gabisa ganti profile user
@@ -25,5 +27,4 @@ API yang belom Jadi:
 YANG BISA DI REFACTOR :
 - Class Popover
 - Table
-
 

@@ -24,14 +24,6 @@ export default function CourseSession({ course }: Props) {
           )}
           onClick={() => setViewAsTable((cur) => !cur)}
         ></i>
-        <Button
-          disabled={!course}
-          variant={"tertiary"}
-          className="mr-4"
-          onClick={() => showDialog("add-session", course?.id)}
-        >
-          + Session
-        </Button>
         <Button variant={"default"}>Modules</Button>
       </div>
       {viewAsTable ? (

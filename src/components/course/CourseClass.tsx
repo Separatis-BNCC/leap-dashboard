@@ -43,7 +43,7 @@ export default function CourseClass({ course }: Props) {
         <div className="grid grid-cols-3 max-2xl:grid-cols-2 gap-4 max-lg:grid-cols-1">
           {course
             ? course.classes.map((classData) => <ClassCard {...classData} />)
-            : new Array(3).fill("x").map(() => <Skeleton height={"10rem"} />)}
+            : new Array(3).fill("x").map(() => <Skeleton height={"18.5rem"} />)}
         </div>
       )}
     </div>

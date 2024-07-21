@@ -44,11 +44,11 @@ function Container({
         )}
       >
         {new Array(8).fill("x").map(() => (
-          <div className="grid grid-cols-[1fr_8fr_4fr_4fr] gap-4">
-            <Skeleton className="h-11" />
-            <Skeleton className="h-11" />
-            <Skeleton className="h-11" />
-            <Skeleton className="h-11" />
+          <div className="grid grid-cols-[1fr_8fr_4fr_4fr] gap-4 h-full">
+            <Skeleton className="h-9" />
+            <Skeleton className="h-9" />
+            <Skeleton className="h-9" />
+            <Skeleton className="h-9" />
           </div>
         ))}
       </div>
