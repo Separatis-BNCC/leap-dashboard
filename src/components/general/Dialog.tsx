@@ -24,7 +24,7 @@ type DialogComponent = {
 type TDialogContextValues = {
   showDialog: (dialogName: string, context?: unknown) => void;
   closeDialog: (options?: { persistBackground?: boolean }) => Promise<void>;
-  contextData?: unknown;
+  contextData: unknown;
   isShowing: boolean;
 };
 const DialogContext = createContext<TDialogContextValues | null>(null);
@@ -184,12 +184,18 @@ export function DialogCollapse({
     </button>
   );
 }
+type AssertContextTypeToGenerics<T, V> = {
+  [K in keyof V]: K extends "contextData" ? T : V[K];
+};
 
-export function useDialog() {
+export function useDialog<ContextTypes = unknown>() {
   const context = useContext(DialogContext);
   if (!context)
     throw new Error(
       "useDialog should be called inside the <DialogProvider/> component"
     );
-  return context;
+  return context as AssertContextTypeToGenerics<
+    ContextTypes,
+    TDialogContextValues
+  >;
 }

@@ -1,3 +1,4 @@
+import { AssignMemberContext } from "@/components/classes/AssignMember";
 import ClassDetails from "@/components/classes/ClassDetails";
 import ClassMemberTable from "@/components/classes/ClassMemberTable";
 import ClassSchedule from "@/components/classes/ClassSchedule";
@@ -55,7 +56,7 @@ export default function Classes() {
       <div></div>
       {isShowingDetails ? (
         <div className="grid grid-cols-[9fr_4fr] mt-4 gap-6">
-          <ClassDetails />
+          <ClassDetails classId={classId} />
           <ClassUpcomingSession />
         </div>
       ) : (
@@ -70,12 +71,17 @@ export default function Classes() {
           <Button
             variant={"accent"}
             className="ml-4"
-            onClick={() => showDialog("assign-member")}
+            onClick={() =>
+              showDialog("assign-member", {
+                classId: +classId,
+                members: classData?.members,
+              } satisfies AssignMemberContext)
+            }
           >
             + Add Member
           </Button>
         </div>
-        <ClassMemberTable />
+        <ClassMemberTable members={classData?.members} />
       </div>
     </div>
   );

@@ -17,11 +17,10 @@ NOTE :
 - User bisa ngedit semuanya kecuali email.
 - Kalo create region, faculty, major harus ambil dari be, kalo ga di hardcode aja.
 
-API yang belom Jadi:
-- Masukin member ke class
-- Assign praeto ke class
-- Get all course session sama class di deprecate
-- 
+API request feature:
+- GET user filter by role
+- Class member join sama profile, jangan kasih liat password.
+- Kalo add praetorian di replace aja
 
 > ini tar aja klo ada waktu, ga urgent bgt
 YANG BISA DI REFACTOR :

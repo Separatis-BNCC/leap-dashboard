@@ -1,10 +1,25 @@
+import { Classes } from "@/lib/types";
 import ClassCardPopover from "../course/ClassCardPopover";
 import { useDialog } from "../general/Dialog";
 import ProfilePicture from "../general/ProfilePicture";
 import DonutChart from "../ui/DonutChart";
+import { useMemo } from "react";
+import Skeleton from "react-loading-skeleton";
+import { AssignPraetoContext } from "./AssignPraeto";
+import useClassQuery from "@/hooks/class/useClassQuery";
 
-export default function ClassDetails() {
+type Props = {
+  classId: string;
+};
+
+export default function ClassDetails({ classId }: Props) {
+  const { classData, classQuery } = useClassQuery({ classId });
   const { showDialog } = useDialog();
+
+  const praetorian = useMemo(
+    () => classData?.members.find((user) => user.role === 2),
+    [classData]
+  );
 
   return (
     <div className="bg-white  pb-8 pt-3 rounded-md grid grid-cols-[auto_1fr] whitespace-nowrap gap-x-14 border-[1px] border-slate-200">
@@ -44,10 +59,20 @@ export default function ClassDetails() {
           <i
             className="bx bx-edit text-xl text-light row-span-2 hover:text-lighter cursor-pointer duration-100 transition-all"
             onClick={() => {
-              showDialog("assign-praeto");
+              if (!classData) return;
+              showDialog("assign-praeto", {
+                classId: classData?.id,
+                currentPraeto: praetorian,
+              } satisfies AssignPraetoContext);
             }}
           ></i>
-          <p className="text-dark">Jacqueline Audrey I.</p>
+          <p className="text-dark">
+            {classQuery.isFetching ? (
+              <Skeleton width={"10rem"} />
+            ) : (
+              praetorian?.email || "Not Assigned"
+            )}
+          </p>
         </div>
         <div className="grid grid-cols-2 gap-x-6 mt-8">
           <div className="rounded-md border-lighter border-[1px] py-3 px-5">
@@ -55,14 +80,18 @@ export default function ClassDetails() {
               <i className="bx bx-user text-lg"></i>
               <p>Members</p>
             </div>
-            <h2 className="text-3xl font-semibold mt-2">25</h2>
+            <h2 className="text-3xl font-semibold mt-2">
+              {classData?.members.length ?? (
+                <Skeleton className="text-3xl" width={"2rem"} />
+              )}
+            </h2>
           </div>
           <div className="rounded-md border-lighter border-[1px] p-3 px-5">
             <div className="flex items-center gap-2">
               <i className="bx bx-user text-lg"></i>
               <p>Rescheduled</p>
             </div>
-            <h2 className="text-3xl font-semibold mt-2">0/5</h2>
+            <h2 className="text-3xl font-semibold mt-2">0/2</h2>
           </div>
         </div>
       </div>{" "}

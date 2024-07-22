@@ -5,9 +5,28 @@ import useUserQuery from "@/hooks/user/useUserQuery";
 import { cn, formatDate } from "@/lib/utils";
 import { getRegion } from "@/assets/lookup-data";
 import Table from "../general/Table";
+import { Classes, UserData } from "@/lib/types";
+import { useMemo } from "react";
 
-export default function ClassMemberTable() {
+type Props = {
+  // Harusnya ini klo api dah jadi
+
+  // members: UserData["profile"][];
+  members?: Classes["members"];
+};
+
+export default function ClassMemberTable({ members }: Props) {
   const { userData, userQuery } = useUserQuery();
+
+  // TEMP
+  const membersId = useMemo(
+    () => new Set(members?.map((member) => member.id)),
+    [members]
+  );
+  const classMembers = useMemo(() => {
+    return userData?.filter((user) => membersId.has(user.id));
+  }, [membersId, userData]);
+
   const {
     handleReset,
     handleSelect,
@@ -37,7 +56,7 @@ export default function ClassMemberTable() {
           <i className="bx bx-dots-vertical-rounded text-lg invisible "></i>
         </Table.Head>
         <Table.Content>
-          {userData?.map((data) => {
+          {classMembers?.map((data) => {
             const isSelected = selectedData?.some(
               (item) => item.id === data.id
             );
