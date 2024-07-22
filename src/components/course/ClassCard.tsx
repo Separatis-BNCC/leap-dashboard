@@ -1,48 +1,55 @@
+import { Classes } from "@/lib/types";
 import { Progress } from "../ui/Progress";
+import { useNavigate } from "react-router-dom";
+import { Button } from "../ui/Button";
+import ClassCardPopover from "./ClassCardPopover";
 
-export default function ClassCard() {
+export default function ClassCard(classes: Classes) {
+  const navigate = useNavigate();
+  const { name, id } = classes;
+  // TEMP
+  const memberCount = 0;
+  const rescheduleCount = 0;
   const progress = 50;
 
   return (
-    <div className="bg-white px-8 py-7 rounded-md">
-      <div className="flex justify-between">
-        <h2 className="text-3xl text-dark font-semibold mb-4">FE-A</h2>
-        <div className="flex gap-4 border-[1px] border-border items-center justify-center h-fit px-4 py-2 rounded-md">
-          <i className="bx bx-calendar text-dark text-lg"></i>
-          <p className="text-dark">Monday, Thursday</p>
-        </div>
+    <div className="bg-white py-8 rounded-md transition-all border-slate-200 border-[1px]">
+      <p className="text-light px-8 mb-1">Class Name</p>
+      <div className="flex justify-between mb-4 px-8  ">
+        <h2 className="text-3xl text-dark font-semibold ">{name}</h2>
+        <ClassCardPopover classes={classes} />
       </div>
-      <div className="flex gap-4 items-center mb-2">
-        <img
-          className="h-7 object-cover aspect-square rounded-full overflow-hidden"
-          src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?fm=jpg&w=3000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt=""
-        />
-        <p>Prateo Name</p>
-      </div>
-      <ul className="flex mb-8 mt-6 gap-8">
-        <li className="flex items-center justify-center gap-3">
-          <p className="bg-bg text-highlight w-12 aspect-square rounded-md flex font-semibold items-center justify-center text-xl">
-            10
-          </p>
-          <p className="text-light ">Member</p>
-        </li>
-        <li className="flex items-center justify-center gap-3">
-          <p className="bg-bg text-highlight w-12 aspect-square rounded-md flex font-semibold items-center justify-center text-xl">
-            0
-          </p>
-          <p className="text-light ">Rescheduled</p>
-        </li>
-      </ul>
-      <div>
-        <div className="flex justify-between mb-1">
-          <p className="text-light">{progress}%</p>
-          <p className="text-light">
-            <span className="text-dark">11</span>/13 Sessions
-          </p>
+      <div className="px-8">
+        <ul className="flex whitespace-nowrap items-center [&_*]:text-light gap-3 mb-12">
+          <li className="flex items-center justify-center gap-2 border-[1px] border-slate-200 rounded-full w-fit px-3 py-[2px] bg-slate-50">
+            <i className="bx bx-calendar text-lg "></i>
+            <p className="">Monday</p>
+          </li>
+          <li className="flex items-center justify-center gap-2 border-[1px] border-slate-200 rounded-full w-fit px-3 py-[2px] bg-slate-50">
+            <i className="bx bx-time-five text-lg"></i>
+            <p>17.20 - 19.00</p>
+          </li>
+          <li className="flex items-center justify-center gap-2 border-[1px] border-slate-200 rounded-full w-fit px-3 py-[2px] bg-slate-50">
+            <i className="bx bx-user text-lg"></i>
+            <p>24</p>
+          </li>
+        </ul>
+        <div>
+          <div className="flex justify-between mb-2">
+            <p className="text-2xl text-highlight font-semibold">{progress}%</p>
+            <p className="text-light">
+              <span className="text-dark">11</span>/13 Sessions
+            </p>
+          </div>
+          <Progress value={progress} className="" />
         </div>
-        <Progress value={progress} />
-        <p className="text-light mt-4">Start date: 02 July, 2024</p>
+        <Button
+          className="w-full py-6 mt-5"
+          variant={"secondary"}
+          onClick={() => navigate(`/classes/${id}`)}
+        >
+          View Details
+        </Button>{" "}
       </div>
     </div>
   );

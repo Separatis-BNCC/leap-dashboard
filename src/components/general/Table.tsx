@@ -35,7 +35,7 @@ function Container({
   gridTemplateColumns: string;
   isLoading?: boolean;
   className?: string;
-} & React.ComponentProps<typeof ScrollAreaPrimitive.Root>) {
+} & React.HTMLAttributes<HTMLUListElement>) {
   if (isLoading)
     return (
       <div
@@ -44,11 +44,11 @@ function Container({
         )}
       >
         {new Array(8).fill("x").map(() => (
-          <div className="grid grid-cols-[1fr_8fr_4fr_4fr] gap-4">
-            <Skeleton className="h-11" />
-            <Skeleton className="h-11" />
-            <Skeleton className="h-11" />
-            <Skeleton className="h-11" />
+          <div className="grid grid-cols-[1fr_8fr_4fr_4fr] gap-4 h-full">
+            <Skeleton className="h-9" />
+            <Skeleton className="h-9" />
+            <Skeleton className="h-9" />
+            <Skeleton className="h-9" />
           </div>
         ))}
       </div>
@@ -56,13 +56,12 @@ function Container({
 
   return (
     <TableContext.Provider value={{ gridTemplateColumns }}>
-      <ScrollArea
+      <ul
+        className={cn("flex flex-col h-full pt-6 pb-2", className)}
         {...props}
-        className={cn("rounded-md flex-1 h-full [&>div>div]:h-full", className)}
       >
-        <ul className="grid pt-8 pb-6 min-w-[40rem]">{children}</ul>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
+        {children}
+      </ul>
     </TableContext.Provider>
   );
 }
@@ -73,7 +72,7 @@ function Row({
   ...props
 }: Omit<HTMLAttributes<HTMLLIElement>, "onSelect"> & {
   highlighted?: boolean;
-  onSelect: (e: MouseEvent) => void;
+  onSelect?: (e: MouseEvent) => void;
   children: ReactNode;
 }) {
   const { gridTemplateColumns } = useTable();
@@ -116,7 +115,14 @@ function Content({
 }: { children: ReactNode } & React.ComponentProps<
   typeof ScrollAreaPrimitive.Root
 >) {
-  return <ScrollArea {...props}>{children}</ScrollArea>;
+  return (
+    <div className="flex-1 min-h-[20rem]">
+      <ScrollArea {...props} className={cn("h-0 min-h-full", props.className)}>
+        <div className="">{children}</div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
+    </div>
+  );
 }
 
 export default { Row, Container, Head, Content };

@@ -1,12 +1,45 @@
-import { cn } from "@/lib/utils";
+import { cn, toSorted } from "@/lib/utils";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Button } from "../ui/Button";
 import { useState } from "react";
+import { Session } from "@/lib/types";
+import { useDialog } from "../general/Dialog";
+import Skeleton from "react-loading-skeleton";
 
-type Props = { sessions: { title: string; outlineCount: number }[] };
+type Props = { sessions?: Session[]; courseId?: number };
 
-export default function SessionList({ sessions }: Props) {
+export default function SessionList({ sessions, courseId }: Props) {
+  const { showDialog } = useDialog();
   const [selected, setSelected] = useState(1);
+
+  // If session is LOADED but empty.
+  if (sessions && sessions.length === 0)
+    return (
+      <div className="h-[21rem] flex items-center justify-center flex-col border-[3px] border-lighter border-dotted rounded-md">
+        <h2 className="text-2xl text-dark font-semibold mb-1">
+          No Sessions Found
+        </h2>
+        <p className="text-light mb-5">
+          Looks like you haven't added any sessions yet
+        </p>
+        <Button
+          variant={"accent"}
+          className="py-5 px-7"
+          onClick={() => showDialog("add-session", courseId)}
+        >
+          Add Session +
+        </Button>
+      </div>
+    );
+
+  if (!sessions)
+    return (
+      <div className="h-[21rem] grid grid-cols-3 gap-4">
+        {new Array(3).fill("x").map(() => (
+          <Skeleton height={"100%"} />
+        ))}
+      </div>
+    );
 
   return (
     <Swiper
@@ -14,19 +47,19 @@ export default function SessionList({ sessions }: Props) {
       spaceBetween={16}
       className="cursor-pointer h-[21rem]"
     >
-      {sessions.map((session, i) => {
+      {toSorted(sessions, (a, b) => a.week - b.week).map((session, i) => {
         const isSelected = i + 1 === selected;
 
         return (
-          <SwiperSlide key={`${session.title}-${i}`}>
+          <SwiperSlide key={`${session.description}-${i}`}>
             <div
               className={cn(
-                "bg-white p-6 rounded-md flex flex-col h-full",
-                isSelected && "bg-highlight"
+                "bg-white p-6 rounded-md flex flex-col h-full border-[1px] border-slate-200",
+                isSelected && "bg-highlight "
               )}
             >
               <div className="bg-bg text-highlight w-10 aspect-square flex items-center justify-center font-semibold text-lg rounded-md mb-4">
-                {i + 1}
+                {session.week}
               </div>
               <h2
                 className={cn(
@@ -34,8 +67,7 @@ export default function SessionList({ sessions }: Props) {
                   isSelected && "text-white"
                 )}
               >
-                {session.title}
-                {/* {truncateText(session.title, COURSE_TITLE_TRUNCATE_LENGTH)} */}
+                {session.description}
               </h2>
               <p
                 className={cn(
@@ -43,7 +75,7 @@ export default function SessionList({ sessions }: Props) {
                   isSelected && "text-white/80"
                 )}
               >
-                {session.outlineCount} Outlines
+                {session.outlineCount || 0} Outlines
               </p>
               <Button variant={"secondary"} className="w-full [&&]:py-5">
                 View Outlines

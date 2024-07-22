@@ -1,37 +1,65 @@
 import { Outlet } from "react-router-dom";
 import { DialogComponents, DialogProvider } from "../general/Dialog";
 import EditSession from "../course/EditSession";
-import NewCourse from "../course/NewCourse";
+import AddCourse from "../course/AddCourse";
 import DeleteCourseConfirmation from "../course/DeleteCourseConfirmation";
+import ToastProvider from "../ui/Toaster";
+import AddSession from "../course/AddSession";
+import AddClass from "../classes/AddClass";
+import AssignPraeto from "../classes/AssignPraeto";
+import AssignMember from "../classes/AssignMember";
+import { SkeletonTheme } from "react-loading-skeleton";
+import { UserTableProvider } from "@/context/UserTableContext";
+import DeleteConfirmation from "../general/DeleteConfirmation";
 
 const dialog: DialogComponents = [
   {
     component: <EditSession />,
     name: "edit-session",
-    options: {
-      collapseWhenClickOutside: true,
-    },
   },
   {
-    component: <NewCourse />,
+    component: <AddCourse />,
     name: "new-course",
-    options: {
-      collapseWhenClickOutside: true,
-    },
   },
   {
     component: <DeleteCourseConfirmation />,
     name: "delete-course",
-    options: {
-      collapseWhenClickOutside: true,
-    },
+  },
+  {
+    component: <DeleteConfirmation />,
+    name: "delete-confirmation",
+  },
+  {
+    component: <AddSession />,
+    name: "add-session",
+  },
+  {
+    component: <AddClass />,
+    name: "add-class",
+  },
+  {
+    component: <AssignPraeto />,
+    name: "assign-praeto",
+  },
+  {
+    component: <AssignMember />,
+    name: "assign-member",
   },
 ];
 
 export default function ContextPool() {
   return (
-    <DialogProvider components={dialog}>
-      <Outlet />
-    </DialogProvider>
+    <ToastProvider suspendDuration={4000}>
+      <UserTableProvider>
+        <DialogProvider components={dialog}>
+          <SkeletonTheme
+            baseColor="rgb(228, 234, 247)"
+            highlightColor="rgb(245, 248, 255)"
+          >
+            <Outlet />
+          </SkeletonTheme>
+        </DialogProvider>
+      </UserTableProvider>
+    </ToastProvider>
   );
 }

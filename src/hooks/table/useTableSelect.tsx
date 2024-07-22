@@ -1,11 +1,11 @@
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 
-type Props<T extends { id: string }> = {
+type Props<T extends { id: string | number }> = {
   data?: T[];
   onSelect?: (value: T[]) => void;
 };
 
-export default function useTableSelect<T extends { id: string }>({
+export default function useTableSelect<T extends { id: string | number }>({
   data,
   onSelect,
 }: Props<T>) {
@@ -22,24 +22,40 @@ export default function useTableSelect<T extends { id: string }>({
     setSelectedData(allSelected ? [] : data);
   };
 
-  const handleSelect = (itemData: T) => (e: MouseEvent) => {
-    if ((e.target as HTMLElement).closest(".edit-session-button")) return;
+  const handleSelect =
+    (itemData: T, disabledClass?: string[]) => (e: MouseEvent) => {
+      const clicked = e.target as HTMLElement;
+      if (clicked.closest(".edit-session-button")) return;
+      // Prevents the function from activating when elements with the following class are clicked.
+      if (disabledClass && disabledClass.some((el) => clicked.closest(el)))
+        return;
 
-    const isSelected = selectedData.some((data) => itemData.id === data.id);
-    const newSelected = isSelected
-      ? selectedData.filter((item) => item.id !== itemData.id)
-      : [...selectedData, itemData];
+      const isSelected = selectedData.some((data) => itemData.id === data.id);
+      const newSelected = isSelected
+        ? selectedData.filter((item) => item.id !== itemData.id)
+        : [...selectedData, itemData];
 
-    if (!isSelected) setShowPopup(true);
+      if (!isSelected) setShowPopup(true);
 
-    setSelectedData(newSelected);
-    if (onSelect) onSelect(newSelected);
-  };
+      setSelectedData(newSelected);
+      if (onSelect) onSelect(newSelected);
+    };
 
   const handleReset = () => {
     setShowPopup(false);
     setSelectedData([]);
   };
+
+  /**
+   * Revalidate data everytime a change happens (deletion / creation)
+   * Creates an array of id from the actual data list (dataIdList)
+   * then makes sure every item ids on the selected array exist on the * dataIdList and updates any data that was changed.
+   */
+  useEffect(() => {
+    if (!data) return;
+    const dataIdList = selectedData.map((item) => item.id);
+    setSelectedData(data.filter((item) => dataIdList.includes(item.id)));
+  }, [data]);
 
   return {
     handleSelect,

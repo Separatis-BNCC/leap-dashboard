@@ -11,7 +11,7 @@
 }
 
 html {
-  scrollbar-width: thin;
+  /* scrollbar-width: thin; */
 }
 
 @layer base {
@@ -100,7 +100,17 @@ html {
   }
 }
 
+@layer components {
+  .hoverable-short {
+    @apply duration-100 transition-all cursor-pointer;
+  }
+  .hoverable-long {
+    @apply duration-200 transition-all cursor-pointer;
+  }
+}
+
 * {
   font-family: "Poppins";
   font-weight: 500;
+  /* border: 1px solid red; */
 }
