@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import NavbarItem from "./NavbarItem";
 import NavbarCourse from "./NavbarCourse";
+import React from "react";
 
 const menus = [
   {
@@ -38,17 +39,13 @@ export default function NavbarList() {
     };
 
     return (
-      <>
+      <React.Fragment key={menu.display}>
         {i === 1 && <NavbarCourse />}
-        <NavbarItem
-          key={menu.display}
-          onClick={handleNavigate}
-          isSelected={selected}
-        >
+        <NavbarItem onClick={handleNavigate} isSelected={selected}>
           {menu.icon}
           <p className="flex-1">{menu.display}</p>
         </NavbarItem>
-      </>
+      </React.Fragment>
     );
   });
 }

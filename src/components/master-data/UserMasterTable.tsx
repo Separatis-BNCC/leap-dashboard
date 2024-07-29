@@ -29,19 +29,19 @@ export default function UserMasterTable() {
         gridTemplateColumns={`2rem minmax(16rem,1fr) repeat(7,minmax(8rem,0.5fr)) auto`}
         className="bg-white border-[1px] border-slate-200 "
       >
-        <Table.Head className="border-b-[1px] border-slate-200 pb-2 mb-0">
-          <Checkbox onClick={handleSelectAll} checked={allSelected} />
-          <h2>Name</h2>
-          <h2>Role</h2>
-          <h2>NIM</h2>
-          <h2>Line ID</h2>
-          <h2>Major</h2>
-          <h2>Region</h2>
-          <h2>Faculty</h2>
-          <h2 className="whitespace-nowrap">Date Joined</h2>
-          <i className="bx bx-dots-vertical-rounded text-lg invisible "></i>
-        </Table.Head>
         <Table.Content>
+          <Table.Head className="border-b-[1px] border-slate-200 pb-2 mb-0">
+            <Checkbox onClick={handleSelectAll} checked={allSelected} />
+            <h2>Name</h2>
+            <h2>Role</h2>
+            <h2>NIM</h2>
+            <h2>Line ID</h2>
+            <h2>Major</h2>
+            <h2>Region</h2>
+            <h2>Faculty</h2>
+            <h2 className="whitespace-nowrap">Date Joined</h2>
+            <i className="bx bx-dots-vertical-rounded text-lg invisible "></i>
+          </Table.Head>
           {userData &&
             toSorted(userData, (a, b) => a.id - b.id).map((data) => {
               const isSelected = selectedData?.some(

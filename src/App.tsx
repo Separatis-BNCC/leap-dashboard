@@ -7,11 +7,16 @@ import ContextPool from "./components/util/ContextPool";
 import Login from "./pages/Login";
 import AppLayout from "./pages/AppLayout";
 import Dashboard from "./pages/Dashboard";
-import Classes from "./pages/Classes";
+import Classes from "./components/classes/details/ClassDetails";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Protect from "./components/general/Protect";
 import Course from "./pages/Course";
 import MasterData from "./pages/MasterData";
+import path from "path";
+import ClassLayout from "./pages/ClassLayout";
+import ClassDetails from "./components/classes/details/ClassDetails";
+import Assignment from "./components/classes/assignment/Assignment";
+import Attendance from "./components/classes/attendance/Attendance";
 
 const router = createBrowserRouter([
   {
@@ -43,8 +48,22 @@ const router = createBrowserRouter([
             path: "courses/:name",
           },
           {
-            element: <Classes />,
+            element: <ClassLayout />,
             path: "classes/:classId?",
+            children: [
+              {
+                path: "details",
+                element: <ClassDetails />,
+              },
+              {
+                path: "assignment",
+                element: <Assignment />,
+              },
+              {
+                path: "attendance",
+                element: <Attendance />,
+              },
+            ],
           },
           {
             element: <div>schedule</div>,

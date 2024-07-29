@@ -46,7 +46,7 @@ export default function ClassCard(classes: Classes) {
         <Button
           className="w-full py-6 mt-5"
           variant={"secondary"}
-          onClick={() => navigate(`/classes/${id}`)}
+          onClick={() => navigate(`/classes/${id}/details`)}
         >
           View Details
         </Button>{" "}

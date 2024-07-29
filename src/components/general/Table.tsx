@@ -43,8 +43,11 @@ function Container({
           "flex flex-col gap-4 pt-6 px-8 pb-6 bg-white h-full max-h-screen"
         )}
       >
-        {new Array(8).fill("x").map(() => (
-          <div className="grid grid-cols-[1fr_8fr_4fr_4fr] gap-4 h-full">
+        {new Array(8).fill("x").map((_, i) => (
+          <div
+            className="grid grid-cols-[1fr_8fr_4fr_4fr] gap-4 h-full"
+            key={i}
+          >
             <Skeleton className="h-9" />
             <Skeleton className="h-9" />
             <Skeleton className="h-9" />

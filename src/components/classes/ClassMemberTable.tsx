@@ -62,7 +62,11 @@ export default function ClassMemberTable({ members }: Props) {
             );
 
             return (
-              <Table.Row highlighted={isSelected} onSelect={handleSelect(data)}>
+              <Table.Row
+                highlighted={isSelected}
+                onSelect={handleSelect(data)}
+                key={data.id}
+              >
                 <Checkbox checked={isSelected} />
                 <div className="grid grid-cols-[auto_1fr] items-center gap-x-4 gap-y-[1px]">
                   <div className="row-span-2 w-10 aspect-square rounded-full bg-slate-300"></div>

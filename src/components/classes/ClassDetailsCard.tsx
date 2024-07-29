@@ -12,7 +12,7 @@ type Props = {
   classId: string;
 };
 
-export default function ClassDetails({ classId }: Props) {
+export default function ClassDetailsCard({ classId }: Props) {
   const { classData, classQuery } = useClassQuery({ classId });
   const { showDialog } = useDialog();
 
