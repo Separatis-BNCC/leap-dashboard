@@ -57,12 +57,17 @@ export default function useTableSelect<T extends { id: string | number }>({
     setSelectedData(data.filter((item) => dataIdList.includes(item.id)));
   }, [data]);
 
+  const registerSelectionToast = {
+    showPopup,
+    selectedData,
+    handleReset,
+  };
+
   return {
     handleSelect,
-    handleReset,
     handleSelectAll,
-    showPopup,
     allSelected,
     selectedData,
+    registerSelectionToast,
   };
 }

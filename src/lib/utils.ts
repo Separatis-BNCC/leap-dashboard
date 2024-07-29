@@ -19,6 +19,19 @@ export function formatDate(date: Date): string {
   return formatter.format(date);
 }
 
+export function getNestedValue<T>(obj: T, path: string): unknown {
+  return path.split(".").reduce((acc, key) => {
+    if (acc && typeof acc === "object" && key in acc) {
+      return (acc as Record<string, unknown>)[key];
+    }
+    return undefined;
+  }, obj as unknown);
+}
+
+export function dateStringToTimestamp(date: string) {
+  return new Date(date).getTime();
+}
+
 export function capitalize(str: string) {
   return `${str[0].toUpperCase()}${str.slice(1, str.length)}`;
 }

@@ -69,8 +69,8 @@ export default function AssignMember() {
   };
 
   return (
-    <ScrollArea className="bg-white p-8 w-full max-w-[75rem] h-[calc(100%-6rem)] rounded-md [&>div>div]:!block [&>div>div]:h-full">
-      <div className="flex flex-col h-full">
+    <ScrollArea className="bg-white p-8 w-full max-w-[75rem] h-[calc(100%-6rem)] rounded-md [&>div>div]:!block [&>div>div]:h-full border-[1px] border-lighter">
+      <div className="flex flex-col h-full ">
         <h2 className="text-2xl font-semibold mb-2">Assign Member</h2>
         <p className="text-light leading-[175%] border-b-[1px] border-lighter mb-8 pb-6">
           Assign members to this class. Only users with the member role will be

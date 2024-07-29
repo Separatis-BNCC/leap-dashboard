@@ -9,19 +9,19 @@ import useClassQuery from "@/hooks/class/useClassQuery";
 import { calculateSchedule } from "@/lib/class-scheduler";
 import { useMemo, useState } from "react";
 import Skeleton from "react-loading-skeleton";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useOutletContext, useParams } from "react-router-dom";
 import ClassDetailsCard from "../ClassDetailsCard";
+import { ClassContext } from "@/pages/ClassLayout";
 
 const day_of_week = "thursday";
 const start_date = new Date("06-27-2024");
 const meeting_count = 15;
 
 export default function ClassDetails() {
-  const params = useParams();
   const [isShowingDetails, setIsShowingDetails] = useState(true);
   const { showDialog } = useDialog();
-  const classId = params.classId;
-  const { classData } = useClassQuery({ classId: Number(classId) });
+  const { classData, members } = useOutletContext<ClassContext>();
+  const { classId } = useParams();
 
   const schedules = useMemo(
     () =>
@@ -65,7 +65,7 @@ export default function ClassDetails() {
             Manage Members
           </Button>
         </div>
-        <ClassMemberTable members={classData?.members} />
+        <ClassMemberTable members={members} />
       </div>
     </div>
   );

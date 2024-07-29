@@ -9,15 +9,6 @@ export default function MasterData() {
       <p className="text-light mb-4 pb-4">
         Manage your team members and their account permissions here
       </p>
-      <div className="mb-5 flex items-center">
-        <p className="text-dark text-lg">
-          All Users <span className="ml-1 text-lg text-light">300</span>
-        </p>
-        <div className="flex-1 flex justify-end items-end gap-x-4">
-          <SearchInput />
-          <Button>+ Add User</Button>
-        </div>
-      </div>
       <UserMasterTable />
     </div>
   );

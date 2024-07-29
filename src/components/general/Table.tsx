@@ -1,18 +1,43 @@
-import { cn } from "@/lib/utils";
+import { cn, getNestedValue, toSorted } from "@/lib/utils";
 
 import {
   HTMLAttributes,
   MouseEvent,
+  ReactElement,
   ReactNode,
   createContext,
   useContext,
+  useMemo,
+  useState,
 } from "react";
 import { ScrollArea, ScrollBar } from "./ScrollArea";
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 import Skeleton from "react-loading-skeleton";
-
+type Filters = keyof typeof sortingFns;
 type TableContextValues = {
   gridTemplateColumns: string;
+  sort: Filters;
+  setSort: React.Dispatch<React.SetStateAction<Filters>>;
+};
+
+const sortingFns = {
+  "A-Z":
+    <T,>(field: string) =>
+    (a: T, b: T) =>
+      String(getNestedValue(a, field as string)).localeCompare(
+        String(getNestedValue(b, field as string))
+      ),
+  "Z-A":
+    <T,>(field: string) =>
+    (a: T, b: T) =>
+      String(getNestedValue(b, field as string)).localeCompare(
+        String(getNestedValue(a, field as string))
+      ),
+  // "by Date":
+  //   <T,>(field: string) =>
+  //   (a: T, b: T) =>
+  //     dateStringToTimestamp(String(getNestedValue(a, field as string))) -
+  //     dateStringToTimestamp(String(getNestedValue(b, field as string))),
 };
 
 const TableContext = createContext<TableContextValues | null>(null);
@@ -36,13 +61,11 @@ function Container({
   isLoading?: boolean;
   className?: string;
 } & React.HTMLAttributes<HTMLUListElement>) {
+  const [sort, setSort] = useState<Filters>("A-Z");
+
   if (isLoading)
     return (
-      <div
-        className={cn(
-          "flex flex-col gap-4 pt-6 px-8 pb-6 bg-white h-full max-h-screen"
-        )}
-      >
+      <div className={cn("flex flex-col gap-4  h-full max-h-screen")}>
         {new Array(8).fill("x").map((_, i) => (
           <div
             className="grid grid-cols-[1fr_8fr_4fr_4fr] gap-4 h-full"
@@ -58,11 +81,8 @@ function Container({
     );
 
   return (
-    <TableContext.Provider value={{ gridTemplateColumns }}>
-      <ul
-        className={cn("flex flex-col h-full pt-6 pb-2", className)}
-        {...props}
-      >
+    <TableContext.Provider value={{ gridTemplateColumns, sort, setSort }}>
+      <ul className={cn("flex flex-col h-full flex-1", className)} {...props}>
         {children}
       </ul>
     </TableContext.Provider>
@@ -104,7 +124,7 @@ function Head({
 
   return (
     <li
-      className={cn("grid  gap-x-3 mb-4 pl-8 pr-10", props.className)}
+      className={cn("grid  gap-x-3 pl-8 pr-10 py-4 ", props.className)}
       style={{ gridTemplateColumns }}
     >
       {children}
@@ -112,15 +132,58 @@ function Head({
   );
 }
 
+/**
+ * This component is used to automatically map rows and process the array through pagination, filtering and sorting.
+ * @params sortField Determines which object field will be used to sort the array
+ * @example
+ * { "A-Z": "profile.first_name",
+      "Z-A": "profile.first_name" };
+ * The following prop will access `data.profile.first_name` name and use it on the sort comparator function local compare 
+ * @params renderRows Determines which object field will be used to sort the array 
+ * Wrapper over the map function which returns the processed data
+ */
+function Rows<T = unknown>({
+  data,
+  sortField,
+  renderRows,
+}: {
+  data?: T[];
+  sortField?: Record<keyof typeof sortingFns, string>;
+  renderRows?: (data: T, index: number) => ReactElement;
+}) {
+  const { sort } = useTable();
+
+  const processedData = useMemo(() => {
+    if (!data) return undefined;
+    if (!sort || !sortField) return data;
+    /**
+     * Let's break down the comparator function access
+     * `sortingFns` is an object which contains comparator functions
+     * `sortingFns[sort]` will access the function according to the sort type the user selected. The function returned will need a string parameter that is used to access the values inside the data object. This value can also be nested using string formatting e.g. `profille.first_name`.
+     * `sortField[sort]` will access the access data taken from the props the user has given.
+     */
+    return toSorted(data, sortingFns[sort](sortField[sort]));
+  }, [data, sortField, sort]);
+
+  return renderRows && processedData?.map((data, i) => renderRows(data, i));
+}
+
 function Content({
   children,
+
   ...props
-}: { children: ReactNode } & React.ComponentProps<
-  typeof ScrollAreaPrimitive.Root
->) {
+}: {
+  children: ReactNode;
+} & React.ComponentProps<typeof ScrollAreaPrimitive.Root>) {
   return (
     <div className="flex-1 min-h-[20rem]">
-      <ScrollArea {...props} className={cn("h-0 min-h-full", props.className)}>
+      <ScrollArea
+        {...props}
+        className={cn(
+          "h-0 min-h-full bg-white border-[1px] border-slate-200  pb-4 rounded-md",
+          props.className
+        )}
+      >
         <div className="">{children}</div>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
@@ -128,4 +191,29 @@ function Content({
   );
 }
 
-export default { Row, Container, Head, Content };
+const sorterValues = ["A-Z", "Z-A"] as const;
+/**
+ * Table sorter component
+ */
+function Sorter() {
+  const { sort, setSort } = useTable();
+  const [sortIndex, setSortIndex] = useState(0);
+
+  const handleChangeSort = () => {
+    const newValue = sortIndex + 1 >= sorterValues.length ? 0 : sortIndex + 1;
+    setSortIndex(newValue);
+    setSort(sorterValues[newValue]);
+  };
+
+  return (
+    <div
+      className="bg-white border-lighter border-[1px] w-fit flex gap-1 items-center px-4 py-1 rounded-md hover:bg-slate-100 hoverable-short"
+      onClick={handleChangeSort}
+    >
+      <i className="bx bx-sort-alt-2 text-xl"></i>
+      <p>Sort {sort}</p>
+    </div>
+  );
+}
+
+export default { Row, Rows, Container, Head, Content, Sorter };

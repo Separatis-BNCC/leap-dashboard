@@ -4,9 +4,15 @@ import Table from "@/components/general/Table";
 export default function AssignmentTable() {
   return (
     <Table.Container
-      className="bg-white rounded-md border-[1px] border-lighter flex-1"
-      gridTemplateColumns="repeat(4, minmax(8rem,1fr))"
+      className="flex-1"
+      gridTemplateColumns="minmax(12rem,1.5fr) repeat(3, minmax(8rem,1fr))"
     >
+      <div className="mb-4 flex justify-between items-center">
+        <p className="text-lg">
+          Members <span className="ml-1 text-lg text-light">30</span>
+        </p>
+        <Table.Sorter />
+      </div>
       <Table.Content>
         <Table.Head className="[&>p]:text-light">
           <p>Home</p>

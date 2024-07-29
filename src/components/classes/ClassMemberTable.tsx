@@ -5,35 +5,27 @@ import useUserQuery from "@/hooks/user/useUserQuery";
 import { cn, formatDate } from "@/lib/utils";
 import { getRegion } from "@/assets/lookup-data";
 import Table from "../general/Table";
-import { Classes, UserData } from "@/lib/types";
-import { useMemo } from "react";
+import { UserData } from "@/lib/types";
+import TableSelectionToast from "../general/TableSelectionToast";
 
 type Props = {
   // Harusnya ini klo api dah jadi
 
   // members: UserData["profile"][];
-  members?: Classes["members"];
+  members?: UserData[];
 };
 
 export default function ClassMemberTable({ members }: Props) {
   const { userData, userQuery } = useUserQuery();
 
-  // TEMP
-  const membersId = useMemo(
-    () => new Set(members?.map((member) => member.id)),
-    [members]
-  );
-  const classMembers = useMemo(() => {
-    return userData?.filter((user) => membersId.has(user.id));
-  }, [membersId, userData]);
-
   const {
-    handleReset,
+    // handleReset,
     handleSelect,
     handleSelectAll,
     allSelected,
     selectedData,
-    showPopup,
+    registerSelectionToast,
+    // showPopup,
   } = useTableSelect({ data: userData });
 
   return (
@@ -43,61 +35,72 @@ export default function ClassMemberTable({ members }: Props) {
         gridTemplateColumns={`2rem minmax(16rem,1fr) repeat(7,8rem) auto`}
         className="bg-white"
       >
-        <Table.Head>
-          <Checkbox onClick={handleSelectAll} checked={allSelected} />
-          <h2>Name</h2>
-          <h2>Role</h2>
-          <h2>NIM</h2>
-          <h2>Line ID</h2>
-          <h2>Major</h2>
-          <h2>Region</h2>
-          <h2>Faculty</h2>
-          <h2 className="whitespace-nowrap">Date Joined</h2>
-          <i className="bx bx-dots-vertical-rounded text-lg invisible "></i>
-        </Table.Head>
         <Table.Content>
-          {classMembers?.map((data) => {
-            const isSelected = selectedData?.some(
-              (item) => item.id === data.id
-            );
+          <Table.Head>
+            <Checkbox onClick={handleSelectAll} checked={allSelected} />
+            <h2>Name</h2>
+            <h2>Role</h2>
+            <h2>NIM</h2>
+            <h2>Line ID</h2>
+            <h2>Major</h2>
+            <h2>Region</h2>
+            <h2>Faculty</h2>
+            <h2 className="whitespace-nowrap">Date Joined</h2>
+            <i className="bx bx-dots-vertical-rounded text-lg invisible "></i>
+          </Table.Head>
+          <Table.Rows
+            data={members}
+            renderRows={(data) => {
+              const isSelected = selectedData?.some(
+                (item) => item.id === data.id
+              );
 
-            return (
-              <Table.Row
-                highlighted={isSelected}
-                onSelect={handleSelect(data)}
-                key={data.id}
-              >
-                <Checkbox checked={isSelected} />
-                <div className="grid grid-cols-[auto_1fr] items-center gap-x-4 gap-y-[1px]">
-                  <div className="row-span-2 w-10 aspect-square rounded-full bg-slate-300"></div>
-                  <p className="truncate">
-                    {data.profile?.first_name} {data.profile?.last_name}
+              return (
+                <Table.Row
+                  highlighted={isSelected}
+                  onSelect={handleSelect(data)}
+                  key={data.id}
+                >
+                  <Checkbox checked={isSelected} />
+                  <div className="grid grid-cols-[auto_1fr] items-center gap-x-4 gap-y-[1px]">
+                    <div className="row-span-2 w-10 aspect-square rounded-full bg-slate-300"></div>
+                    <p className="truncate">
+                      {data.profile?.first_name} {data.profile?.last_name}
+                    </p>
+                    <p className="text-light truncate">{data.email}</p>
+                  </div>
+                  <RoleBadge roleId={data.role} />
+
+                  <p className="truncate">{data.profile?.nim || "-"}</p>
+                  <p>{data.profile?.line_id || "-"}</p>
+                  <p>{data.profile?.major || "-"}</p>
+                  <p>
+                    {data.profile?.region
+                      ? getRegion(data.profile?.region)
+                      : "-"}
                   </p>
-                  <p className="text-light truncate">{data.email}</p>
-                </div>
-                <RoleBadge roleId={data.role} />
+                  <p>{data.profile?.faculty || "-"}</p>
 
-                <p className="truncate">{data.profile?.nim || "-"}</p>
-                <p>{data.profile?.line_id || "-"}</p>
-                <p>{data.profile?.major || "-"}</p>
-                <p>
-                  {data.profile?.region ? getRegion(data.profile?.region) : "-"}
-                </p>
-                <p>{data.profile?.faculty || "-"}</p>
-
-                {/* === TEMP === */}
-                <p className="truncate">
-                  {data.profile?.birth_date
-                    ? formatDate(new Date(data.profile.birth_date))
-                    : "-"}
-                </p>
-                <i className="bx bx-dots-vertical-rounded text-lg "></i>
-              </Table.Row>
-            );
-          })}
+                  {/* === TEMP === */}
+                  <p className="truncate">
+                    {data.profile?.birth_date
+                      ? formatDate(new Date(data.profile.birth_date))
+                      : "-"}
+                  </p>
+                  <i className="bx bx-dots-vertical-rounded text-lg "></i>
+                </Table.Row>
+              );
+            }}
+          />
         </Table.Content>
       </Table.Container>
-      <div
+      <TableSelectionToast {...registerSelectionToast}>
+        <div className="ml-4 flex items-center gap-2 justify-center">
+          <i className="bx bxs-trash-alt text-lg text-white cursor-pointer hover:opacity-50 transition-all duration-100"></i>
+          <p className="text-white whitespace-nowrap">Delete</p>
+        </div>
+      </TableSelectionToast>
+      {/* <div
         className={cn(
           "bg-highlight text-white w-fit items-center justify-center px-4 py-3 flex rounded-md left-[50%] translate-x-[-50%] absolute bottom-[-2.5rem] translate-y-[-2.25rem] opacity-0 transition-all duration-200",
           selectedData.length > 0 &&
@@ -118,7 +121,7 @@ export default function ClassMemberTable({ members }: Props) {
           <i className="bx bxs-trash-alt text-lg text-white cursor-pointer hover:opacity-50 transition-all duration-100"></i>
           <p className="text-white whitespace-nowrap">Delete</p>
         </div>
-      </div>
+      </div> */}
       <div className="mt-4">
         <p className="text-light">
           Showing <span className="text-dark">2</span> out of{" "}

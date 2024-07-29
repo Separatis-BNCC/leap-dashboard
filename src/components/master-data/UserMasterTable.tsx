@@ -1,11 +1,13 @@
 import { Checkbox } from "@/components/general/Checkbox";
 import useTableSelect from "@/hooks/table/useTableSelect";
 import useUserQuery from "@/hooks/user/useUserQuery";
-import { cn, formatDate, toSorted } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { getFaculty, getRegion } from "@/assets/lookup-data";
 import Table from "../general/Table";
 import UserRoleBulkPopover from "../user/UserRoleBulkPopover";
 import RoleBadge from "../course/RoleBadge";
+import SearchInput from "../ui/SearchInput";
+import TableSelectionToast from "../general/TableSelectionToast";
 
 /**
  * Bulk Role , status
@@ -15,22 +17,32 @@ import RoleBadge from "../course/RoleBadge";
 export default function UserMasterTable() {
   const { userData, userQuery } = useUserQuery();
   const {
-    handleReset,
     handleSelect,
     handleSelectAll,
     allSelected,
+    registerSelectionToast,
     selectedData,
-    showPopup,
   } = useTableSelect({ data: userData });
   return (
     <div className="relative overflow-hidden flex-1 flex flex-col ">
       <Table.Container
         isLoading={userQuery.isLoading}
         gridTemplateColumns={`2rem minmax(16rem,1fr) repeat(7,minmax(8rem,0.5fr)) auto`}
-        className="bg-white border-[1px] border-slate-200 "
       >
+        <div className="mb-5 flex items-center">
+          <p className="text-dark text-lg">
+            All Users{" "}
+            <span className="ml-1 text-lg text-light">
+              {userData?.length || ""}
+            </span>
+          </p>
+          <div className="flex-1 flex justify-end items-end gap-x-4">
+            <SearchInput />
+            <Table.Sorter />
+          </div>
+        </div>
         <Table.Content>
-          <Table.Head className="border-b-[1px] border-slate-200 pb-2 mb-0">
+          <Table.Head className="border-b-[1px] border-slate-200 mb-0">
             <Checkbox onClick={handleSelectAll} checked={allSelected} />
             <h2>Name</h2>
             <h2>Role</h2>
@@ -40,16 +52,22 @@ export default function UserMasterTable() {
             <h2>Region</h2>
             <h2>Faculty</h2>
             <h2 className="whitespace-nowrap">Date Joined</h2>
-            <i className="bx bx-dots-vertical-rounded text-lg invisible "></i>
+            <i className="bx bx-dots-vertical-rounded invisible "></i>
           </Table.Head>
-          {userData &&
-            toSorted(userData, (a, b) => a.id - b.id).map((data) => {
+          <Table.Rows
+            data={userData}
+            sortField={{
+              "A-Z": "profile.first_name",
+              "Z-A": "profile.first_name",
+            }}
+            renderRows={(data) => {
               const isSelected = selectedData?.some(
                 (item) => item.id === data.id
               );
 
               return (
                 <Table.Row
+                  key={data.id}
                   highlighted={isSelected}
                   onSelect={handleSelect(data, [".popover-container"])}
                 >
@@ -85,33 +103,19 @@ export default function UserMasterTable() {
                   <i className="bx bx-dots-vertical-rounded text-lg "></i>
                 </Table.Row>
               );
-            })}
-        </Table.Content>{" "}
+            }}
+          />
+        </Table.Content>
       </Table.Container>
-      <div
-        className={cn(
-          "bg-highlight text-white w-fit items-center justify-center px-4 py-3 flex rounded-md left-[50%] translate-x-[-50%] absolute bottom-[-2.5rem] translate-y-[-2.25rem] opacity-0 transition-all duration-200",
-          selectedData.length > 0 &&
-            showPopup &&
-            "opacity-100 translate-y-[-2.5rem]"
-        )}
-      >
-        <div className="flex items-center justify-center gap-2 border-r-[2px] border-white pr-4">
-          <i
-            className="bx bx-x text-xl text-white cursor-pointer hover:opacity-50 transition-all duration-100"
-            onClick={handleReset}
-          ></i>
-          <p className="text-white whitespace-nowrap">
-            {selectedData.length} Selected
-          </p>
-        </div>
+      <TableSelectionToast {...registerSelectionToast}>
         <UserRoleBulkPopover
           // Causes this component to rerender each time userQuery gets update (AKA when a mutation happens to the user)
           key={userQuery.status}
           userIds={selectedData.map((data) => data.id)}
           userDataList={selectedData}
         />
-      </div>
+      </TableSelectionToast>
+
       <div className="mt-4">
         <p className="text-light">
           Showing <span className="text-dark">2</span> out of{" "}
