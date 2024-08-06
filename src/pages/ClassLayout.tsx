@@ -21,7 +21,6 @@ export default function ClassLayout() {
     return userData?.filter((user) => membersId.has(user.id));
   }, [userData, classData]);
 
-  console.log(classMembers);
   return (
     <div className="p-8 flex flex-col flex-1">
       <p className="mb-1">Class</p>

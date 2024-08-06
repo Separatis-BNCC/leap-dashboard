@@ -7,6 +7,7 @@ import {
   ReactNode,
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -18,6 +19,9 @@ type TableContextValues = {
   gridTemplateColumns: string;
   sort: Filters;
   setSort: React.Dispatch<React.SetStateAction<Filters>>;
+  emptyElement?: ReactNode;
+  isEmpty: boolean;
+  setIsEmpty: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const sortingFns = {
@@ -53,19 +57,24 @@ function Container({
   children,
   gridTemplateColumns,
   className,
+  emptyElement,
   isLoading,
   ...props
 }: {
   children: ReactNode;
   gridTemplateColumns: string;
   isLoading?: boolean;
+  emptyElement?: ReactNode;
   className?: string;
 } & React.HTMLAttributes<HTMLUListElement>) {
   const [sort, setSort] = useState<Filters>("A-Z");
+  const [isEmpty, setIsEmpty] = useState(false);
 
   if (isLoading)
     return (
-      <div className={cn("flex flex-col gap-4  h-full max-h-screen")}>
+      <div
+        className={cn("flex flex-col gap-4  h-full max-h-screen bg-white p-4")}
+      >
         {new Array(8).fill("x").map((_, i) => (
           <div
             className="grid grid-cols-[1fr_8fr_4fr_4fr] gap-4 h-full"
@@ -80,8 +89,24 @@ function Container({
       </div>
     );
 
+  if (emptyElement && isEmpty)
+    return (
+      <div className="min-h-[27rem] [&>*]:h-full bg-white border-lighter border-[1px] rounded-md flex flex-col flex-1">
+        {emptyElement}
+      </div>
+    );
+
   return (
-    <TableContext.Provider value={{ gridTemplateColumns, sort, setSort }}>
+    <TableContext.Provider
+      value={{
+        gridTemplateColumns,
+        sort,
+        setSort,
+        emptyElement,
+        isEmpty,
+        setIsEmpty,
+      }}
+    >
       <ul className={cn("flex flex-col h-full flex-1", className)} {...props}>
         {children}
       </ul>
@@ -151,7 +176,7 @@ function Rows<T = unknown>({
   sortField?: Record<keyof typeof sortingFns, string>;
   renderRows?: (data: T, index: number) => ReactElement;
 }) {
-  const { sort } = useTable();
+  const { sort, setIsEmpty } = useTable();
 
   const processedData = useMemo(() => {
     if (!data) return undefined;
@@ -162,28 +187,27 @@ function Rows<T = unknown>({
      * `sortingFns[sort]` will access the function according to the sort type the user selected. The function returned will need a string parameter that is used to access the values inside the data object. This value can also be nested using string formatting e.g. `profille.first_name`.
      * `sortField[sort]` will access the access data taken from the props the user has given.
      */
-    return toSorted(data, sortingFns[sort](sortField[sort]));
+    const value = toSorted(data, sortingFns[sort](sortField[sort]));
+    return value;
   }, [data, sortField, sort]);
+
+  useEffect(() => {
+    if (!processedData) return;
+    setIsEmpty(processedData.length === 0);
+  }, [processedData, setIsEmpty]);
 
   return renderRows && processedData?.map((data, i) => renderRows(data, i));
 }
 
 function Content({
   children,
-
   ...props
 }: {
   children: ReactNode;
 } & React.ComponentProps<typeof ScrollAreaPrimitive.Root>) {
   return (
-    <div className="flex-1 min-h-[20rem]">
-      <ScrollArea
-        {...props}
-        className={cn(
-          "h-0 min-h-full bg-white border-[1px] border-slate-200  pb-4 rounded-md",
-          props.className
-        )}
-      >
+    <div className="flex-1 min-h-[27rem] bg-white border-[1px] border-slate-200  pb-4 rounded-md">
+      <ScrollArea {...props} className={cn("h-0 min-h-full ", props.className)}>
         <div className="">{children}</div>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>

@@ -35,8 +35,8 @@ export default function SessionList({ sessions, courseId }: Props) {
   if (!sessions)
     return (
       <div className="h-[21rem] grid grid-cols-3 gap-4">
-        {new Array(3).fill("x").map(() => (
-          <Skeleton height={"100%"} />
+        {new Array(3).fill("x").map((_, i) => (
+          <Skeleton height={"100%"} key={i} />
         ))}
       </div>
     );

@@ -7,6 +7,7 @@ import { getRegion } from "@/assets/lookup-data";
 import Table from "../general/Table";
 import { UserData } from "@/lib/types";
 import TableSelectionToast from "../general/TableSelectionToast";
+import TableEmpty from "../general/TableEmpty";
 
 type Props = {
   // Harusnya ini klo api dah jadi
@@ -33,7 +34,12 @@ export default function ClassMemberTable({ members }: Props) {
       <Table.Container
         isLoading={userQuery.isLoading}
         gridTemplateColumns={`2rem minmax(16rem,1fr) repeat(7,8rem) auto`}
-        className="bg-white"
+        emptyElement={
+          <TableEmpty
+            title="This Class Has No Members"
+            subtitle="Add new members and praetorian to this class"
+          />
+        }
       >
         <Table.Content>
           <Table.Head>
@@ -100,28 +106,6 @@ export default function ClassMemberTable({ members }: Props) {
           <p className="text-white whitespace-nowrap">Delete</p>
         </div>
       </TableSelectionToast>
-      {/* <div
-        className={cn(
-          "bg-highlight text-white w-fit items-center justify-center px-4 py-3 flex rounded-md left-[50%] translate-x-[-50%] absolute bottom-[-2.5rem] translate-y-[-2.25rem] opacity-0 transition-all duration-200",
-          selectedData.length > 0 &&
-            showPopup &&
-            "opacity-100 translate-y-[-2.5rem]"
-        )}
-      >
-        <div className="flex items-center justify-center gap-2 border-r-[2px] border-white pr-4">
-          <i
-            className="bx bx-x text-xl text-white cursor-pointer hover:opacity-50 transition-all duration-100"
-            onClick={handleReset}
-          ></i>
-          <p className="text-white whitespace-nowrap">
-            {selectedData.length} Selected
-          </p>
-        </div>
-        <div className="ml-4 flex items-center gap-2 justify-center">
-          <i className="bx bxs-trash-alt text-lg text-white cursor-pointer hover:opacity-50 transition-all duration-100"></i>
-          <p className="text-white whitespace-nowrap">Delete</p>
-        </div>
-      </div> */}
       <div className="mt-4">
         <p className="text-light">
           Showing <span className="text-dark">2</span> out of{" "}

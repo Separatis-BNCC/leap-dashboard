@@ -124,8 +124,11 @@ export function DialogProvider({
     // Checks if the user click outside the bounding rectagnle
     const clickedOutside = !wrapper.contains(e.target as HTMLElement);
 
+    // Components that are built using portals e.g. shadcn's popover lives outside react's root element, we need to make user the user is not clicking on the portal element before closing the dialog.
+    const clickedPortalElement = !(e.target as HTMLElement).closest("#root");
+
     // If the user clicks outside, then close the dialog
-    if (clickedOutside) closeDialog();
+    if (clickedOutside && !clickedPortalElement) closeDialog();
   };
 
   return (
@@ -184,9 +187,12 @@ export function DialogCollapse({
     </button>
   );
 }
+
 type AssertContextTypeToGenerics<T, V> = {
   [K in keyof V]: K extends "contextData" ? T : V[K];
 };
+
+export type DialogNames<T extends DialogComponents> = T[number]["name"];
 
 export function useDialog<ContextTypes = unknown>() {
   const context = useContext(DialogContext);

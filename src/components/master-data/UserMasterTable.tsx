@@ -1,7 +1,7 @@
 import { Checkbox } from "@/components/general/Checkbox";
 import useTableSelect from "@/hooks/table/useTableSelect";
 import useUserQuery from "@/hooks/user/useUserQuery";
-import { cn, formatDate } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import { getFaculty, getRegion } from "@/assets/lookup-data";
 import Table from "../general/Table";
 import UserRoleBulkPopover from "../user/UserRoleBulkPopover";

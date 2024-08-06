@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Popover from "../ui/Popover";
 import { useDialog } from "../general/Dialog";
 import { DeleteConfirmationContext } from "../general/DeleteConfirmation";
 import useClassMutation from "@/hooks/class/useClassMutation";
 import { Classes } from "@/lib/types";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
 type Props = {
   classes: Classes;
 };
@@ -25,11 +25,11 @@ export default function ClassCardPopover({ classes }: Props) {
   };
 
   return (
-    <Popover.Container open={isOpen} onOpenChange={(value) => setIsOpen(value)}>
-      <Popover.Trigger>
+    <Popover open={isOpen} onOpenChange={(value) => setIsOpen(value)}>
+      <PopoverTrigger>
         <i className="bx bx-dots-vertical-rounded text-2xl text-light hover:text-lighter hoverable-short"></i>
-      </Popover.Trigger>
-      <Popover.Content className="bg-white translate-x-[-2.25rem] top-8 border-[1px] border-slate-200 py-2 px-4 gap-1 rounded-md grid">
+      </PopoverTrigger>
+      <PopoverContent className="bg-white w-fit top-8 border-[1px] border-slate-200 py-2 px-4 gap-1 rounded-md grid">
         <div
           className="flex gap-2 items-center hoverable-short hover:opacity-50"
           onClick={handleDelete}
@@ -41,7 +41,7 @@ export default function ClassCardPopover({ classes }: Props) {
           <i className="bx bx-edit-alt text-light text-lg"></i>
           <p className="text-light">Edit</p>
         </div>
-      </Popover.Content>
-    </Popover.Container>
+      </PopoverContent>
+    </Popover>
   );
 }

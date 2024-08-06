@@ -11,6 +11,7 @@ import AssignMember from "../classes/AssignMember";
 import { SkeletonTheme } from "react-loading-skeleton";
 import { UserTableProvider } from "@/context/UserTableContext";
 import DeleteConfirmation from "../general/DeleteConfirmation";
+import MaterialDetail from "../material/MaterialDialog";
 
 const dialog: DialogComponents = [
   {
@@ -44,6 +45,10 @@ const dialog: DialogComponents = [
   {
     component: <AssignMember />,
     name: "assign-member",
+  },
+  {
+    component: <MaterialDetail />,
+    name: "material-detail",
   },
 ];
 

@@ -2,13 +2,32 @@ import Table from "@/components/general/Table";
 import AttendanceTable from "./AttendanceTable";
 import useUserQuery from "@/hooks/user/useUserQuery";
 import RoleBadge from "@/components/course/RoleBadge";
+import { useOutletContext } from "react-router-dom";
+import { ClassContext } from "@/pages/ClassLayout";
+import TableEmpty from "@/components/general/TableEmpty";
 
 export default function Attendance() {
-  const { userData } = useUserQuery();
+  const { classData, members } = useOutletContext<ClassContext>();
 
   return (
-    <div className="flex-1">
-      <Table.Container gridTemplateColumns="repeat(5,minmax(8rem,1fr))">
+    <div className="flex-1 mt-6 flex flex-col">
+      <Table.Container
+        isLoading={!classData}
+        gridTemplateColumns="repeat(5,minmax(8rem,1fr))"
+        emptyElement={
+          <TableEmpty
+            title="This Class Has No Members"
+            subtitle="Add new members and praetorian to this class"
+          />
+        }
+      >
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-lg">
+            Members{" "}
+            <span className="text-lg text-light">{members?.length}</span>
+          </h2>
+          <Table.Sorter />
+        </div>
         <Table.Content>
           <Table.Head>
             <p>Name</p>
@@ -18,7 +37,11 @@ export default function Attendance() {
             <p>Attended</p>
           </Table.Head>
           <Table.Rows
-            data={userData}
+            data={members}
+            sortField={{
+              "A-Z": "profile.first_name",
+              "Z-A": "profile.first_name",
+            }}
             renderRows={(data) => {
               return (
                 <Table.Row>

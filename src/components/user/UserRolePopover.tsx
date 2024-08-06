@@ -1,5 +1,4 @@
 import { getRoleColor, role } from "@/assets/lookup-data";
-import Popover from "../ui/Popover";
 import RoleBadge from "../course/RoleBadge";
 import { useEffect, useRef, useState } from "react";
 import { capitalize, cn } from "@/lib/utils";
@@ -7,6 +6,7 @@ import useUserRoleMutation from "@/hooks/user/useUserRoleMutation";
 import { LoadingSpinner } from "../ui/LoadingSpinner";
 import { useQueryClient } from "@tanstack/react-query";
 import { useUserTable } from "@/context/UserTableContext";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
 
 type Props = {
   roleId: number;
@@ -32,15 +32,15 @@ export default function UserRolePopover({ roleId, userId }: Props) {
   }, [isUpdating, setUsersUpdatingRoles]);
 
   return (
-    <Popover.Container isolate className="w-fit ">
-      <Popover.Trigger>
+    <Popover className="w-fit ">
+      <PopoverTrigger>
         <RoleBadge
           isLoading={usersUpdatingRoles.includes(userId)}
           ref={contentRef}
           roleId={roleId}
         ></RoleBadge>
-      </Popover.Trigger>
-      <Popover.Content className="translate-y-[0.5rem] py-2 px-2 gap-2 grid bg-white border-[1px] border-slate-200 rounded-md shadow-lg shadow-bg">
+      </PopoverTrigger>
+      <PopoverContent className="translate-y-[0.5rem] py-2 px-2 gap-2 grid bg-white border-[1px] border-slate-200 rounded-md shadow-lg shadow-bg">
         <div className="px-2 pb-2 pr-8 border-b border-slate-200 flex gap-2 items-center">
           <i className="bx bx-user text-lg text-dark"></i>
           <h3 className="whitespace-nowrap">Assign Role</h3>
@@ -78,7 +78,7 @@ export default function UserRolePopover({ roleId, userId }: Props) {
             </div>
           );
         })}
-      </Popover.Content>
-    </Popover.Container>
+      </PopoverContent>
+    </Popover>
   );
 }

@@ -56,3 +56,8 @@ export function checkIfAExistsInB<T>(A: T[], B: T[]) {
   const hashTableB = new Set(B);
   return A.every((item) => hashTableB.has(item));
 }
+
+export function isNumber(str: string) {
+  const regex = /^[+-]?\d+(\.\d+)?$/;
+  return regex.test(str);
+}

@@ -1,8 +1,9 @@
 import UseRegionQuery from "@/hooks/profile/useRegionQuery";
-import Popover from "../ui/Popover";
+// import Popover from "../ui/Popover";
 import { HTMLAttributes, useState } from "react";
 import { cn } from "@/lib/utils";
 import Skeleton from "react-loading-skeleton";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
 
 type Props = {
   onSelect: (data?: string, dataIndex?: number) => void;
@@ -24,21 +25,27 @@ export default function RegionPopover({
   if (!regionData) return <Skeleton height={"3rem"} />;
 
   return (
-    <Popover.Container
+    <Popover
       onOpenChange={(value) => setIsOpen(value)}
       open={isOpen}
       {...props}
-      className={cn(" border-[1px] border-border rounded-md ", props.className)}
     >
-      <Popover.Trigger className=" rounded-md px-4 pl-6 py-2 bg-white flex justify-between items-center hover:bg-bg/40 transition-all duration-100 cursor-pointer">
+      <PopoverTrigger
+        className={cn(
+          " rounded-md px-4 pl-6 py-2 bg-white flex justify-between items-center hover:bg-bg/40 transition-all duration-100 cursor-pointer w-full border-slate-200 border-[1px] mb-6"
+        )}
+      >
         {selected ? (
           <p className="text-dark">{selected}</p>
         ) : (
           <p className="text-light">Select Region</p>
         )}
         <i className="bx bx-chevron-down text-2xl "></i>
-      </Popover.Trigger>
-      <Popover.Content className="bg-white w-full max-w-[14rem] top-[3rem] rounded-md grid p-2 shadow-lg gap-1">
+      </PopoverTrigger>
+      <PopoverContent
+        align="start"
+        className="bg-white w-[14rem] top-[3rem] rounded-md grid p-2 shadow-lg gap-1 !left-0"
+      >
         <div className="flex px-2 py-2 mb-2 gap-2 items-center border-b-[1px] border-border">
           <i className="bx bxs-map text-lg"></i>
           <p className="font-semibold">Regions</p>
@@ -72,7 +79,7 @@ export default function RegionPopover({
             </div>
           );
         })}
-      </Popover.Content>
-    </Popover.Container>
+      </PopoverContent>
+    </Popover>
   );
 }
