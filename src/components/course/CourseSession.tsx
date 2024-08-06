@@ -14,6 +14,7 @@ export default function CourseSession({ course }: Props) {
   const { showDialog } = useDialog();
 
   const [viewAsTable, setViewAsTable] = useState(false);
+
   return (
     <div>
       <div className="flex items-center justify-end mb-4">

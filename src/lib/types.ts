@@ -3,10 +3,17 @@ export type ServerErrorResponse = {
   status: number;
 };
 
-export type ServerSuccessResponse<Data> = {
+export type ServerSuccessResponse<Data = unknown> = {
   status: number;
   msg: "Success";
   data: Data;
+};
+
+export type Outline = {
+  content_type: string;
+  desc: string;
+  id: number;
+  url: string;
 };
 
 export type Session = {
@@ -14,9 +21,10 @@ export type Session = {
   week: number;
   description: string;
   status: number;
+  contents: Outline[];
 
   // DEPRECATED
-  outlineCount: number;
+  // outlineCount: number;
 };
 
 export type UserData = {

@@ -1,22 +1,18 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "../ui/Button";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
-// import { sanitize } from "dompurify";
+import { Outline } from "@/lib/types";
 
-const CONTENT_PADDING_PX = 20;
-
-export default function OutlineItem() {
+export default function OutlineItem({ outline }: { outline: Outline }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [link, setLink] = useState("");
-  const [value, setValue] = useState(
-    "At vero eos et accusamus et iusto odio dignissimos ducimus quiblanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati "
-  );
+  const [link, setLink] = useState(outline.url);
+  const [value, setValue] = useState(outline.desc);
   const contentRef = useRef<null | HTMLTextAreaElement>(null);
   const containerRef = useRef<null | HTMLElement>(null);
 
   return (
-    <div className={cn("flex gap-2 group w-[30rem]")}>
+    <div className={cn("flex gap-2 group")}>
       <article
         className={cn(
           "flex relative justify-between items-start gap-2  bg-white p-2 pr-4 rounded-md  border-border border-[1px] cursor-pointer  overflow-hidden flex-1 pb-4 transition-all duration-300"

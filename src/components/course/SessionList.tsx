@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Session } from "@/lib/types";
 import { useDialog } from "../general/Dialog";
 import Skeleton from "react-loading-skeleton";
+import { MaterialDetailContext } from "../material/MaterialDialog";
 
 type Props = { sessions?: Session[]; courseId?: number };
 
@@ -77,7 +78,15 @@ export default function SessionList({ sessions, courseId }: Props) {
               >
                 {session.outlineCount || 0} Outlines
               </p>
-              <Button variant={"secondary"} className="w-full [&&]:py-5">
+              <Button
+                variant={"secondary"}
+                className="w-full [&&]:py-5"
+                onClick={() =>
+                  showDialog("material-detail", {
+                    session,
+                  } satisfies MaterialDetailContext)
+                }
+              >
                 View Outlines
               </Button>
             </div>
