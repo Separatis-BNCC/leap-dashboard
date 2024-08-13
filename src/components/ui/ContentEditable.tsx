@@ -30,9 +30,10 @@ export default function ContentEditableInput({
     if (initial.current === undefined) {
       initial.current = props.value;
     }
-
-    if (valueRef.current) valueRef.current.textContent = props.value || "";
-  }, [props.value]);
+    if (valueRef.current) {
+      valueRef.current.textContent = props.value || "";
+    }
+  }, [props.value, isLoading]);
 
   const handleSave = () => {
     if (isMutating) return;
@@ -40,7 +41,6 @@ export default function ContentEditableInput({
     const newVal = String(valueRef.current?.textContent);
 
     // Trigger mutation callback
-    console.log("TRIGGER");
     if (onMutate) onMutate(newVal, completeLoading);
 
     // Use the mutated value as the new initial value.

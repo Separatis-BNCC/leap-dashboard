@@ -87,7 +87,7 @@ export default function SessionList({ sessions, courseId }: Props) {
                   } satisfies MaterialDetailContext)
                 }
               >
-                View Outlines
+                View Details
               </Button>
             </div>
           </SwiperSlide>

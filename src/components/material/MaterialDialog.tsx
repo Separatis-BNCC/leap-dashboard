@@ -43,7 +43,7 @@ export default function MaterialDetail() {
           skeletonProps={{
             height: "2rem",
           }}
-          isLoading={sessionQuery.isLoading}
+          isLoading={sessionQuery.isFetching}
           isMutating={updateMutation.isPending || Boolean(isFetchingSessions)}
           onMutate={(value, complete) => {
             updateMutation.mutate(
@@ -68,7 +68,7 @@ export default function MaterialDetail() {
       </div>
       <div className="mt-2 flex-1">
         <ScrollArea className="p-4 border-slate-200 border-[1px] bg-bg rounded-t-md flex flex-col h-0 min-h-full relative">
-          {sessionQuery.isLoading &&
+          {sessionQuery.isFetching &&
             new Array(4).fill("x").map((_, i) => {
               return (
                 <div className="flex gap-3 w-full mb-4" key={i}>
@@ -77,9 +77,12 @@ export default function MaterialDetail() {
                 </div>
               );
             })}
-          {sessionData?.contents.length === 0 && <EmptyOutlines />}
+          {sessionData?.contents.length === 0 && !sessionQuery.isFetching && (
+            <EmptyOutlines />
+          )}
           <div className="grid gap-3 w-[32.5rem]">
             {sessionData &&
+              !sessionQuery.isFetching &&
               toSorted(
                 sessionData.contents,
                 (a, b) => Number(a.id) - Number(b.id)
