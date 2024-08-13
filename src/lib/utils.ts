@@ -37,7 +37,7 @@ export function capitalize(str: string) {
 }
 
 export function toSorted<T>(arr: T[], compareFn: (a: T, b: T) => number) {
-  const sortedArr = arr;
+  const sortedArr = arr.slice();
   sortedArr.sort(compareFn);
   return sortedArr;
 }

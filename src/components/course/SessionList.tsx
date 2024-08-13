@@ -48,7 +48,7 @@ export default function SessionList({ sessions, courseId }: Props) {
       spaceBetween={16}
       className="cursor-pointer h-[21rem]"
     >
-      {toSorted(sessions, (a, b) => a.week - b.week).map((session, i) => {
+      {toSorted(sessions, (a, b) => a.week - b.week)?.map((session, i) => {
         const isSelected = i + 1 === selected;
 
         return (
@@ -76,11 +76,11 @@ export default function SessionList({ sessions, courseId }: Props) {
                   isSelected && "text-white/80"
                 )}
               >
-                {session.outlineCount || 0} Outlines
+                {0} Outlines
               </p>
               <Button
                 variant={"secondary"}
-                className="w-full [&&]:py-5"
+                className="w-full [&&]:py-5 view-session-detail"
                 onClick={() =>
                   showDialog("material-detail", {
                     session,

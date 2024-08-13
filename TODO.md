@@ -27,3 +27,9 @@ YANG BISA DI REFACTOR :
 - Class Popover
 - Table
 
+
+
+
+[] Git
+[] Tailwind
+[] 

@@ -30,13 +30,6 @@ export default function ClassLayout() {
             <Skeleton height={"100%"} className="text-3xl" width={"8rem"} />
           )}
         </div>
-        {/* <div onClick={() => setIsShowingDetails((cur) => !cur)}>
-          {isShowingDetails ? (
-            <i className="bx bxs-grid-alt text-2xl cursor-pointer hover:text-dark transition-all duration-100 text-light"></i>
-          ) : (
-            <i className="bx bx-calendar text-2xl cursor-pointer hover:text-dark transition-all duration-100 text-light"></i>
-          )}
-        </div> */}
       </div>
       <ClassNavigation />
       <Outlet
