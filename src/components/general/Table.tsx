@@ -92,13 +92,6 @@ function Container({
       </div>
     );
 
-  if (emptyElement && isEmpty)
-    return (
-      <div className="min-h-[27rem] [&>*]:h-full bg-white border-lighter border-[1px] rounded-md flex flex-col flex-1">
-        {emptyElement}
-      </div>
-    );
-
   return (
     <TableContext.Provider
       value={{
@@ -110,9 +103,21 @@ function Container({
         setIsEmpty,
       }}
     >
-      <ul className={cn("flex flex-col h-full flex-1", className)} {...props}>
+      <ul
+        className={cn(
+          "flex flex-col h-full flex-1",
+          isEmpty && emptyElement && "fixed invisible z-[-100]",
+          className
+        )}
+        {...props}
+      >
         {children}
       </ul>
+      {emptyElement && isEmpty && (
+        <div className="flex-1 [&>*]:h-full bg-white py-8 min-h-[27rem]">
+          {emptyElement}
+        </div>
+      )}
     </TableContext.Provider>
   );
 }
@@ -185,7 +190,7 @@ function Rows<T = unknown>({
     if (!data) return undefined;
     if (!sort || !sortField) return data;
     /**
-     * Let's break down the comparator function access
+     * Break down of the comparator function access :
      * `sortingFns` is an object which contains comparator functions
      * `sortingFns[sort]` will access the function according to the sort type the user selected. The function returned will need a string parameter that is used to access the values inside the data object. This value can also be nested using string formatting e.g. `profille.first_name`.
      * `sortField[sort]` will access the access data taken from the props the user has given.
@@ -211,7 +216,8 @@ function Content({
   return (
     <div className="flex-1 min-h-[27rem] bg-white border-[1px] border-slate-200  pb-4 rounded-md">
       <ScrollArea {...props} className={cn("h-0 min-h-full ", props.className)}>
-        <div className="">{children}</div>
+        <div className="h-full">{children}</div>
+
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
     </div>

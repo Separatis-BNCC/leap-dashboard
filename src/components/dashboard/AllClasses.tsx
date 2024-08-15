@@ -4,7 +4,7 @@ export default function AllClasses() {
   const classes = new Array(10).fill("x");
 
   return (
-    <section className="bg-white p-6 rounded-md flex-1 flex flex-col">
+    <section className="bg-white p-6 rounded-md flex-1 flex flex-col h-0 min-h-full">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-3">
           <i className="bx bx-code-alt text-2xl"></i>
@@ -14,7 +14,7 @@ export default function AllClasses() {
           View All
         </p>
       </div>
-      <ScrollArea className="min-h-[25rem] h-0 mt-5 ">
+      <ScrollArea className=" mt-5 ">
         <ul className="bg-white grid gap-4 pr-4">
           {classes.map((_, i) => {
             return (

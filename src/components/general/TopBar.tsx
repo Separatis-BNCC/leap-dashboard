@@ -16,9 +16,12 @@ export default function TopBar({ setShowSidebar }: Props) {
         ></i>
         <NavbarBreadcrumb />
       </div>
-      <div className="flex gap-4 items-center">
-        <p>Welcome, Admin</p>
-        <ProfilePicture />
+      <div className="gap-x-4 grid grid-cols-[auto_1fr] items-center">
+        <ProfilePicture className="row-span-2" />
+        <p className="leading-[0.875rem] font-semibold">Admin</p>
+        <p className="text-light text-[0.75rem] leading-[0.75rem] self-start">
+          Learning & Training
+        </p>
       </div>
     </div>
   );

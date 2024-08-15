@@ -12,7 +12,7 @@ export default function Dashboard() {
         <TotalMembers />
         <CurrentAgenda />
       </div>
-      <div className="grid grid-cols-[5fr_3fr] mt-4 flex-1 gap-4  w-full h-full">
+      <div className="grid grid-cols-[1fr_minmax(15rem,25rem)] mt-4 flex-1 gap-4  w-full h-full">
         <AllClasses />
         <OverallProgress />
       </div>

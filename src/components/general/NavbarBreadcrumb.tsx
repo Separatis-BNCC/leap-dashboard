@@ -6,7 +6,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "../ui/Breadcrumb";
-import { capitalize, isNumber } from "@/lib/utils";
+import { capitalize, cn, isNumber } from "@/lib/utils";
 import React from "react";
 
 const formatPathName = (path: string) =>
@@ -24,7 +24,9 @@ export default function NavbarBreadcrumb() {
           return (
             <React.Fragment key={i}>
               <BreadcrumbItem>
-                <BreadcrumbPage>
+                <BreadcrumbPage
+                  className={cn(i !== paths.length - 1 && "text-light")}
+                >
                   {capitalize(formatPathName(path))}
                 </BreadcrumbPage>
               </BreadcrumbItem>
@@ -35,22 +37,4 @@ export default function NavbarBreadcrumb() {
       </BreadcrumbList>
     </Breadcrumb>
   );
-
-  // return (
-  //   <Breadcrumb>
-  //     <BreadcrumbList>
-  //       <BreadcrumbItem>
-  //         <BreadcrumbLink>Home</BreadcrumbLink>
-  //       </BreadcrumbItem>
-  //       <BreadcrumbSeparator />
-  //       <BreadcrumbItem>
-  //         <BreadcrumbLink>Components</BreadcrumbLink>
-  //       </BreadcrumbItem>
-  //       <BreadcrumbSeparator />
-  //       <BreadcrumbItem>
-  //         <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
-  //       </BreadcrumbItem>
-  //     </BreadcrumbList>
-  //   </Breadcrumb>
-  // );
 }

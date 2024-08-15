@@ -65,7 +65,7 @@ export default function ClassDetails() {
             Manage Members
           </Button>
         </div>
-        <ClassMemberTable members={members} />
+        <ClassMemberTable memberData={members} />
       </div>
     </div>
   );

@@ -20,9 +20,9 @@ export default function Navbar({ hidden }: Props) {
           <Logo className="mb-4 ml-4" />
           <NavbarList />
           <div className="flex-1"></div>
-          <div className="flex gap-2 items-center ml-4 mb-0 transition-all duration-100 hover:opacity-50 cursor-pointer">
-            <i className="bx bx-exit text-xl"></i>
-            <p>Logout</p>
+          <div className="flex gap-2 items-center ml-4 mb-0 transition-all duration-100 hover:opacity-50 cursor-pointer bg-bg border border-border justify-center rounded-md py-1">
+            <i className="bx bx-exit text-xl text-light"></i>
+            <p className="text-light">Logout</p>
           </div>
         </div>
       </ul>

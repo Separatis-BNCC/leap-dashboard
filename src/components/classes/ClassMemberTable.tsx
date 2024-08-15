@@ -8,16 +8,14 @@ import Table from "../general/Table";
 import { UserData } from "@/lib/types";
 import TableSelectionToast from "../general/TableSelectionToast";
 import TableEmpty from "../general/TableEmpty";
+import { useOutletContext, useParams } from "react-router-dom";
+import { ClassContext } from "@/pages/ClassLayout";
+import { useMemo } from "react";
+import useClassQuery from "@/hooks/class/useClassQuery";
 
-type Props = {
-  // Harusnya ini klo api dah jadi
-
-  // members: UserData["profile"][];
-  members?: UserData[];
-};
-
-export default function ClassMemberTable({ members }: Props) {
-  const { userData, userQuery } = useUserQuery();
+export default function ClassMemberTable() {
+  // const { userData } = useUserQuery();
+  const { members, isFetchingClassData } = useOutletContext<ClassContext>();
 
   const {
     // handleReset,
@@ -27,12 +25,12 @@ export default function ClassMemberTable({ members }: Props) {
     selectedData,
     registerSelectionToast,
     // showPopup,
-  } = useTableSelect({ data: userData });
+  } = useTableSelect({ data: members });
 
   return (
     <div className="relative overflow-hidden flex-1 flex flex-col">
       <Table.Container
-        isLoading={userQuery.isLoading}
+        isLoading={isFetchingClassData || !members}
         gridTemplateColumns={`2rem minmax(16rem,1fr) repeat(7,8rem) auto`}
         emptyElement={
           <TableEmpty

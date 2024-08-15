@@ -57,7 +57,7 @@ export default function SessionList({ sessions, courseId }: Props) {
               className={cn(
                 "bg-white p-6 rounded-md relative overflow-hidden flex flex-col h-full border-[1px] border-slate-200",
                 isSelected &&
-                  "bg-gradient-to-bl from-highlight to-highlight-light"
+                  "bg-gradient-to-bl from-highlight-dark to-highlight"
               )}
             >
               {/* <div className="bg-white h-[5rem] absolute right-0 top-0 w-[100rem] origin-top-right rotate-[-45deg] opacity-5"></div>

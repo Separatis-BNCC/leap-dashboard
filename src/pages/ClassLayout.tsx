@@ -9,11 +9,15 @@ import { Classes, UserData } from "@/lib/types";
 export type ClassContext = {
   classData?: Classes;
   members?: UserData[];
+  isFetchingClassData: boolean;
 };
 
 export default function ClassLayout() {
   const { classId } = useParams();
-  const { classData } = useClassQuery({ classId: Number(classId) });
+  const {
+    classData,
+    classQuery: { isFetching },
+  } = useClassQuery({ classId: Number(classId) });
   const { userData } = useUserQuery();
 
   const classMembers = useMemo(() => {
@@ -33,7 +37,13 @@ export default function ClassLayout() {
       </div>
       <ClassNavigation />
       <Outlet
-        context={{ classData, members: classMembers } satisfies ClassContext}
+        context={
+          {
+            classData,
+            members: classMembers,
+            isFetchingClassData: isFetching,
+          } satisfies ClassContext
+        }
       />
     </div>
   );
