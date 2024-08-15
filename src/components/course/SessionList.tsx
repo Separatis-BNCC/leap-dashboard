@@ -55,40 +55,46 @@ export default function SessionList({ sessions, courseId }: Props) {
           <SwiperSlide key={`${session.description}-${i}`}>
             <div
               className={cn(
-                "bg-white p-6 rounded-md flex flex-col h-full border-[1px] border-slate-200",
-                isSelected && "bg-highlight "
+                "bg-white p-6 rounded-md relative overflow-hidden flex flex-col h-full border-[1px] border-slate-200",
+                isSelected &&
+                  "bg-gradient-to-bl from-highlight to-highlight-light"
               )}
             >
-              <div className="bg-bg text-highlight w-10 aspect-square flex items-center justify-center font-semibold text-lg rounded-md mb-4">
+              {/* <div className="bg-white h-[5rem] absolute right-0 top-0 w-[100rem] origin-top-right rotate-[-45deg] opacity-5"></div>
+              <div className="bg-white h-[2rem] absolute right-0 top-0 translate-y-[10rem] w-[100rem] origin-top-right rotate-[-45deg] opacity-5"></div>
+              <div className="bg-white h-[7.5rem] absolute right-0 top-0 translate-y-[-15rem] w-[100rem] origin-top-right rotate-[-45deg] opacity-5"></div> */}
+              <div className="bg-bg text-highlight w-10 aspect-square flex items-center justify-center font-semibold text-lg rounded-md mb-4 ">
                 {session.week}
               </div>
-              <h2
-                className={cn(
-                  "text-3xl leading-[135%] text-highlight font-semibold flex-1 line-clamp-3",
-                  isSelected && "text-white"
-                )}
-              >
-                {session.description}
-              </h2>
-              <p
-                className={cn(
-                  "text-highlight/80 mt-4 mb-8",
-                  isSelected && "text-white/80"
-                )}
-              >
-                {0} Outlines
-              </p>
-              <Button
-                variant={"secondary"}
-                className="w-full [&&]:py-5 view-session-detail"
-                onClick={() =>
-                  showDialog("material-detail", {
-                    session,
-                  } satisfies MaterialDetailContext)
-                }
-              >
-                View Details
-              </Button>
+              <div className="flex flex-col z-[1] h-full">
+                <h2
+                  className={cn(
+                    "text-3xl leading-[135%] text-highlight font-semibold flex-1 line-clamp-3",
+                    isSelected && "text-white"
+                  )}
+                >
+                  {session.description}
+                </h2>
+                <p
+                  className={cn(
+                    "text-highlight/80 mt-4 mb-8",
+                    isSelected && "text-white/80"
+                  )}
+                >
+                  {0} Outlines
+                </p>
+                <Button
+                  variant={"secondary"}
+                  className="w-full [&&]:py-5 view-session-detail"
+                  onClick={() =>
+                    showDialog("material-detail", {
+                      session,
+                    } satisfies MaterialDetailContext)
+                  }
+                >
+                  View Details
+                </Button>{" "}
+              </div>
             </div>
           </SwiperSlide>
         );

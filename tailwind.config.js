@@ -21,6 +21,8 @@ export default {
         lighter: "rgb(var(--color-lighter) / <alpha-value>)",
         highlight: "rgb(var(--color-highlight) / <alpha-value>)",
         bg: "rgb(var(--color-bg) / <alpha-value>)",
+        "highlight-dark": "rgb(var(--color-highlight-dark) / <alpha-value>)",
+        "highlight-light": "rgb(var(--color-highlight-light) / <alpha-value>)",
 
         // SHADCN COLORS
         border: "hsl(var(--border))",

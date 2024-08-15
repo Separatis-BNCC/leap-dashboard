@@ -53,6 +53,9 @@ function useTable() {
   return context;
 }
 
+/**
+ * The container's parent element needs to have a `display: flex` and `flex-direction:column` in order for the overscroll to work properly
+ */
 function Container({
   children,
   gridTemplateColumns,

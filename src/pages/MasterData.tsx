@@ -1,6 +1,4 @@
 import UserMasterTable from "@/components/master-data/UserMasterTable";
-import { Button } from "@/components/ui/Button";
-import SearchInput from "@/components/ui/SearchInput";
 
 export default function MasterData() {
   return (

@@ -11,9 +11,10 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
 type Props = {
   userIds: number[];
   userDataList: UserData[];
+  onMutate?: (mutatingIds: number[]) => void;
 };
 
-// Checks if all the roles in the userDataList are the same, if not then return
+// Checks if all the roles in the userDataList are the same, if not then return undefined
 function findSelectedRole(userDataList: UserData[]) {
   if (userDataList.length === 0) return undefined;
   const selectedRole = userDataList[0].role;
@@ -23,7 +24,12 @@ function findSelectedRole(userDataList: UserData[]) {
   return selectedRole;
 }
 
-export default function UserRoleBulkPopover({ userIds, userDataList }: Props) {
+export default function UserRoleBulkPopover({
+  userIds,
+  userDataList,
+  onMutate,
+}: Props) {
+  const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
   const { updateMutation } = useUserRoleMutation();
 
@@ -42,8 +48,8 @@ export default function UserRoleBulkPopover({ userIds, userDataList }: Props) {
   }, [isUpdating, setUsersUpdatingRoles]);
 
   return (
-    <Popover>
-      <PopoverTrigger>
+    <Popover onOpenChange={setIsOpen} open={isOpen}>
+      <PopoverTrigger className={cn(isUpdating && "pointer-events-none")}>
         <div
           className={cn(
             "ml-4 flex items-center gap-2 justify-center cursor-pointer hover:opacity-50 transition-all duration-100",
@@ -51,11 +57,7 @@ export default function UserRoleBulkPopover({ userIds, userDataList }: Props) {
           )}
         >
           <div className="">
-            {isUpdating ? (
-              <LoadingSpinner className="stroke-white w-5 h-5" />
-            ) : (
-              <i className="bx bx-user text-lg text-white cursor-pointer hover:opacity-50 transition-all duration-100"></i>
-            )}
+            <i className="bx bx-user text-lg text-white cursor-pointer hover:opacity-50 transition-all duration-100"></i>
           </div>
           <p className="text-white whitespace-nowrap flex-1">Edit Role</p>
         </div>
@@ -79,6 +81,8 @@ export default function UserRoleBulkPopover({ userIds, userDataList }: Props) {
               )}
               onClick={() => {
                 if (isUpdating) return;
+                if (onMutate) onMutate(userIds);
+                setIsOpen(false);
                 updateMutation.mutate({ ids: userIds, role: i + 1 });
                 setUsersUpdatingRoles(userIds);
                 setLoadingRole(i);

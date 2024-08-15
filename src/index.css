@@ -18,10 +18,12 @@ html {
   :root {
     /* DESIGN COLOR */
     --color-dark: 37 37 37;
-    --color-light: 95 92 103;
+    --color-light: 115 117 158;
     --color-lighter: 212 212 212;
-    --color-highlight: 0 98 244;
+    --color-highlight: 0 68 244;
     --color-bg: 237 243 255;
+    --color-highlight-dark: 8 12 110;
+    --color-highlight-light: 56 111 255;
 
     /* SHADCN COLOR */
     --background: 0 0% 100%;
@@ -33,7 +35,7 @@ html {
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 47.4% 11.2%;
 
-    --border: 214.3 31.8% 91.4%;
+    --border: 220 100% 91.2%;
     --input: 214.3 31.8% 91.4%;
 
     --card: 0 0% 100%;

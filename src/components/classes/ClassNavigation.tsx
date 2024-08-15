@@ -36,7 +36,7 @@ export default function ClassNavigation() {
             key={nav.title}
             className={cn(
               "bg-white flex gap-4 py-6 px-6 border-[1px] border-lighter rounded-md cursor-pointer group transition-all duration-200  hover:translate-y-[-0.25rem]",
-              isActive && "bg-dark border-bg "
+              isActive && "bg-highlight border-bg "
             )}
             onClick={() => {
               if (!classId) return;
@@ -45,8 +45,8 @@ export default function ClassNavigation() {
           >
             <div
               className={cn(
-                "[&>i]:text-3xl bg-dark [&>i]:text-white aspect-square flex items-center justify-center rounded-md",
-                isActive && "bg-bg [&>i]:text-dark"
+                "[&>i]:text-3xl bg-highlight [&>i]:text-white aspect-square flex items-center justify-center rounded-md",
+                isActive && "bg-bg [&>i]:text-highlight"
               )}
             >
               {nav.icon}

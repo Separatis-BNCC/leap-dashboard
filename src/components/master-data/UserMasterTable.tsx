@@ -8,6 +8,8 @@ import UserRoleBulkPopover from "../user/UserRoleBulkPopover";
 import RoleBadge from "../course/RoleBadge";
 import SearchInput from "../ui/SearchInput";
 import TableSelectionToast from "../general/TableSelectionToast";
+import { useEffect, useState } from "react";
+import { useIsFetching } from "@tanstack/react-query";
 
 /**
  * Bulk Role , status
@@ -16,6 +18,7 @@ import TableSelectionToast from "../general/TableSelectionToast";
 
 export default function UserMasterTable() {
   const { userData, userQuery } = useUserQuery();
+  const [userIdUpdatingRoles, setUserIdUpdatingRoles] = useState<number[]>([]);
   const {
     handleSelect,
     handleSelectAll,
@@ -23,6 +26,13 @@ export default function UserMasterTable() {
     registerSelectionToast,
     selectedData,
   } = useTableSelect({ data: userData });
+
+  const isFetchingUser = useIsFetching({ queryKey: ["users"] });
+
+  useEffect(() => {
+    if (!isFetchingUser) setUserIdUpdatingRoles([]);
+  }, [isFetchingUser]);
+
   return (
     <div className="relative overflow-hidden flex-1 flex flex-col ">
       <Table.Container
@@ -79,7 +89,10 @@ export default function UserMasterTable() {
                     </p>
                     <p className="text-light truncate">{data.email}</p>
                   </div>
-                  <RoleBadge roleId={data.role} />
+                  <RoleBadge
+                    roleId={data.role}
+                    isLoading={userIdUpdatingRoles.includes(data.id)}
+                  />
 
                   <p className="truncate">{data.profile?.nim || "-"}</p>
                   <p>{data.profile?.line_id || "-"}</p>
@@ -109,6 +122,10 @@ export default function UserMasterTable() {
       </Table.Container>
       <TableSelectionToast {...registerSelectionToast}>
         <UserRoleBulkPopover
+          onMutate={(updating) => {
+            setUserIdUpdatingRoles(updating);
+            registerSelectionToast.handleReset();
+          }}
           // Causes this component to rerender each time userQuery gets update (AKA when a mutation happens to the user)
           key={userQuery.status}
           userIds={selectedData.map((data) => data.id)}

@@ -19,7 +19,8 @@ export const region = [
   "Bandung",
   "Malang",
 ] as const;
-export function getRegion(input: number) {
+export function getRegion(input?: number) {
+  if (!input) return undefined;
   if (input > region.length) return "Unknown";
   return region[input - 1];
 }
