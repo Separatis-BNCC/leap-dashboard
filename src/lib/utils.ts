@@ -61,3 +61,17 @@ export function isNumber(str: string) {
   const regex = /^[+-]?\d+(\.\d+)?$/;
   return regex.test(str);
 }
+
+export const days = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+] as const;
+export function getDay(index?: number) {
+  if (!index || index >= days.length) return undefined;
+  return days[index];
+}

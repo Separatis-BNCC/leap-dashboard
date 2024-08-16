@@ -59,8 +59,7 @@ export type Classes = {
   id: number;
   name: string;
   status: number;
-  // Ini typenya apa ya??
-  day_of_week: unknown;
+  day_of_week: number;
   hour: number;
   minute: number;
 

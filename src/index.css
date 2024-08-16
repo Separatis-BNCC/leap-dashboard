@@ -112,10 +112,26 @@ html {
   .shadow-soft {
     @apply shadow-[0rem_0rem_0.25rem_0rem_rgba(0,0,0,0.05)];
   }
+
+  .gradient-accent {
+    @apply from-highlight to-highlight-light;
+  }
 }
 
 * {
   font-family: "Poppins";
   font-weight: 500;
   /* border: 1px solid red; */
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }

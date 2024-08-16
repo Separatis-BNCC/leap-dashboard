@@ -1,51 +1,37 @@
 import { AssignMemberContext } from "@/components/classes/AssignMember";
 import ClassMemberTable from "@/components/classes/ClassMemberTable";
-import ClassSchedule from "@/components/classes/ClassSchedule";
-import ClassUpcomingSession from "@/components/classes/ClassUpcomingSession";
 import { useDialog } from "@/components/general/Dialog";
 import { Button } from "@/components/ui/Button";
 import SearchInput from "@/components/ui/SearchInput";
-import useClassQuery from "@/hooks/class/useClassQuery";
 import { calculateSchedule } from "@/lib/class-scheduler";
 import { useMemo, useState } from "react";
-import Skeleton from "react-loading-skeleton";
 import { Navigate, useOutletContext, useParams } from "react-router-dom";
-import ClassDetailsCard from "../ClassDetailsCard";
 import { ClassContext } from "@/pages/ClassLayout";
+import ClassDetailStats from "./ClassDetailStats";
+import ClassPraetoCard from "./ClassPraetoCard";
+import ClassSchedule from "./ClassSchedule";
 
 const day_of_week = "thursday";
 const start_date = new Date("06-27-2024");
 const meeting_count = 15;
 
 export default function ClassDetails() {
-  const [isShowingDetails, setIsShowingDetails] = useState(true);
   const { showDialog } = useDialog();
-  const { classData, members } = useOutletContext<ClassContext>();
+  const { classData } = useOutletContext<ClassContext>();
   const { classId } = useParams();
-
-  const schedules = useMemo(
-    () =>
-      calculateSchedule({
-        dayOfWeek: day_of_week,
-        startDate: start_date,
-        meetingCount: meeting_count,
-      }),
-    []
-  );
 
   if (!classId) return <Navigate to={"/dashboard"} />;
 
   return (
     <div className="flex flex-1 flex-col mt-2">
-      <div></div>
-      {isShowingDetails ? (
-        <div className="grid grid-cols-[9fr_4fr] mt-4 gap-6">
-          <ClassDetailsCard classId={classId} />
-          <ClassUpcomingSession />
-        </div>
-      ) : (
-        <ClassSchedule schedules={schedules} />
-      )}
+      <div className="grid gap-6 grid-cols-[5fr_3fr]">
+        <article className="bg-white border border-border rounded-md p-6 grid gap-10 grid-cols-[minmax(20rem,4fr)_5fr]">
+          <ClassPraetoCard />
+          <ClassSchedule />
+        </article>
+        <ClassDetailStats />
+      </div>
+
       <div className="mt-6 flex-1 justify-center mb-4 flex-col flex">
         <div className="flex mb-4 items-center">
           <p className="flex-1 text-xl h-fit">
@@ -65,7 +51,7 @@ export default function ClassDetails() {
             Manage Members
           </Button>
         </div>
-        <ClassMemberTable memberData={members} />
+        <ClassMemberTable />
       </div>
     </div>
   );

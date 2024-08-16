@@ -1,10 +1,10 @@
 import { Outlet, useParams } from "react-router-dom";
-import ClassNavigation from "../components/classes/ClassNavigation";
 import Skeleton from "react-loading-skeleton";
 import useClassQuery from "@/hooks/class/useClassQuery";
 import { useMemo } from "react";
 import useUserQuery from "@/hooks/user/useUserQuery";
 import { Classes, UserData } from "@/lib/types";
+import ClassNavigation from "@/components/classes/ClassNavigation";
 
 export type ClassContext = {
   classData?: Classes;
@@ -27,15 +27,18 @@ export default function ClassLayout() {
 
   return (
     <div className="p-8 flex flex-col flex-1">
-      <p className="mb-1">Class</p>
-      <div className="flex justify-between items-center">
-        <div className="text-dark font-semibold text-3xl">
-          {classData?.name || (
-            <Skeleton height={"100%"} className="text-3xl" width={"8rem"} />
-          )}
+      <div className="flex justify-between items-end mb-2">
+        <div className="">
+          <p className="mb-1">Class</p>
+          <div className="text-dark font-semibold text-3xl">
+            {classData?.name || (
+              <Skeleton height={"100%"} className="text-3xl" width={"8rem"} />
+            )}
+          </div>
         </div>
+        <ClassNavigation />
       </div>
-      <ClassNavigation />
+
       <Outlet
         context={
           {

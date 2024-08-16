@@ -3,23 +3,16 @@ import { Checkbox } from "../general/Checkbox";
 import ProfilePicture from "../general/ProfilePicture";
 import { ScrollArea } from "../general/ScrollArea";
 import { Button } from "../ui/Button";
-import Input from "../ui/Input";
 import { useDialog } from "../general/Dialog";
 import { useMemo, useState } from "react";
 import useUserQuery from "@/hooks/user/useUserQuery";
 import { cn } from "@/lib/utils";
 import SearchInput from "../ui/SearchInput";
-
-type UserPraeto = {
-  email: string;
-  id: number;
-  active: boolean;
-  role: number;
-};
+import { UserData } from "@/lib/types";
 
 export type AssignPraetoContext = {
   classId: number;
-  currentPraeto?: UserPraeto;
+  currentPraeto?: UserData;
 };
 
 export default function AssignPraeto() {

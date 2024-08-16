@@ -17,9 +17,10 @@ const buttonVariants = cva(
           "bg-destructive bg-red-500 shadow-sm hover:bg-red-500/90 text-white",
         outline:
           "border border-lighter bg-background  hover:bg-accent hover:text-accent-foreground text-light",
+        hollow: "bg-transparent border border-border text-white hover:bg-bg/10",
         secondary: "bg-bg text-highlight hover:bg-slate-200",
         tertiary: "bg-white text-dark hover:bg-white/50",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+        ghost: "hover:opacity-60 p-0",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
@@ -61,6 +62,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         className={cn(buttonVariants({ variant, size }), className)}
         ref={ref}
+        disabled={props.disabled || isLoading}
         {...props}
       >
         <Slottable>{children}</Slottable>

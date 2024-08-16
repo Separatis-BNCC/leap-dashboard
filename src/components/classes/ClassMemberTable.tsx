@@ -1,36 +1,32 @@
 import RoleBadge from "@/components/course/RoleBadge";
 import { Checkbox } from "@/components/general/Checkbox";
 import useTableSelect from "@/hooks/table/useTableSelect";
-import useUserQuery from "@/hooks/user/useUserQuery";
-import { cn, formatDate } from "@/lib/utils";
+
+import { formatDate } from "@/lib/utils";
 import { getRegion } from "@/assets/lookup-data";
 import Table from "../general/Table";
-import { UserData } from "@/lib/types";
+
 import TableSelectionToast from "../general/TableSelectionToast";
 import TableEmpty from "../general/TableEmpty";
-import { useOutletContext, useParams } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import { ClassContext } from "@/pages/ClassLayout";
-import { useMemo } from "react";
-import useClassQuery from "@/hooks/class/useClassQuery";
 
 export default function ClassMemberTable() {
   // const { userData } = useUserQuery();
   const { members, isFetchingClassData } = useOutletContext<ClassContext>();
 
   const {
-    // handleReset,
     handleSelect,
     handleSelectAll,
     allSelected,
     selectedData,
     registerSelectionToast,
-    // showPopup,
   } = useTableSelect({ data: members });
 
   return (
     <div className="relative overflow-hidden flex-1 flex flex-col">
       <Table.Container
-        isLoading={isFetchingClassData || !members}
+        isLoading={(isFetchingClassData && !members) || !members}
         gridTemplateColumns={`2rem minmax(16rem,1fr) repeat(7,8rem) auto`}
         emptyElement={
           <TableEmpty
