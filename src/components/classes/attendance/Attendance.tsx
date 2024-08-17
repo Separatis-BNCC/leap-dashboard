@@ -1,6 +1,5 @@
 import Table from "@/components/general/Table";
-import AttendanceTable from "./AttendanceTable";
-import useUserQuery from "@/hooks/user/useUserQuery";
+
 import RoleBadge from "@/components/course/RoleBadge";
 import { useOutletContext } from "react-router-dom";
 import { ClassContext } from "@/pages/ClassLayout";

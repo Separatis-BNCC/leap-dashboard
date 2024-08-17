@@ -26,8 +26,11 @@ export default function ClassLayout() {
   }, [userData, classData]);
 
   return (
-    <div className="p-8 flex flex-col flex-1">
-      <div className="flex justify-between items-end mb-2">
+    <div
+      className="flex flex-col flex-1 p-8"
+      style={{ transform: "translateZ(0)" }}
+    >
+      <div className="flex justify-between items-end mb-4">
         <div className="">
           <p className="mb-1">Class</p>
           <div className="text-dark font-semibold text-3xl">

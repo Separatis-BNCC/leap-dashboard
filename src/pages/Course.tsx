@@ -6,6 +6,7 @@ import { getRegion } from "@/assets/lookup-data";
 import Skeleton from "react-loading-skeleton";
 import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/Button";
+import SessionList from "@/components/course/SessionList";
 
 export default function Course() {
   const { showDialog } = useDialog();
@@ -38,8 +39,23 @@ export default function Course() {
         </div>
         <Button variant={"outline"}>Modules</Button>
       </div>
-      <CourseSession course={courseData} />
-      <CourseClass course={courseData} />
+      <div className="bg-white p-4 border border-border rounded-md">
+        <div className="flex gap-2 mb-2 items-center">
+          <i className="bx bx-book text-lg text-dark"></i>
+          <h3 className="text-dark ">
+            Sessions
+            <span className="text-light ml-2">
+              {courseData?.sessions.length || (
+                <Skeleton height={"1rem"} width={"2rem"} />
+              )}
+            </span>
+          </h3>
+        </div>
+        <SessionList sessions={courseData?.sessions} />
+      </div>
+      <section className="grid grid-cols-2 flex-1">
+        <CourseClass course={courseData} />
+      </section>
     </div>
   );
 }

@@ -90,7 +90,7 @@ export default function ClassSchedulePicker({
                   <DayPicker
                     className="mb-4"
                     onSelect={(_, val) => onChange(val)}
-                    value={value ? days[value] : undefined}
+                    value={typeof value === "number" ? days[value] : undefined}
                   />
                 );
               }}
