@@ -5,7 +5,7 @@ import TotalMembers from "@/components/dashboard/TotalMembers";
 
 export default function Dashboard() {
   return (
-    <section className="p-8 flex flex-col h-full">
+    <section className="p-8 flex flex-col h-full min-w-[75rem]">
       <h1 className="text-dark font-semibold text-3xl mb-1">Dashboard</h1>
       <p className="text-light mb-5">Regular Class Analytic Details</p>
       <div className="grid grid-cols-2 gap-4">
