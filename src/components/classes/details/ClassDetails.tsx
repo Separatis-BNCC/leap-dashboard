@@ -3,17 +3,11 @@ import ClassMemberTable from "@/components/classes/ClassMemberTable";
 import { useDialog } from "@/components/general/Dialog";
 import { Button } from "@/components/ui/Button";
 import SearchInput from "@/components/ui/SearchInput";
-import { calculateSchedule } from "@/lib/class-scheduler";
-import { useMemo, useState } from "react";
 import { Navigate, useOutletContext, useParams } from "react-router-dom";
 import { ClassContext } from "@/pages/ClassLayout";
 import ClassDetailStats from "./ClassDetailStats";
 import ClassPraetoCard from "./ClassPraetoCard";
 import ClassSchedule from "./ClassSchedule";
-
-const day_of_week = "thursday";
-const start_date = new Date("06-27-2024");
-const meeting_count = 15;
 
 export default function ClassDetails() {
   const { showDialog } = useDialog();

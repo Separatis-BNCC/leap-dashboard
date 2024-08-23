@@ -16,11 +16,6 @@ export default function ClassSchedule() {
       <p className="text-light mb-4">Scheduled Class</p>
       <ClassTime classData={classData} />
       <ClassSchedulePicker className="mt-6" classData={classData} />
-      {/* {scheduleExists ? (
-        <UpcomingClassCountdown classData={classData} />
-      ) : (
-        <ClassSchedulePicker className="mt-6" classData={classData} />
-      )} */}
     </div>
   );
 }

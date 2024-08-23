@@ -10,7 +10,7 @@ export default function AppLayout() {
   return (
     <div
       className={cn(
-        "grid transition-all duration-500",
+        "grid transition-[grid-template-columns] duration-500 min-h-screen",
         showSidebar ? "grid-cols-[15rem_4fr]" : "grid-cols-[0rem_1fr]"
       )}
     >

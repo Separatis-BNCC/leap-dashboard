@@ -7,13 +7,13 @@ export default function AssignmentProgress() {
       <p className="text-lighter mt-1">First Semester</p>
 
       <div className="flex gap-4 mt-10">
-        <p className="flex gap-2 items-center">
+        <p className="flex gap-2 items-centser">
           <div className="w-2 h-2 rounded-full bg-cyan"></div>
-          <p className="text-white">Graded</p>
+          <span className="text-white">Graded</span>
         </p>
         <p className="flex gap-2 items-center">
           <div className="w-2 h-2 rounded-full bg-highlight"></div>
-          <p className="text-white">Submitted</p>
+          <span className="text-white">Submitted</span>
         </p>
       </div>
 

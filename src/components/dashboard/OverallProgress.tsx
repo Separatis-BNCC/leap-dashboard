@@ -13,6 +13,7 @@ export default function OverallProgress() {
           <p className="text-lighter">Progress</p>
         </div>
         <PieChart
+          animate
           className="aspect-square h-full min-h-0 max-h-[20rem]"
           data={[
             {
