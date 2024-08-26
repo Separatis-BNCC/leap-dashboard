@@ -1,7 +1,6 @@
 import { cn, toSorted } from "@/lib/utils";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Button } from "../ui/Button";
-import { useState } from "react";
 import { Session } from "@/lib/types";
 import { useDialog } from "../general/Dialog";
 import Skeleton from "react-loading-skeleton";
@@ -35,11 +34,16 @@ export default function SessionList({ sessions }: Props) {
         return (
           <SwiperSlide
             key={`${session.description}-${i}`}
-            className="!max-w-[20rem]"
+            className="!max-w-[20rem] group"
+            onClick={() =>
+              showDialog("material-detail", {
+                session,
+              } satisfies MaterialDetailContext)
+            }
           >
             <div
               className={cn(
-                "bg-white p-6 rounded-md relative overflow-hidden flex justify-center flex-col h-full border-[1px] border-slate-200 ",
+                "bg-white p-6 rounded-md relative overflow-hidden flex justify-center flex-col h-full border-[1px] border-border group-hover:border-highlight transition-all duration-100 group-hover:bg-highlight/5 ",
                 isSelected &&
                   "bg-gradient-to-bl from-highlight-dark to-highlight"
               )}
@@ -63,15 +67,10 @@ export default function SessionList({ sessions }: Props) {
               <Button
                 variant={"hollow"}
                 className={cn(
-                  "w-fit text-light hover:bg-bg/50 rounded-full  gap-1  pl-6 pr-4 h-fit py-1 view-session-detail",
+                  "w-fit text-light group-hover:bg-bg/50 rounded-full  gap-1  pl-6 pr-4 h-fit py-1 view-session-detail",
                   isSelected &&
-                    "bg-highlight-dark border-none text-white [&>i]:!text-white hover:bg-highlight-dark/60"
+                    "bg-highlight-dark border-none text-white [&>i]:!text-white group-hover:bg-highlight-dark/60"
                 )}
-                onClick={() =>
-                  showDialog("material-detail", {
-                    session,
-                  } satisfies MaterialDetailContext)
-                }
               >
                 Details
                 <i className="bx bx-chevron-right text-lg text-light leading-[1.25rem] "></i>

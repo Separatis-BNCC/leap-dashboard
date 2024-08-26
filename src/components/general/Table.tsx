@@ -1,4 +1,4 @@
-import { cn, getNestedValue, toSorted } from "@/lib/utils";
+import { cn, toSorted } from "@/lib/utils";
 
 import {
   HTMLAttributes,
@@ -14,34 +14,13 @@ import {
 import { ScrollArea, ScrollBar } from "./ScrollArea";
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 import Skeleton from "react-loading-skeleton";
-type Filters = keyof typeof sortingFns;
+import { Checkbox as GenericCheckbox } from "./Checkbox";
 type TableContextValues = {
   gridTemplateColumns: string;
-  sort: Filters;
-  setSort: React.Dispatch<React.SetStateAction<Filters>>;
   emptyElement?: ReactNode;
   isEmpty: boolean;
+  isLoading?: boolean;
   setIsEmpty: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-const sortingFns = {
-  "A-Z":
-    <T,>(field: string) =>
-    (a: T, b: T) =>
-      String(getNestedValue(a, field as string)).localeCompare(
-        String(getNestedValue(b, field as string))
-      ),
-  "Z-A":
-    <T,>(field: string) =>
-    (a: T, b: T) =>
-      String(getNestedValue(b, field as string)).localeCompare(
-        String(getNestedValue(a, field as string))
-      ),
-  // "by Date":
-  //   <T,>(field: string) =>
-  //   (a: T, b: T) =>
-  //     dateStringToTimestamp(String(getNestedValue(a, field as string))) -
-  //     dateStringToTimestamp(String(getNestedValue(b, field as string))),
 };
 
 const TableContext = createContext<TableContextValues | null>(null);
@@ -54,7 +33,7 @@ function useTable() {
 }
 
 /**
- * The container's parent element needs to have a `display: flex` and `flex-direction:column` in order for the overscroll to work properly
+ * The container's parent element needs to have a flex container (`display: flex` and `flex-direction:column`) in order for the overscroll to work properly
  */
 function Container({
   children,
@@ -70,35 +49,14 @@ function Container({
   emptyElement?: ReactNode;
   className?: string;
 } & React.HTMLAttributes<HTMLUListElement>) {
-  const [sort, setSort] = useState<Filters>("A-Z");
   const [isEmpty, setIsEmpty] = useState(false);
-
-  if (isLoading)
-    return (
-      <div
-        className={cn("flex flex-col gap-4  h-full max-h-screen bg-white p-4")}
-      >
-        {new Array(8).fill("x").map((_, i) => (
-          <div
-            className="grid grid-cols-[1fr_8fr_4fr_4fr] gap-4 h-full"
-            key={i}
-          >
-            <Skeleton className="h-9" />
-            <Skeleton className="h-9" />
-            <Skeleton className="h-9" />
-            <Skeleton className="h-9" />
-          </div>
-        ))}
-      </div>
-    );
 
   return (
     <TableContext.Provider
       value={{
         gridTemplateColumns,
-        sort,
-        setSort,
         emptyElement,
+        isLoading,
         isEmpty,
         setIsEmpty,
       }}
@@ -165,46 +123,34 @@ function Head({
   );
 }
 
-/**
- * This component is used to automatically map rows and process the array through pagination, filtering and sorting.
- * @params sortField Determines which object field will be used to sort the array
- * @example
- * { "A-Z": "profile.first_name",
-      "Z-A": "profile.first_name" };
- * The following prop will access `data.profile.first_name` name and use it on the sort comparator function local compare 
- * @params renderRows Determines which object field will be used to sort the array 
- * Wrapper over the map function which returns the processed data
- */
 function Rows<T = unknown>({
   data,
-  sortField,
   renderRows,
+  sortFn,
 }: {
   data?: T[];
-  sortField?: Record<keyof typeof sortingFns, string>;
+  sortFn?: (a: T, b: T) => number;
   renderRows?: (data: T, index: number) => ReactElement;
 }) {
-  const { sort, setIsEmpty } = useTable();
+  const { setIsEmpty } = useTable();
 
   const processedData = useMemo(() => {
     if (!data) return undefined;
-    if (!sort || !sortField) return data;
-    /**
-     * Break down of the comparator function access :
-     * `sortingFns` is an object which contains comparator functions
-     * `sortingFns[sort]` will access the function according to the sort type the user selected. The function returned will need a string parameter that is used to access the values inside the data object. This value can also be nested using string formatting e.g. `profille.first_name`.
-     * `sortField[sort]` will access the access data taken from the props the user has given.
-     */
-    const value = toSorted(data, sortingFns[sort](sortField[sort]));
-    return value;
-  }, [data, sortField, sort]);
+    if (sortFn) {
+      return toSorted(data, sortFn);
+    }
+
+    return data;
+  }, [data, sortFn]);
 
   useEffect(() => {
     if (!processedData) return;
     setIsEmpty(processedData.length === 0);
   }, [processedData, setIsEmpty]);
 
-  return renderRows && processedData?.map((data, i) => renderRows(data, i));
+  if (renderRows) {
+    return processedData?.map((data, i) => renderRows(data, i));
+  }
 }
 
 function Content({
@@ -213,8 +159,29 @@ function Content({
 }: {
   children: ReactNode;
 } & React.ComponentProps<typeof ScrollAreaPrimitive.Root>) {
+  const { isLoading } = useTable();
+
+  if (isLoading)
+    return (
+      <div
+        className={cn("flex flex-col gap-4  h-full max-h-screen bg-white p-4")}
+      >
+        {new Array(8).fill("x").map((_, i) => (
+          <div
+            className="grid grid-cols-[1fr_8fr_4fr_4fr] gap-4 h-full"
+            key={i}
+          >
+            <Skeleton className="h-9" />
+            <Skeleton className="h-9" />
+            <Skeleton className="h-9" />
+            <Skeleton className="h-9" />
+          </div>
+        ))}
+      </div>
+    );
+
   return (
-    <div className="flex-1 min-h-[27rem] bg-white border-[1px] border-slate-200  pb-4 rounded-md">
+    <div className="flex-1 min-h-[27rem] bg-white border-[1px] border-slate-200  rounded-md">
       <ScrollArea {...props} className={cn("h-0 min-h-full ", props.className)}>
         <div className="h-full">{children}</div>
 
@@ -224,29 +191,67 @@ function Content({
   );
 }
 
-const sorterValues = ["A-Z", "Z-A"] as const;
 /**
- * Table sorter component
+ * Checkbox wrapper than can be registered by spreading the register function from the useTable hook (not the one in this file)
  */
-function Sorter() {
-  const { sort, setSort } = useTable();
-  const [sortIndex, setSortIndex] = useState(0);
+function SelectAllCheckbox({
+  allSelected,
+  handleSelectAll,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof GenericCheckbox> & {
+  allSelected?: boolean;
+  handleSelectAll?: () => void;
+}) {
+  return (
+    <GenericCheckbox
+      {...props}
+      onCheckedChange={handleSelectAll}
+      checked={allSelected}
+    />
+  );
+}
 
-  const handleChangeSort = () => {
-    const newValue = sortIndex + 1 >= sorterValues.length ? 0 : sortIndex + 1;
-    setSortIndex(newValue);
-    setSort(sorterValues[newValue]);
-  };
-
+export function SelectionToast({
+  showPopup,
+  selectedData,
+  handleReset,
+  children,
+}: {
+  selectedData?: unknown[];
+  showPopup?: boolean;
+  handleReset?: () => void;
+  children?: ReactNode;
+}) {
+  if (!selectedData) return;
   return (
     <div
-      className="bg-white border-lighter border-[1px] w-fit flex gap-1 items-center px-4 py-1 rounded-md hover:bg-slate-100 hoverable-short"
-      onClick={handleChangeSort}
+      className={cn(
+        "bg-highlight text-white w-fit items-center justify-center px-4 py-3 flex rounded-md left-[50%] translate-x-[-50%] absolute bottom-[-2.5rem] translate-y-[-2.75rem] opacity-0 transition-all duration-200",
+        selectedData?.length > 0 &&
+          showPopup &&
+          "opacity-100 translate-y-[-3rem]"
+      )}
     >
-      <i className="bx bx-sort-alt-2 text-xl"></i>
-      <p>Sort {sort}</p>
+      <div className="flex items-center justify-center gap-2 border-r-[2px] border-white pr-4">
+        <i
+          className="bx bx-x text-xl text-white cursor-pointer hover:opacity-50 transition-all duration-100"
+          onClick={handleReset}
+        ></i>
+        <p className="text-white whitespace-nowrap">
+          {selectedData.length} Selected
+        </p>
+      </div>
+      {children}
     </div>
   );
 }
 
-export default { Row, Rows, Container, Head, Content, Sorter };
+export default {
+  Row,
+  Rows,
+  Container,
+  Head,
+  Content,
+  SelectAllCheckbox,
+  SelectionToast,
+};

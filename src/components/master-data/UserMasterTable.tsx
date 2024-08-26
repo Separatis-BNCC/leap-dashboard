@@ -11,11 +11,6 @@ import TableSelectionToast from "../general/TableSelectionToast";
 import { useEffect, useState } from "react";
 import { useIsFetching } from "@tanstack/react-query";
 
-/**
- * Bulk Role , status
- * Confirmation modal buat make sure editan dah bener (are you sure), di table gbs tambahin data tapi bisa remove
- */
-
 export default function UserMasterTable() {
   const { userData, userQuery } = useUserQuery();
   const [userIdUpdatingRoles, setUserIdUpdatingRoles] = useState<number[]>([]);
@@ -48,7 +43,6 @@ export default function UserMasterTable() {
           </p>
           <div className="flex-1 flex justify-end items-end gap-x-4">
             <SearchInput />
-            <Table.Sorter />
           </div>
         </div>
         <Table.Content>
@@ -66,10 +60,6 @@ export default function UserMasterTable() {
           </Table.Head>
           <Table.Rows
             data={userData}
-            sortField={{
-              "A-Z": "profile.first_name",
-              "Z-A": "profile.first_name",
-            }}
             renderRows={(data) => {
               const isSelected = selectedData?.some(
                 (item) => item.id === data.id

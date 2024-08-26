@@ -9,7 +9,8 @@ export function truncateText(text: string, length: number) {
   return text.length > length ? text.slice(0, length) + "..." : text;
 }
 
-export function formatDate(date: Date): string {
+export function formatDate(date?: Date) {
+  if (!date) return undefined;
   const formatter = new Intl.DateTimeFormat("en-GB", {
     // weekday: "long",
     day: "numeric",

@@ -17,6 +17,7 @@ import ClassLayout from "./pages/ClassLayout";
 import ClassDetails from "./components/classes/details/ClassDetails";
 import Assignment from "./components/classes/assignment/Assignment";
 import Attendance from "./components/classes/attendance/Attendance";
+import Schedule from "./pages/Schedule";
 
 const router = createBrowserRouter([
   {
@@ -66,7 +67,7 @@ const router = createBrowserRouter([
             ],
           },
           {
-            element: <div>schedule</div>,
+            element: <Schedule />,
             path: "schedule",
           },
           {

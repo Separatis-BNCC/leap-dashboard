@@ -13,7 +13,6 @@ export default function AssignmentTable() {
         <p className="text-lg">
           Members <span className="ml-1 text-lg text-light">30</span>
         </p>
-        <Table.Sorter />
       </div>
       <Table.Content>
         <Table.Head className="[&>p]:text-light">

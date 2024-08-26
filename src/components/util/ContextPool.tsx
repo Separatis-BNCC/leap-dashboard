@@ -12,6 +12,7 @@ import { SkeletonTheme } from "react-loading-skeleton";
 import { UserTableProvider } from "@/context/UserTableContext";
 import DeleteConfirmation from "../general/DeleteConfirmation";
 import MaterialDetail from "../material/MaterialDialog";
+import AttendanceProofDialog from "../classes/attendance/AttendanceProofDialog";
 
 const dialog: DialogComponents = [
   {
@@ -49,6 +50,10 @@ const dialog: DialogComponents = [
   {
     component: <MaterialDetail />,
     name: "material-detail",
+  },
+  {
+    component: <AttendanceProofDialog />,
+    name: "attendance-proof",
   },
 ];
 

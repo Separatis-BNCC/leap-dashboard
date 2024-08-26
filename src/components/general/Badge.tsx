@@ -1,8 +1,6 @@
-import { capitalize, cn } from "@/lib/utils";
-import { getRole } from "@/assets/lookup-data";
+import { cn } from "@/lib/utils";
 import { cva, VariantProps } from "class-variance-authority";
 import { forwardRef, ReactNode } from "react";
-import { LoadingSpinner } from "../ui/LoadingSpinner";
 import Skeleton from "react-loading-skeleton";
 
 const variants = cva(
@@ -11,9 +9,10 @@ const variants = cva(
     variants: {
       variant: {
         primary: "bg-bg text-highlight border-[1px]",
-        green: "bg-green-200 text-green-700 border-green-500",
-        purple: "bg-purple-200 text-purple-700 border-purple-500",
-        gray: "bg-slate-200 text-slate-700 border-slate-500",
+        green: "bg-green-100 text-green-500 border-green-300",
+        purple: "bg-purple-100 text-purple-500 border-purple-300",
+        gray: "bg-slate-100 text-slate-500 border-slate-300",
+        red: "bg-red-100 text-red-500 border-red-500",
       },
     },
   }

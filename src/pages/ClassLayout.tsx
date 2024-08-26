@@ -20,6 +20,10 @@ export default function ClassLayout() {
   } = useClassQuery({ classId: Number(classId) });
   const { userData } = useUserQuery();
 
+  // tar di class ada id assignment + label buat popover
+  console.log(classData);
+
+  // DEPRECATED.
   const classMembers = useMemo(() => {
     const membersId = new Set(classData?.members?.map((member) => member.id));
     return userData?.filter((user) => membersId.has(user.id));

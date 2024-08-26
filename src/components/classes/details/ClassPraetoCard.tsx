@@ -9,7 +9,7 @@ import { ClassContext } from "@/pages/ClassLayout";
 
 export default function ClassPraetoCard() {
   const { classId } = useParams();
-  const { classData } = useClassQuery({ classId });
+  const { classData, classQuery } = useClassQuery({ classId });
   const { showDialog } = useDialog();
 
   const { members } = useOutletContext<ClassContext>();
@@ -33,6 +33,10 @@ export default function ClassPraetoCard() {
       ? `${praetorian?.profile?.first_name} ${praetorian?.profile?.last_name}`
       : undefined;
 
+  if (classQuery.isPending || !praetoName) {
+    return <Skeleton className="min-h-[14rem]" />;
+  }
+
   return (
     <div className="relative min-h-[14rem]">
       <article className="bg-gradient-to-bl flex flex-col from-highlight-dark to-highlight-light relative z-[1] h-[97.5%] rounded-md p-5  transition-all duration-200">
@@ -46,28 +50,20 @@ export default function ClassPraetoCard() {
           </Button>
         </div>
         <div className="flex-1 mt-4 mb-6 flex justify-end flex-col">
-          {classData && members ? (
-            <h2 className="text-4xl leading-[125%] text-white">
-              {praetoName || "Praetorian Not Set"}
-            </h2>
-          ) : (
-            <Skeleton height={"3rem"} />
-          )}
+          <h2 className="text-4xl leading-[125%] text-white">
+            {praetoName || "Praetorian Not Set"}
+          </h2>
         </div>
-        {classData ? (
-          praetorian ? (
-            <p className="text-white mt-2 mb-2">{praetorian?.email}</p>
-          ) : (
-            <Button
-              variant={"hollow"}
-              className="py-4 mt-2 mb-2 max-w-[10rem]"
-              onClick={handleOpenAssignDialog}
-            >
-              + Assign Praeto
-            </Button>
-          )
+        {praetorian ? (
+          <p className="text-white mt-2 mb-2">{praetorian?.email}</p>
         ) : (
-          <Skeleton />
+          <Button
+            variant={"hollow"}
+            className="py-4 mt-2 mb-2 max-w-[10rem]"
+            onClick={handleOpenAssignDialog}
+          >
+            + Assign Praeto
+          </Button>
         )}
       </article>
       <div className="bg-[#CCD4FF] w-full h-full absolute inset-0 translate-y-[0.75rem] scale-95 transition-all duration-200  rounded-md"></div>

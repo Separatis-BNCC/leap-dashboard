@@ -11,3 +11,7 @@
 [V] Design schedule
 [] UI schedule
 [] Revamp table
+
+# Kerjaan backend
+[] AttendanceSession
+GET all session by class id with date, members who attended and status (completed / upcoming)

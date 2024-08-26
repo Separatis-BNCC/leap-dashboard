@@ -1,27 +1,18 @@
 import RoleBadge from "@/components/course/RoleBadge";
 import { Checkbox } from "@/components/general/Checkbox";
 import useTableSelect from "@/hooks/table/useTableSelect";
-
 import { formatDate } from "@/lib/utils";
 import { getRegion } from "@/assets/lookup-data";
 import Table from "../general/Table";
-
-import TableSelectionToast from "../general/TableSelectionToast";
 import TableEmpty from "../general/TableEmpty";
 import { useOutletContext } from "react-router-dom";
 import { ClassContext } from "@/pages/ClassLayout";
 
 export default function ClassMemberTable() {
-  // const { userData } = useUserQuery();
   const { members, isFetchingClassData } = useOutletContext<ClassContext>();
-
-  const {
-    handleSelect,
-    handleSelectAll,
-    allSelected,
-    selectedData,
-    registerSelectionToast,
-  } = useTableSelect({ data: members });
+  const { handleSelect, selectedData, register } = useTableSelect({
+    data: members,
+  });
 
   return (
     <div className="relative overflow-hidden flex-1 flex flex-col">
@@ -37,7 +28,10 @@ export default function ClassMemberTable() {
       >
         <Table.Content>
           <Table.Head>
-            <Checkbox onClick={handleSelectAll} checked={allSelected} />
+            <Table.SelectAllCheckbox
+              {...register("select-all-checkbox")}
+            ></Table.SelectAllCheckbox>
+
             <h2>Name</h2>
             <h2>Role</h2>
             <h2>NIM</h2>
@@ -74,11 +68,7 @@ export default function ClassMemberTable() {
                   <p className="truncate">{data.profile?.nim || "-"}</p>
                   <p>{data.profile?.line_id || "-"}</p>
                   <p>{data.profile?.major || "-"}</p>
-                  <p>
-                    {data.profile?.region
-                      ? getRegion(data.profile?.region)
-                      : "-"}
-                  </p>
+                  <p>{getRegion(data.profile?.region) || "-"}</p>
                   <p>{data.profile?.faculty || "-"}</p>
 
                   {/* === TEMP === */}
@@ -94,12 +84,12 @@ export default function ClassMemberTable() {
           />
         </Table.Content>
       </Table.Container>
-      <TableSelectionToast {...registerSelectionToast}>
+      <Table.SelectionToast {...register("toast")}>
         <div className="ml-4 flex items-center gap-2 justify-center">
           <i className="bx bxs-trash-alt text-lg text-white cursor-pointer hover:opacity-50 transition-all duration-100"></i>
           <p className="text-white whitespace-nowrap">Delete</p>
         </div>
-      </TableSelectionToast>
+      </Table.SelectionToast>
       <div className="mt-4">
         <p className="text-light">
           Showing <span className="text-dark">2</span> out of{" "}

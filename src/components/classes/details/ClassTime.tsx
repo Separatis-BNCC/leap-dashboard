@@ -12,8 +12,7 @@ function formatTime(hour?: number, minute?: number) {
 }
 
 export default function ClassTime({ classData }: { classData?: Classes }) {
-  if (!classData)
-    return <Skeleton count={2} height={"2.5rem"} className="!w-[15rem]" />;
+  if (!classData) return <Skeleton height={"3rem"} className="!w-[17.5rem]" />;
 
   // Schedule exists
   if (classData.day_of_week && classData.hour) {
@@ -22,7 +21,6 @@ export default function ClassTime({ classData }: { classData?: Classes }) {
         <h1 className="text-4xl text-dark mb-3">
           {getDay(classData.day_of_week)},{" "}
         </h1>
-        {/* <p className="text-4xl  text-dark ">17.20 - 19.00</p> */}
         <p className="text-4xl  text-dark ">
           {formatTime(classData.hour, classData.minute)}
         </p>

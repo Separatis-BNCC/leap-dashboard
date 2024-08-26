@@ -2,9 +2,9 @@ import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
 
 type Props = {
-  selectedData: unknown[];
-  showPopup: boolean;
-  handleReset: () => void;
+  selectedData?: unknown[];
+  showPopup?: boolean;
+  handleReset?: () => void;
   children: ReactNode;
 };
 
@@ -14,11 +14,12 @@ export default function TableSelectionToast({
   handleReset,
   children,
 }: Props) {
+  if (!selectedData) return;
   return (
     <div
       className={cn(
         "bg-highlight text-white w-fit items-center justify-center px-4 py-3 flex rounded-md left-[50%] translate-x-[-50%] absolute bottom-[-2.5rem] translate-y-[-2.25rem] opacity-0 transition-all duration-200",
-        selectedData.length > 0 &&
+        selectedData?.length > 0 &&
           showPopup &&
           "opacity-100 translate-y-[-2.5rem]"
       )}

@@ -18,7 +18,7 @@ export default function AppLayout() {
       <main className="bg-bg w-full min-h-screen relative min-w-0 flex flex-col">
         <TopBar setShowSidebar={setShowSidebar} />
         <div className="overflow-auto flex-1 w-full">
-          <div className="h-0 min-h-full flex [&>*]:flex-1">
+          <div className="h-0 min-h-full flex flex-col flex-1 [&>*]:flex-1">
             <Outlet />
           </div>
         </div>

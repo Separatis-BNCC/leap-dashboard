@@ -19,7 +19,7 @@ export default function ClassCard(classes: Classes) {
     >
       <div className="px-6  mb-5">
         <div className="flex justify-between items-center gap-2 mb-4 ">
-          <h2 className="text-3xl text-dark font-semibold ">{name}</h2>
+          <h2 className="text-2xl text-dark font-semibold ">{name}</h2>
           <div className="flex-1">
             <li className="flex items-center  justify-center gap-2 w-fit px-3 py-[2px] ">
               <i className="bx bx-user text-lg text-light"></i>

@@ -2,6 +2,7 @@ import AssignmentProgress from "./AssignmentProgress";
 import AssignmentStats from "./AssignmentStats";
 import AssignmentTable from "./AssignmentTable";
 
+// get assignment by id -> butuh idnya assingment
 export default function Assignment() {
   return (
     <div className="mt-6 flex flex-col flex-1">

@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/Button";
 import SessionList from "@/components/course/SessionList";
 
 export default function Course() {
-  const { showDialog } = useDialog();
   const { name } = useParams();
   const courseId = Number(name?.split("-").at(-1));
 

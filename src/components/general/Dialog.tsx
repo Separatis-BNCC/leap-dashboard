@@ -6,6 +6,7 @@ import React, {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -130,6 +131,17 @@ export function DialogProvider({
     // If the user clicks outside, then close the dialog
     if (clickedOutside && !clickedPortalElement) closeDialog();
   };
+
+  // Exit on esc key hit
+  useEffect(() => {
+    const handleEscExit = (e: KeyboardEvent) => {
+      if (!isShowing || e.key !== "Escape") return;
+      closeDialog();
+    };
+
+    window.addEventListener("keydown", handleEscExit);
+    return () => window.removeEventListener("keydown", handleEscExit);
+  }, [isShowing]);
 
   return (
     <DialogContext.Provider

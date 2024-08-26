@@ -63,11 +63,28 @@ export default function useTableSelect<T extends { id: string | number }>({
     handleReset,
   };
 
+  const register = (type: "toast" | "select-all-checkbox") => {
+    switch (type) {
+      case "toast":
+        return {
+          showPopup,
+          selectedData,
+          handleReset,
+        };
+      case "select-all-checkbox":
+        return {
+          allSelected,
+          handleSelectAll,
+        };
+    }
+  };
+
   return {
     handleSelect,
     handleSelectAll,
     allSelected,
     selectedData,
     registerSelectionToast,
+    register,
   };
 }
