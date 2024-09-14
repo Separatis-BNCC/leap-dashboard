@@ -12,6 +12,8 @@ import {
 type TRollDownContextValues = {
   isOpen: boolean;
   setIsOpen: Dispatch<React.SetStateAction<boolean>>;
+  open?: boolean;
+  onOpenChange?: (value: boolean) => void;
 };
 
 const RollDownContext = createContext<TRollDownContextValues | null>(null);
@@ -26,13 +28,25 @@ export function useRollDown() {
 type Props = {
   children: ReactNode;
   openByDefault?: boolean;
+  open?: boolean;
+  onOpenChange?: (value: boolean) => void;
 };
 
-function Container({ children, openByDefault = false }: Props) {
+function Container({
+  children,
+  openByDefault = false,
+  onOpenChange,
+  open,
+}: Props) {
   const [isOpen, setIsOpen] = useState(openByDefault);
 
+  // Prefer value passed through props (used to externally control the component)
+  const openValue = typeof open !== "undefined" ? open : isOpen;
+
   return (
-    <RollDownContext.Provider value={{ isOpen, setIsOpen }}>
+    <RollDownContext.Provider
+      value={{ isOpen: openValue, setIsOpen, onOpenChange, open }}
+    >
       {children}
     </RollDownContext.Provider>
   );
@@ -48,12 +62,14 @@ function Trigger({
   children?: ReactNode;
   render: (value: boolean) => ReactElement;
 }) {
-  const { setIsOpen, isOpen } = useRollDown();
+  const { setIsOpen, isOpen, onOpenChange } = useRollDown();
 
   return (
     <div
       {...props}
       onClick={(e) => {
+        if (onOpenChange) onOpenChange(!isOpen);
+
         if (disabled) return;
         setIsOpen((cur) => !cur);
 
@@ -61,7 +77,7 @@ function Trigger({
         props.onClick(e);
       }}
     >
-      {render(isOpen)}
+      {render(isOpen) || children}
     </div>
   );
 }

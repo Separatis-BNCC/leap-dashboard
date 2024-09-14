@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Calendar } from "./Calendar";
 import { cn, formatDate } from "@/lib/utils";
 import useClickOutside from "@/hooks/useClickOutside";

@@ -11,10 +11,10 @@ export default function AppLayout() {
     <div
       className={cn(
         "grid transition-[grid-template-columns] duration-500 min-h-screen",
-        showSidebar ? "grid-cols-[15rem_4fr]" : "grid-cols-[0rem_1fr]"
+        showSidebar ? "grid-cols-[15rem_4fr]" : "grid-cols-[3.5rem_1fr]"
       )}
     >
-      <Navbar hidden={!showSidebar} />
+      <Navbar hidden={!showSidebar} setShowSidebar={setShowSidebar} />
       <main className="bg-bg w-full min-h-screen relative min-w-0 flex flex-col">
         <TopBar setShowSidebar={setShowSidebar} />
         <div className="overflow-auto flex-1 w-full">

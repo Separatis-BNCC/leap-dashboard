@@ -5,11 +5,24 @@ import NavbarItem from "./NavbarItem";
 import AddCourseNavbar from "../course/AddCourseNavbar";
 import Skeleton from "react-loading-skeleton";
 import useAllCourseQuery from "@/hooks/course/useAllCourseQuery";
+import { HTMLAttributes, useEffect, useState } from "react";
 
-export default function NavbarCourse() {
+export default function NavbarCourse({
+  hidden,
+  onClick,
+  ...props
+}: { hidden?: boolean } & HTMLAttributes<HTMLLIElement>) {
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { allCourseQuery, allCourseData } = useAllCourseQuery();
+
+  // NOTES : Sebenernya lebih better kalo ga pake useEffect tapi harus passing bnyk data jadi agak pusing nanti
+  useEffect(() => {
+    if (hidden) {
+      setIsOpen(false);
+    }
+  }, [hidden]);
 
   if (!allCourseData || allCourseQuery.isLoading) {
     return (
@@ -20,14 +33,26 @@ export default function NavbarCourse() {
   }
 
   return (
-    <RollDown.Container>
+    <RollDown.Container open={isOpen} onOpenChange={setIsOpen}>
       <RollDown.Trigger
         render={(isOpen) => {
           return (
-            <NavbarItem key={"courses-navigation"}>
+            <NavbarItem
+              {...props}
+              key={"courses-navigation"}
+              onClick={(e) => {
+                if (onClick) onClick(e);
+              }}
+            >
               <i className="bx bxs-grid-alt"></i>
-
-              <p className="flex-1">Courses</p>
+              <p
+                className={cn(
+                  "flex-1 transition-all duration-500",
+                  hidden && "opacity-0"
+                )}
+              >
+                Courses
+              </p>
 
               <i
                 className={cn(

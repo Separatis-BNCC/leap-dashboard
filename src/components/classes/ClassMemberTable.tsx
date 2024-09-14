@@ -10,6 +10,7 @@ import { ClassContext } from "@/pages/ClassLayout";
 
 export default function ClassMemberTable() {
   const { members, isFetchingClassData } = useOutletContext<ClassContext>();
+
   const { handleSelect, selectedData, register } = useTableSelect({
     data: members,
   });

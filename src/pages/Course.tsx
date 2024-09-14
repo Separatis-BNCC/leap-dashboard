@@ -1,6 +1,4 @@
 import CourseClass from "@/components/course/CourseClass";
-import CourseSession from "@/components/course/CourseSession";
-import { useDialog } from "@/components/general/Dialog";
 import useCourseQuery from "@/hooks/course/useCourseQuery";
 import { getRegion } from "@/assets/lookup-data";
 import Skeleton from "react-loading-skeleton";

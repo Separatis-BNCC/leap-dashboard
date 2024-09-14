@@ -1,5 +1,5 @@
 import DayPicker from "@/components/general/DayPicker";
-import TimePicker from "@/components/general/TimePicker";
+import TimePickerLegacy from "@/components/general/TimePickerLegacy";
 import { Button } from "@/components/ui/Button";
 import {
   Popover,
@@ -45,8 +45,6 @@ export default function ClassSchedulePicker({
 
   const onSubmit: SubmitHandler<ScheduleFields> = (value) => {
     const [hour, minute] = value.start_time.split(":");
-
-    console.log(hour, minute);
 
     updateMutation.mutate(
       {
@@ -104,7 +102,7 @@ export default function ClassSchedulePicker({
 
                   return (
                     // Combines hours and minutes into "hours:minute"
-                    <TimePicker
+                    <TimePickerLegacy
                       onChange={(value) => {
                         onChange(mergeDate(value.hours, value.minutes) || "");
                       }}
@@ -117,7 +115,7 @@ export default function ClassSchedulePicker({
                 }}
               />
               <div className="w-full h-[2px] bg-border mt-6"></div>
-              <TimePicker />
+              <TimePickerLegacy />
             </div>
             <div className="mt-6 flex justify-end">
               <Button

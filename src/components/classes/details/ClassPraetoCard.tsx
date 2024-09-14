@@ -33,7 +33,7 @@ export default function ClassPraetoCard() {
       ? `${praetorian?.profile?.first_name} ${praetorian?.profile?.last_name}`
       : undefined;
 
-  if (classQuery.isPending || !praetoName) {
+  if (classQuery.isPending) {
     return <Skeleton className="min-h-[14rem]" />;
   }
 

@@ -11,6 +11,8 @@
 [V] Design schedule
 [] UI schedule
 [] Revamp table
+[] Klo praeto ada di kelas tertentu gbs di demote.
+
 
 # Kerjaan backend
 [] AttendanceSession

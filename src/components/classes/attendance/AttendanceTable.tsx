@@ -1,5 +1,4 @@
 import RoleBadge from "@/components/course/RoleBadge";
-import Badge from "@/components/general/Badge";
 import { Checkbox } from "@/components/general/Checkbox";
 import { useDialog } from "@/components/general/Dialog";
 import Table from "@/components/general/Table";
@@ -7,14 +6,8 @@ import useTableSelect from "@/hooks/table/useTableSelect";
 import useFakeQuery from "@/hooks/useFakeQuery";
 import { cn } from "@/lib/utils";
 import { AttendanceProofContext } from "./AttendanceProofDialog";
-import userSortColletion, { SortFns } from "@/hooks/useSortCollection";
-
-const statusMap = ["Attended", "Not Verified", "Permitted", "Absent"] as const;
-export function getAttendanceStatus(status?: number) {
-  if (!status) return undefined;
-  if (status - 1 > statusMap.length - 1) return undefined;
-  return statusMap[status - 1];
-}
+import userSortColletion from "@/hooks/useSortCollection";
+import AttendanceStatusPopover from "./AttendanceStatusPopover";
 
 const fakeData = [
   {
@@ -115,13 +108,6 @@ const fakeData = [
   },
 ];
 
-const colorMap = {
-  Attended: "green",
-  Permitted: "purple",
-  Absent: "red",
-  "Not Verified": "gray",
-} as const;
-
 export default function AttendanceTable() {
   const query = useFakeQuery(fakeData, { swapOnKeyPress: true });
   const { showDialog } = useDialog();
@@ -178,7 +164,6 @@ export default function AttendanceTable() {
               const isSelected = selectedData.find(
                 (selected) => selected.id === data.id
               );
-              const status = getAttendanceStatus(data.status);
               return (
                 <Table.Row onSelect={handleSelect(data, [".proof-link"])}>
                   <Checkbox checked={Boolean(isSelected)} />
@@ -190,12 +175,8 @@ export default function AttendanceTable() {
                     <p className="text-light truncate">{data.profile.email}</p>
                   </div>
                   <RoleBadge roleId={data.profile.role} />
-                  <div className="flex gap-4">
-                    <i className="bx bx-chevron-down w-6 h-6 aspect-square rounded-full border-border border bg-bg text-dark flex items-center justify-center text-lg"></i>
-                    {status && (
-                      <Badge variant={colorMap[status]}>{status}</Badge>
-                    )}
-                  </div>
+
+                  <AttendanceStatusPopover status={data.status} />
                   <p className={cn("truncate", !data.notes && "text-light")}>
                     {data.notes || "No notes was added"}
                   </p>
