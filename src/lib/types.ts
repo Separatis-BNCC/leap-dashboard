@@ -64,7 +64,7 @@ export type Classes = {
   minute: number;
 
   // TBA
-  members: { active: boolean; email: string; id: number; role: number }[];
+  members: UserData[];
   praetorian: string;
   memberCount: number;
   rescheduledCount?: number;

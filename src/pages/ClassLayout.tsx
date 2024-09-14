@@ -18,16 +18,13 @@ export default function ClassLayout() {
     classData,
     classQuery: { isFetching },
   } = useClassQuery({ classId: Number(classId) });
-  const { userData } = useUserQuery();
+  // const { userData } = useUserQuery();
 
-  // tar di class ada id assignment + label buat popover
-  console.log(classData);
-
-  // DEPRECATED.
-  const classMembers = useMemo(() => {
-    const membersId = new Set(classData?.members?.map((member) => member.id));
-    return userData?.filter((user) => membersId.has(user.id));
-  }, [userData, classData]);
+  // // DEPRECATED.
+  // const classMembers = useMemo(() => {
+  //   const membersId = new Set(classData?.members?.map((member) => member.id));
+  //   return userData?.filter((user) => membersId.has(user.id));
+  // }, [userData, classData]);
 
   return (
     <div className="flex flex-col flex-1 p-8 w-full min-w-[72.5rem]">
@@ -47,7 +44,7 @@ export default function ClassLayout() {
         context={
           {
             classData,
-            members: classMembers,
+            // members: classMembers,
             isFetchingClassData: isFetching,
           } satisfies ClassContext
         }

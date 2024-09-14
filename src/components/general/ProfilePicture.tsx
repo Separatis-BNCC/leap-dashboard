@@ -1,8 +1,23 @@
 import { cn } from "@/lib/utils";
+import Skeleton from "react-loading-skeleton";
 
-export default function ProfilePicture(
-  props: React.HTMLAttributes<HTMLImageElement>
-) {
+type Props = {
+  isLoading?: boolean;
+};
+
+export default function ProfilePicture({
+  isLoading,
+  ...props
+}: Props & React.HTMLAttributes<HTMLImageElement>) {
+  if (isLoading) {
+    return (
+      <Skeleton
+        containerClassName="row-span-2"
+        height={"2.25rem"}
+        width={"2.25rem"}
+      />
+    );
+  }
   return (
     <img
       {...props}

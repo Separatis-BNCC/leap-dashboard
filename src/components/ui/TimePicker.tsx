@@ -1,20 +1,31 @@
 import useTimePicker from "@/hooks/course/useTimePicker";
 
-export default function TimePicker() {
-  const { register, value } = useTimePicker({
+type Props = {
+  onChange: (value: number[]) => void;
+  value: number[];
+};
+
+export default function TimePicker({ onChange, value }: Props) {
+  const { register, inputs } = useTimePicker({
     defaultValue: [0, 0],
-    onChange: (value) => console.log(value),
+    value,
+    onChange,
   });
 
   return (
-    <div className="flex gap-4">
-      {value.map((val, i) => {
+    <div className="grid grid-cols-2 gap-4">
+      {inputs.map((val, i) => {
         return (
-          <input
-            className="border border-border h-12  w-12 rounded-md flex items-center justify-center text-center"
-            key={i}
-            {...register(val, i)}
-          />
+          <div>
+            <p className="text-center text-light mb-1">
+              {i === 0 ? "Hour" : "Min"}
+            </p>
+            <input
+              className="border border-border w-full h-10 rounded-md flex items-center justify-center text-center"
+              key={i}
+              {...register(val, i)}
+            />
+          </div>
         );
       })}
     </div>

@@ -15,6 +15,7 @@ type TCalendarContextValues = {
   prevMonthDate: number;
   nextDate: Date;
   nextMonthDay: number;
+  date: Date;
   navigateNext: () => void;
   navigatePrev: () => void;
 };
@@ -73,6 +74,7 @@ function Container({
         prevMonthDate,
         nextMonthDay,
         nextDate,
+        date,
         navigateNext,
         navigatePrev,
       }}
@@ -115,11 +117,11 @@ function Body({
   ...props
 }: {
   render: (props: { value: number; date: Date }) => ReactElement;
-  renderRemainder: (props: { value: number; date: Date }) => ReactElement;
+  renderRemainder: (props: { value: number }) => ReactElement;
   columns?: number;
   noStyles?: boolean;
 } & HTMLAttributes<HTMLDivElement>) {
-  const { endDate, nextMonthDay, prevMonthDate, startDateDay } =
+  const { endDate, nextMonthDay, prevMonthDate, startDateDay, date } =
     useCalendarContext();
 
   return (
@@ -140,15 +142,15 @@ function Body({
           <React.Fragment key={`start${i}`}>
             {renderRemainder({
               value: prevMonthDate - idx + 1,
-              date: new Date(),
             })}
           </React.Fragment>
         );
       })}
       {new Array(endDate.getDate()).fill("x").map((_, i) => {
+        const nowDate = new Date(date.getFullYear(), date.getMonth(), i + 1);
         return (
           <React.Fragment key={i}>
-            {render({ value: i + 1, date: new Date() })}
+            {render({ value: i + 1, date: nowDate })}
           </React.Fragment>
         );
       })}
@@ -158,7 +160,6 @@ function Body({
             <React.Fragment key={`end${i}`}>
               {renderRemainder({
                 value: i + 1,
-                date: new Date(),
               })}
             </React.Fragment>
           );
@@ -167,4 +168,9 @@ function Body({
   );
 }
 
-export default { Container, Navigator, Body };
+function Title({ render }: { render: (date: Date) => ReactElement }) {
+  const { date } = useCalendarContext();
+  return render(date);
+}
+
+export default { Container, Navigator, Body, Title };

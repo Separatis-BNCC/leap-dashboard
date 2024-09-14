@@ -83,6 +83,7 @@ export default function AssignPraeto() {
                     const isSelected = selectedPraetoId === user.id;
                     return (
                       <div
+                        key={user.id}
                         className={cn(
                           "grid grid-cols-[auto_1fr_auto] px-5 py-4 gap-x-4 rounded-md items-center hoverable-short",
                           isSelected ? "bg-slate-100" : "hover:bg-slate-50"

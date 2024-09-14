@@ -5,25 +5,36 @@ import { Button } from "@/components/ui/Button";
 import SearchInput from "@/components/ui/SearchInput";
 import { Navigate, useOutletContext, useParams } from "react-router-dom";
 import { ClassContext } from "@/pages/ClassLayout";
-import ClassDetailStats from "./ClassDetailStats";
-import ClassPraetoCard from "./ClassPraetoCard";
+import ClassCalendar from "./ClassCalendar";
 import ClassSchedule from "./ClassSchedule";
+import ClassPraetorian from "./ClassPraetorian";
 
 export default function ClassDetails() {
   const { showDialog } = useDialog();
-  const { classData } = useOutletContext<ClassContext>();
+  const { classData, isFetchingClassData } = useOutletContext<ClassContext>();
   const { classId } = useParams();
 
   if (!classId) return <Navigate to={"/dashboard"} />;
 
+  const handleOpenAssignMemberModal = () => {
+    showDialog("assign-member", {
+      classId: +classId,
+      members: classData?.members,
+    } satisfies AssignMemberContext);
+  };
+
   return (
     <div className="flex flex-1 flex-col mt-2">
-      <div className="grid gap-6 grid-cols-[5fr_3fr]">
-        <article className="bg-white border border-border rounded-md p-6 grid gap-10 grid-cols-[minmax(20rem,4fr)_5fr]">
-          <ClassPraetoCard />
-          <ClassSchedule />
-        </article>
-        <ClassDetailStats />
+      <div className="grid grid-cols-[auto_3fr_2fr] gap-4">
+        <ClassCalendar />
+        <div className="flex flex-col gap-4 ">
+          <ClassSchedule
+            classData={classData}
+            isLoading={isFetchingClassData}
+          />
+          <ClassPraetorian />
+        </div>
+        <div></div>
       </div>
 
       <div className="mt-6 flex-1 justify-center mb-4 flex-col flex">
@@ -35,12 +46,7 @@ export default function ClassDetails() {
           <Button
             variant={"accent"}
             className="ml-4"
-            onClick={() =>
-              showDialog("assign-member", {
-                classId: +classId,
-                members: classData?.members,
-              } satisfies AssignMemberContext)
-            }
+            onClick={handleOpenAssignMemberModal}
           >
             Manage Members
           </Button>

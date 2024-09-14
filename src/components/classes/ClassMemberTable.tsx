@@ -9,7 +9,9 @@ import { useOutletContext } from "react-router-dom";
 import { ClassContext } from "@/pages/ClassLayout";
 
 export default function ClassMemberTable() {
-  const { members, isFetchingClassData } = useOutletContext<ClassContext>();
+  const { classData, isFetchingClassData } = useOutletContext<ClassContext>();
+
+  const members = classData?.members;
 
   const { handleSelect, selectedData, register } = useTableSelect({
     data: members,

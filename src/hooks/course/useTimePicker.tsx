@@ -1,8 +1,9 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type TimePickerHookProps = {
   defaultValue?: number[];
-  onChange: (value: number[]) => void;
+  onChange?: (value: number[]) => void;
+  value?: number[];
 };
 
 function formatNumber(num: number) {
@@ -10,9 +11,15 @@ function formatNumber(num: number) {
 }
 
 export default function useTimePicker(props?: TimePickerHookProps) {
-  const [value, setValue] = useState<number[]>(props?.defaultValue || [0, 0]);
+  const [inputs, setInputs] = useState<number[]>(props?.defaultValue || [0, 0]);
   const keyPressedCount = useRef(0);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  useEffect(() => {
+    if (props?.value) {
+      setInputs(props?.value);
+    }
+  }, [props?.value]);
 
   const register = (val: number, i: number) => {
     // TODO : Figure out how do handle delete with focus change.
@@ -39,14 +46,13 @@ export default function useTimePicker(props?: TimePickerHookProps) {
       keyPressedCount.current++;
 
       // Update the state storing the value.
-      setValue((current) => {
-        const newVal = [...current];
-        newVal[i] = inputtedVal;
+      const newVal = [...inputs];
+      newVal[i] = inputtedVal;
+      setInputs(newVal);
 
-        if (props?.onChange) props.onChange(newVal);
-
-        return newVal;
-      });
+      if (props?.onChange) {
+        props.onChange(newVal);
+      }
 
       // On second keypresses (odd keypress), change the input element focus
       if (keyPressedCount.current % 2 === 0) {
@@ -57,7 +63,7 @@ export default function useTimePicker(props?: TimePickerHookProps) {
           inputRefs.current[idx].focus();
         } else {
           // If the element does not exist that means we're at the end of the input lists, then we should just blur from the last element.
-          inputRefs.current[value.length - 1]?.blur();
+          inputRefs.current[inputs.length - 1]?.blur();
           keyPressedCount.current = 0;
         }
       }
@@ -92,5 +98,5 @@ export default function useTimePicker(props?: TimePickerHookProps) {
     };
   };
 
-  return { register, value };
+  return { register, inputs };
 }

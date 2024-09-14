@@ -1,15 +1,13 @@
 import DayPicker from "@/components/general/DayPicker";
 import TimePickerLegacy from "@/components/general/TimePickerLegacy";
 import { Button } from "@/components/ui/Button";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/Popover";
+import { Popover, PopoverContent } from "@/components/ui/Popover";
+import TimePicker from "@/components/ui/TimePicker";
 import useClassMutation from "@/hooks/class/useClassMutation";
 import { Classes } from "@/lib/types";
-import { cn, days } from "@/lib/utils";
-import { useState } from "react";
+import { days } from "@/lib/utils";
+import { PopoverTrigger } from "@radix-ui/react-popover";
+import { ReactNode, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 type ScheduleFields = {
@@ -26,10 +24,11 @@ function mergeDate(hour?: number, minute?: number) {
 
 export default function ClassSchedulePicker({
   classData,
-  className,
+  triggerElement,
 }: {
   classData?: Classes;
-  className?: string;
+  triggerElement: ReactNode;
+  open?: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const { updateMutation } = useClassMutation();
@@ -39,7 +38,7 @@ export default function ClassSchedulePicker({
       day_of_week: classData?.day_of_week
         ? Number(classData?.day_of_week)
         : undefined,
-      start_time: mergeDate(classData?.hour, classData?.minute) || "",
+      start_time: mergeDate(classData?.hour, classData?.minute) || "0:0",
     },
   });
 
@@ -63,16 +62,8 @@ export default function ClassSchedulePicker({
 
   return (
     <Popover onOpenChange={setIsOpen} open={isOpen}>
-      <PopoverTrigger
-        className={cn(
-          "w-full flex items-center hover:bg-bg transition-all duration-100 cursor-pointer justify-center px-8 py-2 text-light rounded-md border border-border max-w-[15rem]",
-          className
-        )}
-      >
-        <i className="bx bx-calendar text-light text-xl mr-2"></i>
-        Set Schedule
-      </PopoverTrigger>
-      <PopoverContent className="bg-white border boder-border p-0 py-3  rounded-md shadow-[0_8px_34.1px_0] shadow-[#D1D6FD] w-fit">
+      <PopoverTrigger asChild>{triggerElement}</PopoverTrigger>
+      <PopoverContent className="bg-white border boder-border p-0 py-3  rounded-md shadow-[0_8px_34.1px_0] shadow-[#D1D6FD] max-w-[22.5rem] w-full">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="pb-3 flex gap-2 items-center text-dark border-border border-b px-6">
             <i className="bx bx-time text-xl text-dark"></i>
@@ -98,24 +89,18 @@ export default function ClassSchedulePicker({
                 control={control}
                 name="start_time"
                 render={({ field: { onChange, value } }) => {
-                  const [hour, minute] = value.split(":");
-
                   return (
-                    // Combines hours and minutes into "hours:minute"
-                    <TimePickerLegacy
+                    <TimePicker
                       onChange={(value) => {
-                        onChange(mergeDate(value.hours, value.minutes) || "");
+                        onChange(value.join(":"));
                       }}
-                      value={{
-                        hours: hour ? Number(hour) : 0,
-                        minutes: minute ? Number(minute) : 0,
-                      }}
+                      value={value.split(":").map(Number)}
                     />
                   );
                 }}
               />
               <div className="w-full h-[2px] bg-border mt-6"></div>
-              <TimePickerLegacy />
+              <TimePicker />
             </div>
             <div className="mt-6 flex justify-end">
               <Button
