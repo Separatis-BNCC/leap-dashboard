@@ -5,8 +5,10 @@ import Skeleton from "react-loading-skeleton";
 import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/Button";
 import SessionList from "@/components/course/SessionList";
+import { useDialog } from "@/components/general/Dialog";
 
 export default function Course() {
+  const { showDialog } = useDialog();
   const { name } = useParams();
   const courseId = Number(name?.split("-").at(-1));
 
@@ -34,7 +36,12 @@ export default function Course() {
             />
           )}
         </div>
-        <Button variant={"outline"}>Modules</Button>
+        <Button
+          variant={"accent"}
+          onClick={() => showDialog("course-start-warning", courseId)}
+        >
+          Start Course
+        </Button>
       </div>
       <div className="bg-white p-4 border border-border rounded-md">
         <div className="flex gap-2 mb-2 items-center">

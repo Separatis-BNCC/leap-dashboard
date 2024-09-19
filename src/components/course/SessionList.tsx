@@ -4,7 +4,7 @@ import { Button } from "../ui/Button";
 import { Session } from "@/lib/types";
 import { useDialog } from "../general/Dialog";
 import Skeleton from "react-loading-skeleton";
-import { MaterialDetailContext } from "../material/MaterialDialog";
+import { MaterialDetailContext } from "../content/ContentDialog";
 
 type Props = { sessions?: Session[] };
 

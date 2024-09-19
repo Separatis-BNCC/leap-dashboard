@@ -59,7 +59,9 @@ export default function ClassPraetorian() {
         {isFetchingClassData ? (
           <Skeleton width={"12.5rem"} height={"1rem"} />
         ) : (
-          <p className="text-light">No praetorian was selected</p>
+          <p className="text-light">
+            {praetorian?.email || "No praetorian was selected"}
+          </p>
         )}
       </div>
     </div>

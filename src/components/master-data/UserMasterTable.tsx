@@ -2,7 +2,7 @@ import { Checkbox } from "@/components/general/Checkbox";
 import useTableSelect from "@/hooks/table/useTableSelect";
 import useUserQuery from "@/hooks/user/useUserQuery";
 import { formatDate } from "@/lib/utils";
-import { getFaculty, getRegion } from "@/assets/lookup-data";
+import { getFaculty, getMajor, getRegion } from "@/assets/lookup-data";
 import Table from "../general/Table";
 import UserRoleBulkPopover from "../user/UserRoleBulkPopover";
 import RoleBadge from "../course/RoleBadge";
@@ -86,16 +86,12 @@ export default function UserMasterTable() {
 
                   <p className="truncate">{data.profile?.nim || "-"}</p>
                   <p>{data.profile?.line_id || "-"}</p>
-                  <p>{data.profile?.major || "-"}</p>
+                  <p>{getMajor(data.profile?.major) || "-"}</p>
                   <p className="truncate">
-                    {data.profile?.region
-                      ? getRegion(data.profile.region)
-                      : "-"}
+                    {getRegion(data.profile?.region) || "-"}
                   </p>
                   <p className="truncate">
-                    {data.profile?.faculty
-                      ? getFaculty(data.profile.faculty)
-                      : "-"}
+                    {getFaculty(data.profile?.faculty) || "-"}
                   </p>
 
                   <p className="truncate">

@@ -3,15 +3,20 @@ import { useState } from "react";
 
 type Props = {
   onSearch?: (value: string) => void;
+  value?: string;
   placeholder?: string;
 };
 
 export default function SearchInput({
   onSearch,
   placeholder,
+  value,
   ...props
 }: React.HTMLAttributes<HTMLDivElement> & Props) {
-  const [value, setValue] = useState(props.defaultValue);
+  const [searchValue, setSearchValue] = useState(props.defaultValue);
+
+  const usedValue = typeof value === "undefined" ? searchValue : value;
+
   return (
     <div
       {...props}
@@ -23,9 +28,9 @@ export default function SearchInput({
       <input
         className="w-full h-full px-4 py-2 rounded-md"
         placeholder={placeholder || "Search"}
-        value={value}
+        value={usedValue}
         onChange={(e) => {
-          setValue(e.target.value);
+          setSearchValue(e.target.value);
           if (onSearch) onSearch(e.target.value);
         }}
       />

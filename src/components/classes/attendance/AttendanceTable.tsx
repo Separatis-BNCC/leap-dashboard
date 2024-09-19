@@ -165,7 +165,12 @@ export default function AttendanceTable() {
                 (selected) => selected.id === data.id
               );
               return (
-                <Table.Row onSelect={handleSelect(data, [".proof-link"])}>
+                <Table.Row
+                  onSelect={handleSelect(data, [
+                    ".proof-link",
+                    ".attendance-popover",
+                  ])}
+                >
                   <Checkbox checked={Boolean(isSelected)} />
                   <div className="grid grid-cols-[auto_1fr] items-center gap-x-4 gap-y-[1px]">
                     <div className="row-span-2 w-10 aspect-square rounded-full bg-slate-300"></div>

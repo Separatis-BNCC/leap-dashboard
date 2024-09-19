@@ -35,9 +35,10 @@ export default function ClassSchedulePicker({
 
   const { handleSubmit, control } = useForm<ScheduleFields>({
     values: {
-      day_of_week: classData?.day_of_week
-        ? Number(classData?.day_of_week)
-        : undefined,
+      day_of_week:
+        typeof classData?.day_of_week === "number"
+          ? classData?.day_of_week
+          : undefined,
       start_time: mergeDate(classData?.hour, classData?.minute) || "0:0",
     },
   });

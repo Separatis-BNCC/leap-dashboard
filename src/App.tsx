@@ -12,19 +12,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Protect from "./components/general/Protect";
 import Course from "./pages/Course";
 import MasterData from "./pages/MasterData";
-import path from "path";
 import ClassLayout from "./pages/ClassLayout";
 import ClassDetails from "./components/classes/details/ClassDetails";
 import Assignment from "./components/classes/assignment/Assignment";
 import Attendance from "./components/classes/attendance/Attendance";
 import Schedule from "./pages/Schedule";
-import Tutorial from "./pages/Tutorial";
 
 const router = createBrowserRouter([
-  {
-    path: "/tutorial",
-    element: <Tutorial />,
-  },
   {
     element: <ContextPool />,
     children: [

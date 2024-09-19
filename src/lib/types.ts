@@ -9,7 +9,7 @@ export type ServerSuccessResponse<Data = unknown> = {
   data: Data;
 };
 
-export type Outline = {
+export type Content = {
   content_type: string;
   desc: string;
   id: number;
@@ -21,10 +21,10 @@ export type Session = {
   week: number;
   description: string;
   status: number;
-  contents: Outline[];
+  contents: Content[];
 
   // DEPRECATED
-  // outlineCount: number;
+  // ContentCount: number;
 };
 
 export type UserData = {
@@ -62,6 +62,7 @@ export type Classes = {
   day_of_week: number;
   hour: number;
   minute: number;
+  sessions: Session[];
 
   // TBA
   members: UserData[];

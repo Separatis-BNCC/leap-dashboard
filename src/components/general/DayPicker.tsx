@@ -26,7 +26,7 @@ export default function DayPicker(props: {
           props.className
         )}
       >
-        {selected || props.placeholder ? (
+        {typeof selected !== "undefined" || props.placeholder ? (
           <p>{selected || props.placeholder}</p>
         ) : (
           <p className="text-light">Choose Day</p>

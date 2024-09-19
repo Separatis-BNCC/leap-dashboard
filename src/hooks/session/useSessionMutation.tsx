@@ -4,7 +4,7 @@ import { Session } from "@/lib/types";
 import { API } from "@/service/API";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export default function UseSessionMutation() {
+export default function useSessionMutation() {
   const { toast } = useToast();
   const { closeDialog } = useDialog();
   const queryClient = useQueryClient();

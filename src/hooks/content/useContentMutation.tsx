@@ -1,8 +1,6 @@
 import { useToast } from "@/components/ui/Toaster";
 import { API } from "@/service/API";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { produce } from "immer";
-import { SessionQueryType } from "../session/useSessionQuery";
 
 type AddMutationPayload = {
   content_type: string;
@@ -12,14 +10,14 @@ type AddMutationPayload = {
 };
 
 type UpdateMutationPayload = {
-  outlineId: string;
+  contentId: number;
   data: {
     url?: string;
     desc?: string;
   };
 };
 
-export default function useContentMutation(sessionId?: number) {
+export default function useContentMutation() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -36,55 +34,20 @@ export default function useContentMutation(sessionId?: number) {
 
   const updateMutation = useMutation({
     mutationFn: (data: UpdateMutationPayload) =>
-      API.put(`/contents/${data.outlineId}`, {
+      API.put(`/contents/${data.contentId}`, {
         ...data.data,
         content_type: "link",
       }),
-    onMutate: async (data) => {
-      if (!sessionId) {
-        return console.error(
-          "sessionId needs to be passed in to activate content optimistic update (useContentMutation)"
-        );
-      }
-
-      await queryClient.cancelQueries({ queryKey: ["sessions"] });
-      const prev = queryClient.getQueryData<SessionQueryType>([
-        "sessions",
-        sessionId,
-      ]);
-
-      // Optimisically updated data using immer
-      const newData = produce(prev, (draft) => {
-        if (!draft) return draft;
-        const contents = draft.data.data.contents;
-        const idx = contents?.findIndex(
-          (item) => item.id === Number(data.outlineId)
-        );
-        if (idx)
-          draft.data.data.contents[idx] = {
-            content_type: "link",
-            desc: data.data.desc || contents[idx].desc,
-            url: data.data.url || contents[idx].url,
-            id: contents[idx].id,
-          };
-        return draft;
-      });
-
-      queryClient.setQueriesData({ queryKey: ["sessions"] }, newData);
-      return { prev };
-    },
-    onSettled: () => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["sessions"] });
-      // toast.success("Successfuly updated outline");
     },
-    onError: (_, __, context) => {
-      queryClient.setQueriesData({ queryKey: ["sessions"] }, context?.prev);
+    onError: () => {
       toast.error("Something went wrong");
     },
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (outlineId: string) => API.delete(`/contents/${outlineId}`),
+    mutationFn: (contentId: string) => API.delete(`/contents/${contentId}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["sessions"] });
       toast.success("Successfuly deleted outline");

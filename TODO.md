@@ -7,7 +7,6 @@
 [] di endpoint get class by id, harusnya ada members juga.
 [] Course detail kalo di kotaknya (bkn button) harusnya bisa lngsung
 [] + Class belom ada designs
-[] Modules mau diapain??
 [V] Design schedule
 [] UI schedule
 [] Revamp table
