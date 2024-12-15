@@ -3,10 +3,17 @@ export type ServerErrorResponse = {
   status: number;
 };
 
-export type ServerSuccessResponse<Data> = {
+export type ServerSuccessResponse<Data = unknown> = {
   status: number;
   msg: "Success";
   data: Data;
+};
+
+export type Content = {
+  content_type: string;
+  desc: string;
+  id: number;
+  url: string;
 };
 
 export type Session = {
@@ -14,9 +21,10 @@ export type Session = {
   week: number;
   description: string;
   status: number;
+  contents: Content[];
 
   // DEPRECATED
-  outlineCount: number;
+  // ContentCount: number;
 };
 
 export type UserData = {
@@ -51,12 +59,13 @@ export type Classes = {
   id: number;
   name: string;
   status: number;
-  // Ini typenya apa ya??
-  day_of_week: unknown;
+  day_of_week: number;
   hour: number;
   minute: number;
+  sessions: Session[];
 
   // TBA
+  members: UserData[];
   praetorian: string;
   memberCount: number;
   rescheduledCount?: number;

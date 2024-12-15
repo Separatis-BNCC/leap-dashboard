@@ -57,12 +57,34 @@ export default function useTableSelect<T extends { id: string | number }>({
     setSelectedData(data.filter((item) => dataIdList.includes(item.id)));
   }, [data]);
 
+  const registerSelectionToast = {
+    showPopup,
+    selectedData,
+    handleReset,
+  };
+
+  const register = (type: "toast" | "select-all-checkbox") => {
+    switch (type) {
+      case "toast":
+        return {
+          showPopup,
+          selectedData,
+          handleReset,
+        };
+      case "select-all-checkbox":
+        return {
+          allSelected,
+          handleSelectAll,
+        };
+    }
+  };
+
   return {
     handleSelect,
-    handleReset,
     handleSelectAll,
-    showPopup,
     allSelected,
     selectedData,
+    registerSelectionToast,
+    register,
   };
 }

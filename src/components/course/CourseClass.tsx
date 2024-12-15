@@ -3,6 +3,7 @@ import ClassCard from "./ClassCard";
 import { Button } from "../ui/Button";
 import { useDialog } from "../general/Dialog";
 import Skeleton from "react-loading-skeleton";
+import { ScrollArea } from "../general/ScrollArea";
 
 type Props = {
   course?: Course;
@@ -12,7 +13,7 @@ export default function CourseClass({ course }: Props) {
   const { showDialog } = useDialog();
 
   return (
-    <div className="mt-8 flex-1">
+    <div className="mt-8 flex-1 flex flex-col bg-white p-6 py-4 rounded-md border border-border">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-dark font-semibold text-lg">Class</h2>
         <Button
@@ -24,7 +25,7 @@ export default function CourseClass({ course }: Props) {
         </Button>
       </div>
       {course && course.classes.length === 0 ? (
-        <div className="py-6 rounded-md flex items-center justify-center flex-col border-[3px] border-lighter border-dotted h-full">
+        <div className="py-6 rounded-md flex items-center min-h-[25rem] justify-center flex-col border-[3px] border-lighter border-dotted h-full">
           <h2 className="text-2xl text-dark font-semibold mb-1">
             No Classes Found
           </h2>
@@ -40,11 +41,17 @@ export default function CourseClass({ course }: Props) {
           </Button>
         </div>
       ) : (
-        <div className="grid grid-cols-3 max-2xl:grid-cols-2 gap-4 max-lg:grid-cols-1">
-          {course
-            ? course.classes.map((classData) => <ClassCard {...classData} />)
-            : new Array(3).fill("x").map(() => <Skeleton height={"18.5rem"} />)}
-        </div>
+        <ScrollArea className="flex-1 h-0  min-h-[25rem] ">
+          <div className="grid gap-4 flex-1">
+            {course
+              ? course.classes.map((classData) => (
+                  <ClassCard key={classData.id} {...classData} />
+                ))
+              : new Array(3)
+                  .fill("x")
+                  .map((_, i) => <Skeleton key={i} height={"8.5rem"} />)}
+          </div>
+        </ScrollArea>
       )}
     </div>
   );

@@ -1,7 +1,9 @@
 /** @type {import('tailwindcss').Config} */
+import tailwindcssAnimate from "tailwindcss-animate";
+
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-  plugins: [],
+  plugins: [tailwindcssAnimate],
   darkMode: ["class"],
   theme: {
     container: {
@@ -19,6 +21,9 @@ export default {
         lighter: "rgb(var(--color-lighter) / <alpha-value>)",
         highlight: "rgb(var(--color-highlight) / <alpha-value>)",
         bg: "rgb(var(--color-bg) / <alpha-value>)",
+        cyan: "rgb(var(--color-cyan) / <alpha-value>)",
+        "highlight-dark": "rgb(var(--color-highlight-dark) / <alpha-value>)",
+        "highlight-light": "rgb(var(--color-highlight-light) / <alpha-value>)",
 
         // SHADCN COLORS
         border: "hsl(var(--border))",

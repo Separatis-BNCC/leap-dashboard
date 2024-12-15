@@ -11,6 +11,9 @@ import AssignMember from "../classes/AssignMember";
 import { SkeletonTheme } from "react-loading-skeleton";
 import { UserTableProvider } from "@/context/UserTableContext";
 import DeleteConfirmation from "../general/DeleteConfirmation";
+import MaterialDetail from "../content/ContentDialog";
+import AttendanceProofDialog from "../classes/attendance/AttendanceProofDialog";
+import CourseStartWarning from "../course/CourseStartWarning";
 
 const dialog: DialogComponents = [
   {
@@ -44,6 +47,18 @@ const dialog: DialogComponents = [
   {
     component: <AssignMember />,
     name: "assign-member",
+  },
+  {
+    component: <MaterialDetail />,
+    name: "material-detail",
+  },
+  {
+    component: <AttendanceProofDialog />,
+    name: "attendance-proof",
+  },
+  {
+    component: <CourseStartWarning />,
+    name: "course-start-warning",
   },
 ];
 

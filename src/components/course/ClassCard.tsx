@@ -13,14 +13,21 @@ export default function ClassCard(classes: Classes) {
   const progress = 50;
 
   return (
-    <div className="bg-white py-8 rounded-md transition-all border-slate-200 border-[1px]">
-      <p className="text-light px-8 mb-1">Class Name</p>
-      <div className="flex justify-between mb-4 px-8  ">
-        <h2 className="text-3xl text-dark font-semibold ">{name}</h2>
-        <ClassCardPopover classes={classes} />
-      </div>
-      <div className="px-8">
-        <ul className="flex whitespace-nowrap items-center [&_*]:text-light gap-3 mb-12">
+    <div
+      className="bg-white pt-5 rounded-md transition-all border border-border hover:shadow-lg hover:shadow-highlight/10 cursor-pointer"
+      onClick={() => navigate(`/classes/${id}/details`)}
+    >
+      <div className="px-6  mb-5">
+        <div className="flex justify-between items-center gap-2 mb-4 ">
+          <h2 className="text-2xl text-dark font-semibold ">{name}</h2>
+          <div className="flex-1">
+            <li className="flex items-center  justify-center gap-2 w-fit px-3 py-[2px] ">
+              <i className="bx bx-user text-lg text-light"></i>
+              <p className="text-light">24</p>
+            </li>
+          </div>
+        </div>
+        <ul className="flex whitespace-nowrap items-center [&_*]:text-light gap-3">
           <li className="flex items-center justify-center gap-2 border-[1px] border-slate-200 rounded-full w-fit px-3 py-[2px] bg-slate-50">
             <i className="bx bx-calendar text-lg "></i>
             <p className="">Monday</p>
@@ -29,28 +36,13 @@ export default function ClassCard(classes: Classes) {
             <i className="bx bx-time-five text-lg"></i>
             <p>17.20 - 19.00</p>
           </li>
-          <li className="flex items-center justify-center gap-2 border-[1px] border-slate-200 rounded-full w-fit px-3 py-[2px] bg-slate-50">
-            <i className="bx bx-user text-lg"></i>
-            <p>24</p>
-          </li>
-        </ul>
-        <div>
-          <div className="flex justify-between mb-2">
-            <p className="text-2xl text-highlight font-semibold">{progress}%</p>
-            <p className="text-light">
-              <span className="text-dark">11</span>/13 Sessions
-            </p>
+          <div className="flex-1 flex justify-end ">
+            <i className="bx bx-chevron-right text-3xl !text-dark"></i>
           </div>
-          <Progress value={progress} className="" />
-        </div>
-        <Button
-          className="w-full py-6 mt-5"
-          variant={"secondary"}
-          onClick={() => navigate(`/classes/${id}`)}
-        >
-          View Details
-        </Button>{" "}
+        </ul>{" "}
       </div>
+
+      <Progress value={progress} className="h-[0.25rem]" />
     </div>
   );
 }

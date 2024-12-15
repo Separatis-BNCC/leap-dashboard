@@ -2,13 +2,13 @@ import { useEffect } from "react";
 
 export default function useClickOutside(
   callback: (e: MouseEvent) => void,
-  dependencies: string[]
+  ignoreClassNames: string[]
 ) {
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
-        dependencies.some((dependency) =>
-          (e.target as HTMLDivElement).closest(dependency)
+        ignoreClassNames.some((ignoreClassName) =>
+          (e.target as HTMLDivElement).closest(ignoreClassName)
         )
       )
         return;

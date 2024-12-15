@@ -1,6 +1,7 @@
 import RoleBadge from "../course/RoleBadge";
 import { ScrollArea } from "../general/ScrollArea";
 
+// DEPRECATED
 export default function ClassUpcomingSession() {
   const isEmpty = true;
 

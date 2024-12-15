@@ -6,6 +6,7 @@ import React, {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -24,7 +25,7 @@ type DialogComponent = {
 type TDialogContextValues = {
   showDialog: (dialogName: string, context?: unknown) => void;
   closeDialog: (options?: { persistBackground?: boolean }) => Promise<void>;
-  contextData?: unknown;
+  contextData: unknown;
   isShowing: boolean;
 };
 const DialogContext = createContext<TDialogContextValues | null>(null);
@@ -124,9 +125,23 @@ export function DialogProvider({
     // Checks if the user click outside the bounding rectagnle
     const clickedOutside = !wrapper.contains(e.target as HTMLElement);
 
+    // Components that are built using portals e.g. shadcn's popover lives outside react's root element, we need to make user the user is not clicking on the portal element before closing the dialog.
+    const clickedPortalElement = !(e.target as HTMLElement).closest("#root");
+
     // If the user clicks outside, then close the dialog
-    if (clickedOutside) closeDialog();
+    if (clickedOutside && !clickedPortalElement) closeDialog();
   };
+
+  // Exit on esc key hit
+  useEffect(() => {
+    const handleEscExit = (e: KeyboardEvent) => {
+      if (!isShowing || e.key !== "Escape") return;
+      closeDialog();
+    };
+
+    window.addEventListener("keydown", handleEscExit);
+    return () => window.removeEventListener("keydown", handleEscExit);
+  }, [isShowing]);
 
   return (
     <DialogContext.Provider
@@ -185,11 +200,20 @@ export function DialogCollapse({
   );
 }
 
-export function useDialog() {
+type AssertContextTypeToGenerics<T, V> = {
+  [K in keyof V]: K extends "contextData" ? T : V[K];
+};
+
+export type DialogNames<T extends DialogComponents> = T[number]["name"];
+
+export function useDialog<ContextTypes = unknown>() {
   const context = useContext(DialogContext);
   if (!context)
     throw new Error(
       "useDialog should be called inside the <DialogProvider/> component"
     );
-  return context;
+  return context as AssertContextTypeToGenerics<
+    ContextTypes,
+    TDialogContextValues
+  >;
 }

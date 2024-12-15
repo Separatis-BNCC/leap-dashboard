@@ -18,10 +18,13 @@ html {
   :root {
     /* DESIGN COLOR */
     --color-dark: 37 37 37;
-    --color-light: 95 92 103;
+    --color-light: 115 117 158;
     --color-lighter: 212 212 212;
-    --color-highlight: 0 98 244;
+    --color-highlight: 0 68 244;
     --color-bg: 237 243 255;
+    --color-highlight-dark: 8 12 110;
+    --color-highlight-light: 56 111 255;
+    --color-cyan: 43 242 255;
 
     /* SHADCN COLOR */
     --background: 0 0% 100%;
@@ -33,7 +36,7 @@ html {
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 47.4% 11.2%;
 
-    --border: 214.3 31.8% 91.4%;
+    --border: 220 100% 91.2%;
     --input: 214.3 31.8% 91.4%;
 
     --card: 0 0% 100%;
@@ -69,7 +72,7 @@ html {
     --popover: 224 71% 4%;
     --popover-foreground: 215 20.2% 65.1%;
 
-    --border: 216 34% 17%;
+    --border: 220 100% 91%;
     --input: 216 34% 17%;
 
     --card: 224 71% 4%;
@@ -107,10 +110,29 @@ html {
   .hoverable-long {
     @apply duration-200 transition-all cursor-pointer;
   }
+  .shadow-soft {
+    @apply shadow-[0rem_0rem_0.25rem_0rem_rgba(0,0,0,0.05)];
+  }
+
+  .gradient-accent {
+    @apply from-highlight to-highlight-light;
+  }
 }
 
 * {
   font-family: "Poppins";
   font-weight: 500;
   /* border: 1px solid red; */
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }

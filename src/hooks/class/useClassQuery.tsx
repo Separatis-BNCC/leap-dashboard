@@ -3,7 +3,7 @@ import { API } from "@/service/API";
 import { useQuery } from "@tanstack/react-query";
 
 type Props = {
-  classId: number;
+  classId?: number | string;
 };
 
 export default function useClassQuery({ classId }: Props) {

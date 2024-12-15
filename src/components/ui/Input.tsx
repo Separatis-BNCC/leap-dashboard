@@ -6,6 +6,7 @@ type Props = {
   label?: string;
   placeholder: string;
   className?: string;
+  inputClassName?: string;
   hint?: string;
   disabled?: boolean;
   value?: string;
@@ -27,6 +28,7 @@ const Input = forwardRef<
     className,
     errorMessage,
     hint,
+    inputClassName,
     onChange,
     onBlur,
     ...props
@@ -48,7 +50,8 @@ const Input = forwardRef<
           type={type}
           className={cn(
             "border-[1px] border-slate-200 rounded-md w-full px-6 py-3 disabled:text-slate-500 shadow-slate-50 shadow-[0_0_0.5rem_0.05rem]",
-            errorMessage && "border-red-400"
+            errorMessage && "border-red-400",
+            inputClassName
           )}
           placeholder={placeholder}
         />

@@ -9,7 +9,8 @@ export function truncateText(text: string, length: number) {
   return text.length > length ? text.slice(0, length) + "..." : text;
 }
 
-export function formatDate(date: Date): string {
+export function formatDate(date?: Date) {
+  if (!date) return undefined;
   const formatter = new Intl.DateTimeFormat("en-GB", {
     // weekday: "long",
     day: "numeric",
@@ -19,12 +20,25 @@ export function formatDate(date: Date): string {
   return formatter.format(date);
 }
 
+export function getNestedValue<T>(obj: T, path: string): unknown {
+  return path.split(".").reduce((acc, key) => {
+    if (acc && typeof acc === "object" && key in acc) {
+      return (acc as Record<string, unknown>)[key];
+    }
+    return undefined;
+  }, obj as unknown);
+}
+
+export function dateStringToTimestamp(date: string) {
+  return new Date(date).getTime();
+}
+
 export function capitalize(str: string) {
   return `${str[0].toUpperCase()}${str.slice(1, str.length)}`;
 }
 
 export function toSorted<T>(arr: T[], compareFn: (a: T, b: T) => number) {
-  const sortedArr = arr;
+  const sortedArr = arr.slice();
   sortedArr.sort(compareFn);
   return sortedArr;
 }
@@ -42,4 +56,23 @@ export function sluggify(input: string) {
 export function checkIfAExistsInB<T>(A: T[], B: T[]) {
   const hashTableB = new Set(B);
   return A.every((item) => hashTableB.has(item));
+}
+
+export function isNumber(str: string) {
+  const regex = /^[+-]?\d+(\.\d+)?$/;
+  return regex.test(str);
+}
+
+export const days = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+] as const;
+export function getDay(index?: number) {
+  if (!index || index >= days.length) return undefined;
+  return days[index];
 }

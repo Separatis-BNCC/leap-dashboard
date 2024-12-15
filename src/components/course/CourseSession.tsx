@@ -11,12 +11,13 @@ type Props = {
 };
 
 export default function CourseSession({ course }: Props) {
-  const { showDialog } = useDialog();
+  // const { showDialog } = useDialog();
 
-  const [viewAsTable, setViewAsTable] = useState(false);
+  // const [viewAsTable, setViewAsTable] = useState(false);
+
   return (
     <div>
-      <div className="flex items-center justify-end mb-4">
+      {/* <div className="flex items-center justify-end mb-4">
         <i
           className={cn(
             "bx mr-4 hover:opacity-60 transition-all duration-200 cursor-pointer text-xl text-dark",
@@ -25,12 +26,12 @@ export default function CourseSession({ course }: Props) {
           onClick={() => setViewAsTable((cur) => !cur)}
         ></i>
         <Button variant={"default"}>Modules</Button>
-      </div>
-      {viewAsTable ? (
-        <SessionTable courseId={course?.id} sessions={course?.sessions} />
-      ) : (
-        <SessionList courseId={course?.id} sessions={course?.sessions} />
-      )}
+      </div> */}
+      {/* {viewAsTable ? ( */}
+      {/* <SessionTable courseId={course?.id} sessions={course?.sessions} /> */}
+      {/* ) : ( */}
+      <SessionList courseId={course?.id} sessions={course?.sessions} />
+      {/* )} */}
     </div>
   );
 }

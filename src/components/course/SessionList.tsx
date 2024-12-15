@@ -1,97 +1,84 @@
 import { cn, toSorted } from "@/lib/utils";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Button } from "../ui/Button";
-import { useState } from "react";
 import { Session } from "@/lib/types";
 import { useDialog } from "../general/Dialog";
 import Skeleton from "react-loading-skeleton";
+import { MaterialDetailContext } from "../content/ContentDialog";
 
-type Props = { sessions?: Session[]; courseId?: number };
+type Props = { sessions?: Session[] };
 
-export default function SessionList({ sessions, courseId }: Props) {
+export default function SessionList({ sessions }: Props) {
   const { showDialog } = useDialog();
-  const [selected, setSelected] = useState(1);
-
-  // If session is LOADED but empty.
-  if (sessions && sessions.length === 0)
-    return (
-      <div className="h-[21rem] flex items-center justify-center flex-col border-[3px] border-lighter border-dotted rounded-md">
-        <h2 className="text-2xl text-dark font-semibold mb-1">
-          No Sessions Found
-        </h2>
-        <p className="text-light mb-5">
-          Looks like you haven't added any sessions yet
-        </p>
-        <Button
-          variant={"accent"}
-          className="py-5 px-7"
-          onClick={() => showDialog("add-session", courseId)}
-        >
-          Add Session +
-        </Button>
-      </div>
-    );
+  const selected = 1;
 
   if (!sessions)
     return (
-      <div className="h-[21rem] grid grid-cols-3 gap-4">
-        {new Array(3).fill("x").map(() => (
-          <Skeleton height={"100%"} />
+      <div className="h-[15rem] grid grid-cols-3 gap-4">
+        {new Array(3).fill("x").map((_, i) => (
+          <Skeleton height={"100%"} key={i} />
         ))}
       </div>
     );
 
   return (
     <Swiper
-      slidesPerView={3}
+      slidesPerView={"auto"}
       spaceBetween={16}
-      className="cursor-pointer h-[21rem]"
+      width={100}
+      className="cursor-pointer h-[15rem]"
     >
-      {toSorted(sessions, (a, b) => a.week - b.week).map((session, i) => {
+      {toSorted(sessions, (a, b) => a.week - b.week)?.map((session, i) => {
         const isSelected = i + 1 === selected;
 
         return (
-          <SwiperSlide key={`${session.description}-${i}`}>
+          <SwiperSlide
+            key={`${session.description}-${i}`}
+            className="!max-w-[20rem] group"
+            onClick={() =>
+              showDialog("material-detail", {
+                session,
+              } satisfies MaterialDetailContext)
+            }
+          >
             <div
               className={cn(
-                "bg-white p-6 rounded-md flex flex-col h-full border-[1px] border-slate-200",
-                isSelected && "bg-highlight "
+                "bg-white p-6 rounded-md relative overflow-hidden flex justify-center flex-col h-full border-[1px] border-border group-hover:border-highlight transition-all duration-100 group-hover:bg-highlight/5 ",
+                isSelected &&
+                  "bg-gradient-to-bl from-highlight-dark to-highlight"
               )}
             >
-              <div className="bg-bg text-highlight w-10 aspect-square flex items-center justify-center font-semibold text-lg rounded-md mb-4">
-                {session.week}
+              <div className="flex-1 mt-4">
+                <p
+                  className={cn("mb-2 text-light", isSelected && "text-border")}
+                >
+                  Session {session.week}
+                </p>
+
+                <h2
+                  className={cn(
+                    "text-xl leading-[135%] text-dark mb-4 font-semibold line-clamp-3",
+                    isSelected && "text-white"
+                  )}
+                >
+                  {session.description}
+                </h2>
               </div>
-              <h2
+              <Button
+                variant={"hollow"}
                 className={cn(
-                  "text-3xl leading-[135%] text-highlight font-semibold flex-1 line-clamp-3",
-                  isSelected && "text-white"
+                  "w-fit text-light group-hover:bg-bg/50 rounded-full  gap-1  pl-6 pr-4 h-fit py-1 view-session-detail",
+                  isSelected &&
+                    "bg-highlight-dark border-none text-white [&>i]:!text-white group-hover:bg-highlight-dark/60"
                 )}
               >
-                {session.description}
-              </h2>
-              <p
-                className={cn(
-                  "text-highlight/80 mt-4 mb-8",
-                  isSelected && "text-white/80"
-                )}
-              >
-                {session.outlineCount || 0} Outlines
-              </p>
-              <Button variant={"secondary"} className="w-full [&&]:py-5">
-                View Outlines
+                Details
+                <i className="bx bx-chevron-right text-lg text-light leading-[1.25rem] "></i>
               </Button>
             </div>
           </SwiperSlide>
         );
       })}
-      {/* <SwiperSlide className="">
-        <div className="flex flex-col gap-4 items-center text-3xl justify-center h-full new-course bg-white p-8 rounded-lg">
-          <div className="border-[2px] border-highlight border-dashed  p-4 flex flex-col items-center justify-center w-full h-full rounded-lg">
-            <i className="bx bx-add-to-queue text-[2.5rem] mb-4 text-highlight"></i>
-            <p className="text-lg text-highlight">+ Add Course</p>
-          </div>
-        </div>
-      </SwiperSlide> */}
     </Swiper>
   );
 }
